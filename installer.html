@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Installer CAMG — 30 secondes | Kindu</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0F1E3D;--gold:#C5A45A;--blue:#2A5BD7;--green:#0E9F6E;--bg:#F8FAFC}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:#1E293B;line-height:1.6}
+.container{max-width:900px;margin:0 auto;padding:0 16px}
+.btn{padding:12px 18px;border-radius:999px;font-weight:700;font-size:14px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.btn-primary{background:var(--navy);color:white}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.card{background:white;border:1px solid #E2E8F0;border-radius:16px;padding:16px}
+.badge{padding:4px 10px;border-radius:999px;font-size:11px;font-weight:800}
+.step-num{width:36px;height:36px;border-radius:50%;background:var(--navy);color:white;display:grid;place-items:center;font-weight:800;font-size:16px;flex-shrink:0}
+</style>
+</head>
+<body>
+<nav style="position:sticky;top:0;background:white;border-bottom:1px solid #E2E8F0;padding:10px 0"><div class="container" style="display:flex;justify-content:space-between;align-items:center"><a href="index.html" style="display:flex;gap:8px;align-items:center"><img src="images/daniel-icon.png" style="width:36px;height:36px;border-radius:10px"><b style="color:var(--navy)">CAMG • Installer</b></a><a href="index.html" class="btn" style="background:#EFF6FF;color:var(--blue);padding:7px 14px">← Ouvrir l'App</a></div></nav>
+
+<div style="background:linear-gradient(135deg,#0F1E3D,#1A2F5F);color:white;padding:28px 0;text-align:center">
+  <div class="container">
+    <span class="badge" style="background:rgba(197,164,90,0.2);color:var(--gold);border:1px solid rgba(197,164,90,0.3)">INSTALLATION EN 30 SECONDES • SANS PLAY STORE</span>
+    <h1 style="font-family:'Outfit';font-size:30px;margin:10px 0">Comment installer CAMG<br><span style="color:var(--gold)">comme une vraie application</span></h1>
+    <p style="color:#CBD5E1;font-size:14px;max-width:600px;margin:0 auto">Pas besoin d'aller au Play Store. Pas besoin de beaucoup de connexion. 30 secondes, et l'icône de Daniel apparaît sur le téléphone — même hors connexion après.</p>
+  </div>
+</div>
+
+<div class="container" style="padding:20px 16px">
+  <div style="display:grid;grid-template-columns:1fr 0.9fr;gap:16px;align-items:start">
+    <div>
+      <div class="card" style="text-align:center;border:2px solid var(--gold);background:#FFFBEB">
+        <b style="color:var(--navy)">1. Scanne ce QR Code</b><p style="font-size:12px;color:#64748B">Avec l'appareil photo du téléphone</p>
+        <img src="images/qr-install.png" style="width:180px;height:180px;object-fit:contain;margin:10px auto;display:block;border:1px solid #E2E8F0;border-radius:12px;background:white;padding:8px">
+        <small style="font-size:11px;color:#92400E">ou tape ce lien dans Chrome :<br><b id="install-link" style="color:var(--navy);word-break:break-all">https://8000-xxx.e2b.app</b></small>
+        <button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="copyLink()">📋 Copier le lien</button>
+        <small style="font-size:10px;color:#64748B">Lien temporaire de test — on le remplacera par <b>camg.cd</b> pour tes clients</small>
+      </div>
+
+      <div class="card" style="background:#F0FDF4;border-color:#BBF7D0">
+        <b style="color:#166534">✅ Après installation :</b>
+        <ul style="font-size:12px;color:#14532D;margin:8px 0 0 18px">
+          <li>Icône de Daniel sur l'écran d'accueil (comme WhatsApp)</li>
+          <li>S'ouvre en 1 seconde, même avec petite connexion</li>
+          <li>Après 1 ouverture, fonctionne <b>sans internet</b></li>
+          <li>Mise à jour automatique quand tu ajoutes une leçon côté Admin</li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="color:var(--navy);margin-bottom:10px">Sur Android (90% de Kindu) — Chrome</h3>
+      <div style="display:flex;gap:10px;align-items:start;margin-bottom:12px">
+        <div class="step-num">1</div>
+        <div><b style="font-size:13px">Ouvre le lien dans Chrome</b><br><small style="font-size:12px;color:var(--muted)">Pas dans Facebook, pas dans WhatsApp — bien dans <b>Chrome</b> (icône ronde rouge/jaune/vert)</small></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:start;margin-bottom:12px">
+        <div class="step-num">2</div>
+        <div><b style="font-size:13px">Appuie sur les 3 points ⋮ en haut à droite</b><br><small style="font-size:12px;color:var(--muted)">Le menu de Chrome</small><div style="margin-top:6px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:8px;font-size:11px">⋮ → <b>"Installer l'application"</b> ou <b>"Ajouter à l'écran d'accueil"</b></div></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:start;margin-bottom:12px">
+        <div class="step-num">3</div>
+        <div><b style="font-size:13px">Confirme "Installer"</b><br><small style="font-size:12px;color:var(--muted)">L'icône de Daniel apparaît à côté de WhatsApp et Facebook. Appuie dessus — c'est l'app !</small></div>
+      </div>
+
+      <h3 style="color:var(--navy);margin:14px 0 10px">Sur iPhone — Safari</h3>
+      <div style="display:flex;gap:10px;align-items:start;margin-bottom:12px">
+        <div class="step-num" style="background:var(--blue)">1</div>
+        <div><b style="font-size:13px">Ouvre dans Safari</b><br><small style="font-size:12px;color:var(--muted)">Icône boussole</small></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:start;margin-bottom:12px">
+        <div class="step-num" style="background:var(--blue)">2</div>
+        <div><b style="font-size:13px">Appuie sur <span style="border:1px solid #E2E8F0;border-radius:6px;padding:2px 6px">⎙</span> (partager) en bas</b><br><small style="font-size:12px;color:var(--muted)">Puis <b>"Sur l'écran d'accueil"</b></small></div>
+      </div>
+
+      <div class="card" style="background:#FFF7ED;border-color:#FDBA74;margin-top:14px">
+        <b style="font-size:12px;color:#92400E">🎥 Vidéo tuto 30 sec pour tes clients</b><p style="font-size:11px;color:var(--muted);margin-top:4px">Envoie cette page sur WhatsApp à tes clients. Ils scannent, ils installent. Tu n'as rien d'autre à faire.</p>
+        <button class="btn btn-gold" style="width:100%;margin-top:8px" onclick="shareWhatsApp()">📲 Partager sur WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;background:var(--navy);color:white;border:none">
+    <h3 style="color:var(--gold)">Pour toi, Daniel — avant de continuer les leçons, on fige ça :</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;font-size:12px">
+      <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px"><b style="color:white">Aujourd'hui (test) :</b><br><span style="color:#CBD5E1">Lien temporaire <b>8000-xxx.e2b.app</b> — marche déjà, installable, hors connexion OK. Tu peux déjà donner à 5 testeurs à Kindu.</span></div>
+      <div style="background:rgba(197,164,90,0.15);border:1px solid rgba(197,164,90,0.3);border-radius:12px;padding:12px"><b style="color:var(--gold)">Demain (définitif) :</b><br><span style="color:#FDE68A">On déploie sur <b>camg.cd</b> (ou camg-kindu.com) — lien à vie, QR définitif à coller sur tes affiches à Mapon.</span></div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" style="background:white;color:var(--navy)" onclick="alert('On déploie sur camg.cd dès que tu confirmes le nom de domaine')">🚀 Déployer sur camg.cd →</button>
+      <a href="index.html" class="btn" style="background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2)">Retour à l'app</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function copyLink(){
+  const link = document.getElementById('install-link').textContent;
+  navigator.clipboard.writeText(link).then(()=>alert('Lien copié ! Colle-le dans Chrome'));
+}
+function shareWhatsApp(){
+  const link = document.getElementById('install-link').textContent;
+  const msg = encodeURIComponent('Salut ! Installe CAMG (Club des Amis de Maurice et Gréviste) en 30 sec : '+link+' → Ouvre dans Chrome → 3 points → Installer. Icône de Daniel sur ton téléphone !');
+  window.open('https://wa.me/?text='+msg,'_blank');
+}
+// Remplir le lien réel depuis l'URL actuelle
+document.getElementById('install-link').textContent = window.location.origin + '/';
+</script>
+</body>
+</html>

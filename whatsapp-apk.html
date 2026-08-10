@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMG — Lien WhatsApp + APK</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0F1E3D;--gold:#C5A45A;--green:#25D366;--blue:#2A5BD7;--bg:#F8FAFC;--muted:#64748B}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:#1E293B}
+.container{max-width:900px;margin:0 auto;padding:0 16px}
+nav{position:sticky;top:0;background:white;border-bottom:1px solid #E2E8F0;padding:10px 0}
+.btn{padding:10px 16px;border-radius:999px;font-weight:700;font-size:13px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;justify-content:center}
+.btn-green{background:var(--green);color:white}
+.btn-primary{background:var(--navy);color:white}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.card{background:white;border:1px solid #E2E8F0;border-radius:16px;padding:16px;margin-bottom:14px}
+.input{width:100%;padding:10px 12px;border:1px solid #E2E8F0;border-radius:10px;font-size:13px;margin:6px 0}
+.label{font-size:11px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted)}
+.badge{padding:4px 10px;border-radius:999px;font-size:11px;font-weight:800}
+</style>
+</head>
+<body>
+<nav><div class="container" style="display:flex;justify-content:space-between;align-items:center"><a href="index.html" style="display:flex;gap:8px;align-items:center"><img src="images/daniel-icon.png" style="width:36px;height:36px;border-radius:10px"><b style="color:var(--navy)">CAMG • WhatsApp + APK</b></a><a href="installer.html" class="btn" style="background:#EFF6FF;color:var(--blue);padding:7px 14px">Installer →</a></div></nav>
+
+<div style="background:linear-gradient(135deg,#0F1E3D,#128C7E);color:white;padding:24px 0;text-align:center">
+  <div class="container">
+    <span class="badge" style="background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.2)">2 OUTILS EN 1 PAGE</span>
+    <h1 style="font-family:'Outfit';font-size:28px;margin:8px 0">Partage sur WhatsApp<br><span style="color:var(--gold)">et crée ton APK</span></h1>
+    <p style="color:#CBD5E1;font-size:13px">Le lien qui fait venir les clients + le fichier APK qu'on s'envoie même sans internet à Kindu.</p>
+  </div>
+</div>
+
+<div class="container" style="padding:20px 16px">
+  <!-- PARTIE 1 WHATSAPP -->
+  <div class="card" style="border:2px solid var(--green)">
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px"><div style="width:40px;height:40px;background:var(--green);border-radius:10px;display:grid;place-items:center;color:white;font-size:20px">💬</div><div><b style="color:var(--navy)">1. Lien WhatsApp de l'application</b><br><small style="color:var(--muted)">1 clic = le client reçoit le lien d'installation + ton message</small></div></div>
+    
+    <label class="label">Lien de ton application (sera camg.cd)</label>
+    <input id="appLink" class="input" value="https://camg.cd" oninput="genWA()">
+    <small style="font-size:11px;color:var(--muted)">Pour le test actuel, mets : <code id="tmpLink" style="background:#F1F5F9;padding:2px 6px;border-radius:6px"></code> <a href="#" onclick="useTmp()" style="color:var(--blue);font-weight:700">Utiliser ce lien</a></small>
+
+    <label class="label" style="margin-top:10px">Ton message WhatsApp (modifiable)</label>
+    <textarea id="waMsg" class="input" rows="3" oninput="genWA()">Salut ! 👋 Installe CAMG - Club des Amis de Maurice et Gréviste (Kindu) en 30 secondes :
+👉 Ouvre ce lien dans Chrome → 3 points ⋮ → Installer.
+Icône de Daniel sur ton téléphone, même hors connexion !
+Fondé par Daniel ONEMA à l'Université Mapon. Le français qui rassemble !</textarea>
+
+    <label class="label">Lien WhatsApp généré (copie-colle-le partout)</label>
+    <div style="display:flex;gap:8px">
+      <input id="waOut" class="input" readonly style="background:#F0FDF4;border-color:#BBF7D0;font-size:12px">
+      <button class="btn btn-green" onclick="copyWA()">📋 Copier</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
+      <a id="waShareBtn" href="#" target="_blank" class="btn btn-green">📲 Partager sur WhatsApp</a>
+      <a id="waDirectBtn" href="#" target="_blank" class="btn" style="background:#EFF6FF;color:var(--blue)">👁️ Prévisualiser</a>
+    </div>
+
+    <div style="margin-top:12px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:12px">
+      <b style="font-size:12px;color:#166534">💡 3 façons d'utiliser ce lien :</b>
+      <ul style="font-size:12px;color:#14532D;margin:6px 0 0 18px">
+        <li><b>Statut WhatsApp :</b> colle le lien dans ton statut → tous tes contacts voient</li>
+        <li><b>Groupes Kindu/Mapon :</b> 1 message dans chaque groupe étudiant</li>
+        <li><b>QR Code affiche :</b> imprime le QR de <a href="installer.html" style="color:var(--blue)">la page Installer</a> et colle à Mapon</li>
+      </ul>
+    </div>
+
+    <div style="margin-top:10px;background:#FFF7ED;border:1px solid #FDBA74;border-radius:10px;padding:12px">
+      <b style="font-size:12px;color:#92400E">Lien direct vers toi (pour support) :</b><br>
+      <small style="font-size:11px;color:var(--muted)">Quand un client clique, il t'écrit directement sur ton WhatsApp</small>
+      <div style="display:flex;gap:8px;margin-top:6px">
+        <input value="https://wa.me/243825901117?text=Bonjour%20Daniel%2C%20je%20veux%20installer%20CAMG" class="input" readonly style="font-size:12px">
+        <a href="https://wa.me/243825901117?text=Bonjour%20Daniel%2C%20je%20veux%20installer%20CAMG" target="_blank" class="btn btn-green" style="padding:7px 12px">Tester</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTIE 2 APK -->
+  <div class="card" style="border:2px solid var(--navy)">
+    <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px"><div style="width:40px;height:40px;background:var(--navy);border-radius:10px;display:grid;place-items:center;color:var(--gold)">📦</div><div><b style="color:var(--navy)">2. Créer le fichier APK (Android)</b><br><small style="color:var(--muted)">Le fichier qu'on s'envoie par WhatsApp/Bluetooth, installable sans Play Store</small></div></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="background:var(--bg);border:1px solid #E2E8F0;border-radius:12px;padding:12px">
+        <b style="font-size:12px;color:var(--navy)">Option A — Rapide (5 min, gratuit)</b><br><small style="font-size:11px;color:var(--muted)">PWABuilder.com (Microsoft)</small>
+        <ol style="font-size:12px;margin:8px 0 0 18px">
+          <li>Va sur <b>pwabuilder.com</b></li>
+          <li>Colle ton lien : <code id="apkLink1" style="background:white;padding:1px 4px;border-radius:4px">https://camg.cd</code></li>
+          <li>Clique <b>"Start"</b> → Score PWA doit être vert ✓ (on l'a déjà)</li>
+          <li>Clique <b>"Package for Stores"</b> → <b>Android</b></li>
+          <li>Télécharge le <b>.apk</b> (ou .aab pour Play Store)</li>
+        </ol>
+        <a href="https://www.pwabuilder.com" target="_blank" class="btn btn-primary" style="width:100%;margin-top:10px">Ouvrir PWABuilder →</a>
+      </div>
+      <div style="background:var(--bg);border:1px solid #E2E8F0;border-radius:12px;padding:12px">
+        <b style="font-size:12px;color:var(--navy)">Option B — Pro (Trusted Web Activity)</b><br><small style="font-size:11px;color:var(--muted)">Bubblewrap (Google) — même qualité que Play Store</small>
+        <ol style="font-size:12px;margin:8px 0 0 18px">
+          <li>Installe Node.js + <code>npm i -g @bubblewrap/cli</code></li>
+          <li><code>bubblewrap init --manifest https://camg.cd/manifest.json</code></li>
+          <li><code>bubblewrap build</code> → génère app-release-signed.apk</li>
+        </ol>
+        <small style="font-size:11px;color:var(--muted)">Je peux te le faire moi-même quand on déploie sur camg.cd</small>
+      </div>
+    </div>
+
+    <div style="margin-top:12px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:12px">
+      <b style="font-size:12px;color:var(--blue)">Pourquoi l'APK est utile à Kindu ?</b>
+      <p style="font-size:12px;color:var(--muted);margin-top:4px">À Kindu, la connexion coûte cher. Avec l'APK, tu envoies le fichier <b>une fois par Bluetooth ou WhatsApp</b> à un chef de groupe, et lui le redistribue à 30 étudiants <b>sans internet</b>. Chacun l'installe en 10 secondes. C'est la distribution la plus rapide pour le Maniema.</p>
+    </div>
+
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-gold" onclick="alert('Dès que tu as camg.cd, je te génère l\'APK en 5 minutes et tu le reçois en téléchargement direct ici.')">⚡ Génère mon APK maintenant</button>
+      <a href="installer.html" class="btn" style="background:white;border:1px solid #E2E8F0">Voir page Installer (PWA)</a>
+    </div>
+    <small style="font-size:11px;color:var(--muted);display:block;margin-top:6px">Note : l'APK nécessite un lien HTTPS définitif (camg.cd). Le lien temporaire 8000-...e2b.app ne peut pas être packagé — raison de plus pour déployer.</small>
+  </div>
+
+  <div class="card" style="background:var(--navy);color:white;border:none;text-align:center">
+    <h3 style="color:var(--gold)">Tu veux que je le fasse pour toi ?</h3>
+    <p style="font-size:12px;color:#CBD5E1;margin:6px 0">Dis-moi : <b style="color:white">"Crée le lien WhatsApp définitif + APK"</b> et je te rends : 1 lien prêt à coller dans ton statut + 1 fichier APK téléchargeable.</p>
+    <button class="btn btn-gold" onclick="document.getElementById('appLink').value='https://camg.cd';genWA();window.scrollTo({top:0,behavior:'smooth'})">Utiliser camg.cd → Générer</button>
+  </div>
+</div>
+
+<script>
+function genWA(){
+  const link = document.getElementById('appLink').value.trim() || 'https://camg.cd';
+  const msg = document.getElementById('waMsg').value.trim();
+  const full = msg + '\n\n👉 ' + link;
+  const encoded = encodeURIComponent(full);
+  const waUrl = 'https://wa.me/?text=' + encoded;
+  document.getElementById('waOut').value = waUrl;
+  document.getElementById('waShareBtn').href = waUrl;
+  document.getElementById('waDirectBtn').href = link;
+  document.getElementById('apkLink1').textContent = link;
+}
+function copyWA(){
+  const v=document.getElementById('waOut').value;
+  navigator.clipboard.writeText(v).then(()=>alert('Lien WhatsApp copié ! Colle-le dans ton statut ou groupe'));
+}
+function useTmp(){
+  const tmp = document.getElementById('tmpLink').textContent;
+  document.getElementById('appLink').value = tmp;
+  genWA();
+}
+document.getElementById('tmpLink').textContent = window.location.origin + '/';
+genWA();
+</script>
+</body>
+</html>
