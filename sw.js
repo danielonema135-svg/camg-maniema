@@ -1,4 +1,4 @@
-const CACHE = 'camg-v3';
+const CACHE = 'camg-v4';
 const ASSETS = ['./','./index.html','./module-1.html','./latin.html','./lecon-modele.html','./enfant.html','./manifest.json','./images/daniel-icon.png','./images/francais-illustre.jpg','./images/m1-l1.jpg','./images/m1-l2.jpg','./images/m1-l3.jpg','./images/enfant-jeux.jpg','./audio/m1-l1-enseignement.mp3','./audio/m1-l1-ex1.mp3','./audio/chorale-ensemble.mp3','./audio/enfant-lecon1.mp3'];
 self.addEventListener('install', e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)));
