@@ -515,7 +515,8 @@ footer{background:var(--navy);color:#94A3B8;padding:28px 0;margin-top:30px}
   <div class="container" style="display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:16px">
     <div><b style="color:white">CAMG • Daniel ONEMA</b><br><small>Université Mapon, Kindu • Maniema<br>Fondateur : Daniel ONEMA</small></div>
     <div><b style="color:white">Paiements</b><br><small>M-Pesa: +243 82 59 011 17<br>Orange Money: +243 89 44 36 77 4<br>Airtel Money : à venir</small></div>
-    <div><b style="color:white">Application</b><br><small>Hors connexion : Oui (après abonnement)<br>© 2026 CAMG Kindu • MàJ 13/08 • 16 modules</small><br><button class="btn btn-gold btn-small" style="margin-top:8px" onclick="showView('admin-login')">🔒 Espace Admin</button></div>
+    <div><b style="color:white">Application</b><br><small>Hors connexion : Oui (après abonnement)<br>© 2026 CAMG Kindu • MàJ 13/08 • 16 modules</small><br><button class="btn btn-gold btn-small" style="margin-top:8px" onclick="showView('admin-login')">🔒 Espace Admin</button>
+        <button class="btn btn-ghost btn-small" style="margin-top:8px" onclick="forceUpdate()">🔄 Mettre à jour l'app</button></div>
   </div>
 </footer>
 
@@ -926,6 +927,10 @@ function playOnbAudio(n){ const srcs={1:'audio/tuto1.mp3',2:'audio/tuto2.mp3',3:
 setTimeout(()=>{ if(!localStorage.getItem('camg_onb_seen')) showOnboarding(); },900);
 // Restore icon
 const savedIcon=localStorage.getItem('camg_icon'); if(savedIcon){ document.querySelectorAll('.logo img').forEach(img=>img.src=savedIcon); }
+
+function forceUpdate(){ if(!confirm("Forcer la mise à jour de l'application ? Le téléphone rechargera la toute dernière version.")) return;
+  const done=()=>{ if('caches' in window){ caches.keys().then(ks=>Promise.all(ks.map(k=>caches.delete(k)))).then(()=>location.reload()); } else location.reload(); };
+  if('serviceWorker' in navigator){ navigator.serviceWorker.getRegistrations().then(rs=>Promise.all(rs.map(r=>r.unregister()))).then(done); } else done(); }
 </script>
 </body>
 </html>
