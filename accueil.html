@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMG — Le monde dans ta poche | Kindu Maniema</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="images/daniel-icon.png">
+<link rel="apple-touch-icon" href="images/daniel-icon.png">
+<meta name="theme-color" content="#0F1E3D">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0F1E3D;--gold:#C5A45A;--gold-light:#FDF6E3;--blue:#2A5BD7;--blue-light:#EFF4FF;--green:#0E9F6E;--bg:#F8FAFC;--muted:#64748B;--red:#DC2626}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:#1E293B;line-height:1.6}
+h1,h2,h3{font-family:'Outfit',sans-serif}
+.container{max-width:1180px;margin:0 auto;padding:0 18px}
+a{color:inherit;text-decoration:none}
+nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.96);backdrop-filter:blur(10px);border-bottom:1px solid #E2E8F0}
+.nav-inner{display:flex;justify-content:space-between;align-items:center;padding:10px 0;gap:12px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo img{width:44px;height:44px;border-radius:12px;object-fit:cover;border:2px solid var(--gold)}
+.logo b{font-size:15px;color:var(--navy);display:block;line-height:1}
+.logo span{font-size:10px;letter-spacing:0.12em;color:var(--gold);font-weight:800;text-transform:uppercase}
+.nav-links{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{padding:10px 16px;border-radius:999px;font-weight:700;font-size:13px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;justify-content:center;transition:.18s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(15,30,61,0.12)}
+.btn-ghost{background:var(--blue-light);color:var(--blue)}
+.btn-primary{background:var(--navy);color:white}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-danger{background:#FEF2F2;color:var(--red);border:1px solid #FECACA}
+.btn-small{padding:7px 12px;font-size:12px}
+.badge{padding:4px 10px;border-radius:999px;font-size:11px;font-weight:800}
+.badge-gold{background:var(--gold-light);color:#7A5A1F;border:1px solid #F3D9A0}
+.badge-blue{background:var(--blue-light);color:var(--blue)}
+.badge-green{background:#DCFCE7;color:#166534}
+.hero{background:linear-gradient(180deg,#0F1E3D 0%,#1A2F5F 100%);color:white;padding:38px 0 36px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-60px;top:-30px;width:420px;height:420px;background:radial-gradient(circle,rgba(197,164,90,0.18),transparent 70%);border-radius:50%}
+.hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:22px;align-items:center;position:relative;z-index:1}
+.hero h1{font-size:40px;line-height:1.06}
+.hero h1 span{color:var(--gold)}
+.hero p{color:#CBD5E1;margin-top:10px;font-size:15px}
+.eyebrow{display:inline-flex;gap:8px;align-items:center;background:rgba(197,164,90,0.15);border:1px solid rgba(197,164,90,0.3);color:var(--gold);padding:6px 12px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:0.07em;text-transform:uppercase}
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.mini{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:12px}
+.mini b{color:white;font-size:12px}
+.mini p{font-size:11px;color:#94A3B8}
+.hero-visual{background:white;border-radius:20px;padding:14px;box-shadow:0 16px 40px rgba(0,0,0,0.25)}
+.phone{border:1px solid #E2E8F0;border-radius:16px;overflow:hidden}
+.phone-top{height:36px;background:var(--navy);color:white;display:flex;justify-content:space-between;align-items:center;padding:0 12px;font-size:11px;font-weight:700}
+.offline-dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.view{display:none}
+.view.active{display:block}
+section{padding:36px 0}
+.section-head{text-align:center;max-width:740px;margin:0 auto 26px}
+.section-head span{color:var(--blue);font-weight:800;font-size:11px;letter-spacing:0.12em;text-transform:uppercase}
+.section-head h2{font-size:30px;color:var(--navy);margin:6px 0 8px;line-height:1.15}
+.section-head p{color:var(--muted);font-size:14px}
+.card{background:white;border:1px solid #E2E8F0;border-radius:16px;padding:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.parcours{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.parcours-item{background:white;border:1px solid #E2E8F0;border-radius:14px;padding:14px;position:relative}
+.parcours-item::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;border-radius:14px 14px 0 0}
+.input,select,textarea{width:100%;padding:10px 12px;border:1px solid #E2E8F0;border-radius:10px;font-size:13px;outline:none;margin:6px 0 10px}
+.input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-light)}
+.label{font-size:11px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted)}
+.tabs{display:flex;gap:6px;background:#F1F5F9;padding:5px;border-radius:999px;width:fit-content;margin:0 auto 16px}
+.tab{padding:7px 14px;border-radius:999px;font-size:12px;font-weight:700;border:none;background:transparent;color:var(--muted);cursor:pointer}
+.tab.active{background:var(--navy);color:white}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.price-card{background:white;border:1px solid #E2E8F0;border-radius:18px;padding:20px;display:flex;flex-direction:column;position:relative}
+.price-card.featured{border:2px solid var(--navy);box-shadow:0 12px 30px rgba(15,30,61,0.12)}
+.ribbon{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy);font-size:10px;font-weight:800;padding:4px 10px;border-radius:999px}
+.price{font-size:28px;font-weight:800;color:var(--navy)}
+.dashboard{display:grid;grid-template-columns:260px 1fr;gap:14px}
+.side{background:var(--navy);border-radius:16px;padding:14px;color:white;min-height:520px}
+.side a{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:10px;font-size:12px;font-weight:600;color:#CBD5E1;cursor:pointer}
+.side a.active,.side a:hover{background:rgba(255,255,255,0.1);color:white}
+.main{background:white;border:1px solid #E2E8F0;border-radius:16px;padding:16px}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.kpi div{background:var(--bg);border:1px solid #E2E8F0;border-radius:12px;padding:12px}
+.kpi b{font-size:18px;color:var(--navy)}
+.kpi span{font-size:10px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);display:block}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:8px 10px;background:#F8FAFC;color:var(--muted);font-size:10px;letter-spacing:0.06em;text-transform:uppercase}
+td{padding:10px;border-top:1px solid #F1F5F9}
+.status{padding:3px 8px;border-radius:999px;font-size:10px;font-weight:800}
+.status-paid{background:#DCFCE7;color:#166534}
+.status-pending{background:#FEF3C7;color:#92400E}
+.modal{position:fixed;inset:0;background:rgba(15,30,61,0.55);display:none;place-items:center;z-index:70;padding:16px}
+.modal.open{display:grid}
+.modal-box{background:white;border-radius:16px;max-width:560px;width:100%;padding:18px;max-height:90vh;overflow:auto}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--navy);color:white;padding:10px 16px;border-radius:999px;font-size:13px;font-weight:600;z-index:80;display:none}
+.toast.show{display:block}
+.gamify{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.gamify div{background:white;border:1px solid #E2E8F0;border-radius:12px;padding:12px;text-align:center}
+.story{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center}
+.story img{width:100%;border-radius:16px;object-fit:cover;height:260px}
+footer{background:var(--navy);color:#94A3B8;padding:28px 0;margin-top:30px}
+@media(max-width:960px){.hero-grid,.grid3,.price-grid,.dashboard,.parcours,.story,.grid4{grid-template-columns:1fr}.hero h1{font-size:32px}.nav-inner{flex-wrap:wrap}.nav-links{display:flex;width:100%;justify-content:center;padding-bottom:8px}.kpi{grid-template-columns:1fr 1fr}}
+.big-tile{background:#fff;border:2px solid #E2E8F0;border-radius:18px;padding:16px 8px;font-size:15px;text-align:center;cursor:pointer;line-height:1.35;font-family:inherit}
+.big-tile b{font-size:15px;color:var(--navy)}
+.big-tile small{color:var(--muted);font-size:11px}
+.big-tile:active{transform:scale(.97);border-color:var(--gold)}
+</style>
+</head>
+<body>
+<div id="onboarding" style="position:fixed;inset:0;background:rgba(15,30,61,0.92);z-index:90;display:none;place-items:center;padding:16px">
+  <div style="background:white;border-radius:20px;max-width:560px;width:100%;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4)">
+    <div style="background:linear-gradient(135deg,#0F1E3D,#1A2F5F);color:white;padding:18px;text-align:center;position:relative">
+      <img src="images/daniel-icon.png" style="width:48px;height:48px;border-radius:12px;object-fit:cover;border:2px solid var(--gold);margin:0 auto 8px;display:block">
+      <h3 id="onb-title" style="font-size:18px">Bienvenue chez CAMG</h3>
+      <p id="onb-sub" style="font-size:12px;color:#CBD5E1;margin-top:4px">Le tutoriel audio-visuel qui explique tout en 60 secondes</p>
+      <div style="display:flex;gap:6px;justify-content:center;margin-top:10px"><span id="onb-d1" style="width:24px;height:6px;border-radius:999px;background:var(--gold)"></span><span id="onb-d2" style="width:24px;height:6px;border-radius:999px;background:rgba(255,255,255,0.3)"></span><span id="onb-d3" style="width:24px;height:6px;border-radius:999px;background:rgba(255,255,255,0.3)"></span><span id="onb-d4" style="width:24px;height:6px;border-radius:999px;background:rgba(255,255,255,0.3)"></span></div>
+    </div>
+    <div id="onb-body" style="padding:18px">
+      <!-- step 1 -->
+      <div class="onb-step" data-step="1">
+        <div style="width:100%;height:140px;background:linear-gradient(135deg,#EFF4FF,#FDF6E3);border-radius:12px;display:grid;place-items:center;font-size:42px;border:1px solid #E2E8F0">🎓</div>
+        <h4 style="color:var(--navy);margin:12px 0 6px">Pourquoi le français ? Parce que c'est la langue de ton avenir</h4>
+        <p style="font-size:12px;color:var(--muted)">En RDC, on t'enseigne en français. Comment comprendre les maths, l'histoire, le droit, si tu ne maîtrises pas la langue qui les enseigne ? CAMG te donne le français réel de ta vie — pas celui de Paris — en 90 jours, avec images de Kindu, audios et vidéos courtes.</p>
+        <div style="margin-top:10px;background:var(--blue-light);border:1px solid #BFDBFE;border-radius:10px;padding:10px;display:flex;gap:10px;align-items:center"><span style="font-size:20px">▶️</span><div><b style="font-size:12px;color:var(--blue)">Tuto 1/4 — 15 sec</b><br><small style="font-size:11px;color:var(--muted)">Audio Daniel : "Le français, c'est ta clé pour parler à tout Congolais comme à ton frère"</small></div><button class="btn btn-ghost btn-small" onclick="playOnbAudio(1)">Écouter</button></div>
+      </div>
+      <div class="onb-step" data-step="2" style="display:none">
+        <div style="width:100%;height:140px;background:linear-gradient(135deg,#FDF6E3,#FFF7ED);border-radius:12px;display:grid;place-items:center;font-size:42px;border:1px solid #F3D9A0">🏛️</div>
+        <h4 style="color:var(--navy);margin:12px 0 6px">Le latin = ton super-pouvoir secret</h4>
+        <p style="font-size:12px;color:var(--muted)"><b>70% du français vient du latin.</b> Quand tu sais que <i>tempus</i> → temps, <i>corpus</i> → corps, tu ne fais plus de fautes d'orthographe. Tu comprends la conjugaison, la dissertation, l'éloquence. Avec CAMG, le latin n'est plus une punition, c'est une astuce en chanson.</p>
+        <div style="margin-top:10px;background:var(--gold-light);border:1px solid #F3D9A0;border-radius:10px;padding:10px"><b style="font-size:11px;color:#7A5A1F">🎵 Astuce CAMG :</b><p style="font-size:11px;color:#5a4a2a">Déclinaisons en mélodie tetela — tu chantes, tu retiens. Plus de par cœur bête.</p></div>
+      </div>
+      <div class="onb-step" data-step="3" style="display:none">
+        <div style="width:100%;height:140px;background:linear-gradient(135deg,#EFF4FF,#F0FDF4);border-radius:12px;display:grid;place-items:center;font-size:42px;border:1px solid #C7D2FE">🎮</div>
+        <h4 style="color:var(--navy);margin:12px 0 6px">Avec CAMG, tout devient réalité — et addictif</h4>
+        <p style="font-size:12px;color:var(--muted)">Chaque leçon = 1 image de ta vie + 1 audio + 1 vidéo de 3 min + 1 défi. Gagne des XP, garde ta série 🔥, défie un ami en duel latin, grimpe au classement de Kindu. Tu apprends sans t'en rendre compte.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px">
+          <div style="background:var(--bg);border:1px solid #E2E8F0;border-radius:10px;padding:8px;text-align:center"><b style="font-size:11px">🔥 Streak</b><br><small style="font-size:10px;color:var(--muted)">Joue chaque jour</small></div>
+          <div style="background:var(--bg);border:1px solid #E2E8F0;border-radius:10px;padding:8px;text-align:center"><b style="font-size:11px">⚔️ Duel</b><br><small style="font-size:10px;color:var(--muted)">Défie un ami</small></div>
+          <div style="background:var(--bg);border:1px solid #E2E8F0;border-radius:10px;padding:8px;text-align:center"><b style="font-size:11px">🏆 Badge</b><br><small style="font-size:10px;color:var(--muted)">Deviens Gladiateur</small></div>
+        </div>
+      </div>
+      <div class="onb-step" data-step="4" style="display:none">
+        <div style="width:100%;height:140px;background:linear-gradient(135deg,#0F1E3D,#2A1F0F);border-radius:12px;display:grid;place-items:center;color:white;text-align:center;padding:10px"><div><div style="font-size:28px">✦</div><b style="color:var(--gold)">CAMG • Daniel ONEMA</b><br><small style="color:#CBD5E1">Université Mapon — Kindu</small></div></div>
+        <h4 style="color:var(--navy);margin:12px 0 6px">Prêt à commencer gratuitement ?</h4>
+        <p style="font-size:12px;color:var(--muted)">3 leçons offertes, hors connexion 24h. Pas de numéro à taper, pas de risque. Si tu aimes, tu passes à 5$ et tout se débloque.</p>
+        <button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="finishOnboarding()">Commencer mes 3 leçons gratuites →</button>
+        <small style="display:block;text-align:center;color:var(--muted);margin-top:6px;font-size:10px">Tu pourras revoir ce tuto dans Menu → Aide</small>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-top:1px solid #F1F5F9">
+      <button class="btn btn-ghost btn-small" onclick="skipOnboarding()">Passer</button>
+      <div style="display:flex;gap:8px"><button id="onb-prev" class="btn btn-ghost btn-small" style="display:none" onclick="onbPrev()">← Précédent</button><button id="onb-next" class="btn btn-primary btn-small" onclick="onbNext()">Suivant →</button></div>
+    </div>
+  </div>
+</div>
+<nav>
+  <div class="container nav-inner">
+    <div class="logo">
+      <img src="images/daniel-icon.png" alt="Daniel ONEMA">
+      <div>
+        <b>CAMG</b>
+        <span>Le monde dans ta poche • Kindu Maniema</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#" onclick="showView('landing')" style="font-size:13px;font-weight:700;color:var(--muted)">Accueil</a>
+      <a href="module-1.html" style="font-size:13px;font-weight:700;color:var(--gold)">Module 1 • 90J</a>
+      <a href="latin.html" style="font-size:13px;font-weight:700;color:var(--navy)">Latin • Super-Pouvoir</a>
+      <a href="cursus-latinus.html" style="font-size:13px;font-weight:700;color:var(--gold)">🏛️ Cursus 90 Jours</a>
+      <button class="btn btn-ghost btn-small" onclick="showView('client')">Espace Client</button>
+      <button class="btn btn-primary btn-small" onclick="showView('admin-login')">🔒 Admin</button>
+    </div>
+  </div>
+</nav>
+
+<!-- LANDING -->
+<div id="view-landing" class="view active">
+  <div class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">✦ Fondé par Daniel ONEMA à l'Univ. Mapon — Kindu</div>
+        <h1>Le Français <span>pour tous</span>, le Latin pour l'excellence.</h1>
+        <p>À Kindu, beaucoup se sentent étrangers dans leur propre ville parce que tout le monde parle Swahili. CAMG apporte la réponse : <b style="color:white">le français qui rassemble, du bébé au vieillard, du niveau 0 au niveau fini.</b> Maintenant dans une application qui appartient à chacun.</p>
+        <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+          <button class="btn btn-gold" onclick="showView('client')">Commencer gratuitement →</button>
+          <a href="module-1.html" class="btn" style="background:white;color:var(--navy)">Voir Module 1 (90 jours)</a>
+        </div>
+        <div class="mini-grid">
+          <div class="mini"><b>🎓 Tous niveaux</b><p>Du bébé au finaliste, chacun avance à son rythme</p></div>
+          <div class="mini"><b>📴 Hors Connexion</b><p>Une fois abonné, tout fonctionne sans internet</p></div>
+          <div class="mini"><b>🎮 Ultra Amusant</b><p>XP, badges, streaks — on revient chaque jour</p></div>
+          <div class="mini"><b>💳 Mobile Money</b><p>M-Pesa & Orange Money acceptés</p></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="phone">
+          <div class="phone-top"><span><span class="offline-dot"></span> Hors connexion OK</span><span>CAMG</span><span>🔋</span></div>
+          <div style="padding:12px">
+            <div style="display:flex;gap:10px;align-items:center">
+              <img src="images/daniel-icon.png" style="width:38px;height:38px;border-radius:10px;object-fit:cover">
+              <div><b style="font-size:13px;color:var(--navy)">CAMG par Daniel ONEMA</b><br><small style="color:var(--muted);font-size:11px">Kindu • Maniema</small></div>
+              <span class="badge badge-gold" style="margin-left:auto">En ligne</span>
+            </div>
+            <div style="margin-top:10px;background:var(--blue-light);border-radius:10px;padding:10px;display:flex;justify-content:space-between;align-items:center">
+              <div><b style="font-size:12px;color:var(--navy)">Jour 7 : La Famille</b><br><small style="color:var(--muted);font-size:11px">Frère, sœur, tante, oncle — en images</small></div><span style="font-size:18px">🎧</span>
+            </div>
+            <div style="height:6px;background:#E2E8F0;border-radius:999px;margin:8px 0;overflow:hidden"><i style="display:block;height:100%;width:42%;background:var(--gold)"></i></div>
+            <div class="gamify" style="margin-top:8px">
+              <div style="padding:8px"><b style="color:var(--navy)">🔥 7</b><br><span style="font-size:10px;color:var(--muted);font-weight:700">JOURS STREAK</span></div>
+              <div style="padding:8px"><b style="color:var(--navy)">320 XP</b><br><span style="font-size:10px;color:var(--muted);font-weight:700">BADGE BRONZE</span></div>
+              <div style="padding:8px"><b style="color:var(--navy)">🏆</b><br><span style="font-size:10px;color:var(--muted);font-weight:700">TOP 3 KINDU</span></div>
+            </div>
+          </div>
+        </div>
+        <small style="display:block;text-align:center;color:var(--muted);margin-top:8px;font-size:11px">Fonctionne hors connexion après abonnement</small>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="container story">
+      <div>
+        <span style="color:var(--blue);font-weight:800;font-size:11px;letter-spacing:0.12em">L'HISTOIRE VRAIE</span>
+        <h2 style="font-size:28px;color:var(--navy);margin:6px 0">De Mapon à toute la RDC</h2>
+        <p style="color:var(--muted);font-size:14px">Étudiant à l'Université Mapon, Daniel ONEMA a compris que la seule langue qui permet de parler à un inconnu comme à un frère, dans notre pays, c'est le français. Pas par snobisme — parce que c'est la langue de l'enseignement et de l'administration. Et pourtant, elle est très mal connue. CAMG est né pour réveiller cette jeunesse du Maniema, de la RDC et de tous les pays francophones.</p>
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <img src="images/daniel-mapon2.jpg" style="height:90px;flex:1;object-fit:cover;border-radius:10px">
+          <img src="images/daniel-mapon1.jpg" style="height:90px;flex:1;object-fit:cover;border-radius:10px">
+        </div>
+      </div>
+      <img src="images/daniel-amphi.jpg" alt="Amphi 300 places Mapon">
+    </div>
+  </section>
+
+  <section style="background:var(--navy);color:white;padding:28px 0">
+    <div class="container">
+      <div style="text-align:center;max-width:720px;margin:0 auto 18px">
+        <span style="color:var(--gold);font-weight:800;font-size:11px;letter-spacing:0.12em">DÉCOUVERTE EXPRESS</span>
+        <h2 style="font-size:26px;margin-top:6px">En 60 secondes, comprends pourquoi tu ne pourras plus t'en passer</h2>
+        <p style="color:#94A3B8;font-size:13px;margin-top:6px">Trois découvertes rapides, en audio et en images, pour tout comprendre avant de commencer.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:14px;overflow:hidden">
+          <div style="height:140px;position:relative"><img src="images/tuto1.jpg" alt="" style="width:100%;height:140px;object-fit:cover;display:block"><span style="position:absolute;bottom:8px;right:8px;background:var(--gold);color:var(--navy);font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">🎧 Audio</span></div>
+          <div style="padding:12px"><b style="font-size:12px;color:var(--gold)">Tuto 1 : Pourquoi le français ?</b><p style="font-size:11px;color:#CBD5E1;margin-top:4px">"Comment prétendre comprendre ce qu'on t'enseigne si tu ne maîtrises pas la langue de l'enseignement ?"</p><audio controls preload="none" src="audio/tuto1.mp3" style="width:100%;margin-top:8px"></audio><button class="btn btn-gold btn-small" style="width:100%;margin-top:8px" onclick="showOnboarding()">▶ Tuto de bienvenue</button></div>
+        </div>
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:14px;overflow:hidden">
+          <div style="height:140px;position:relative"><img src="images/tuto2.jpg" alt="" style="width:100%;height:140px;object-fit:cover;display:block"><span style="position:absolute;bottom:8px;right:8px;background:white;color:var(--navy);font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">🎧 Audio</span></div>
+          <div style="padding:12px"><b style="font-size:12px;color:white">Tuto 2 : Le latin = français excellent</b><p style="font-size:11px;color:#CBD5E1;margin-top:4px">70% du français vient du latin. Maîtrise le latin = orthographe, conjugaison, dissertation deviennent faciles.</p><audio controls preload="none" src="audio/tuto2.mp3" style="width:100%;margin-top:8px"></audio><a href="latin.html" class="btn btn-ghost btn-small" style="width:100%;margin-top:8px;background:rgba(255,255,255,0.1);color:white">Découvrir →</a></div>
+        </div>
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:14px;overflow:hidden">
+          <div style="height:140px;position:relative"><img src="images/tuto3.jpg" alt="" style="width:100%;height:140px;object-fit:cover;display:block"><span style="position:absolute;bottom:8px;right:8px;background:var(--green);color:white;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px">🎧 Audio</span></div>
+          <div style="padding:12px"><b style="font-size:12px;color:white">Tuto 3 : Avec CAMG, c'est déjà réel</b><p style="font-size:11px;color:#CBD5E1;margin-top:4px">90 jours, 15 min/jour, images de Kindu, hors connexion, duels entre amis. Tu parles, tu ne récites plus.</p><audio controls preload="none" src="audio/tuto3.mp3" style="width:100%;margin-top:8px"></audio><button class="btn btn-ghost btn-small" style="width:100%;margin-top:8px;background:rgba(255,255,255,0.1);color:white" onclick="showView('client')">Essayer gratuitement →</button></div>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+  <section style="background:var(--gold-light);border-top:1px solid #F3D9A0">
+    <div class="container">
+      <div class="section-head">
+        <span>Théâtre CAMG</span>
+        <h2>Petites scènes de la vie de Kindu</h2>
+        <p>Intox, intrigues, complications… et toujours la solution CAMG. Écoute, souris, apprends.</p>
+      </div>
+      <div class="card" style="max-width:560px;margin:0 auto;border:2px solid var(--gold)">
+        <img src="images/scene1.jpg" alt="Scène 1 — marché de Kindu" style="width:100%;height:180px;object-fit:cover;border-radius:12px;margin-bottom:10px">
+        <b style="color:var(--navy)">🎭 Scène 1 — Le piège de la méthode miracle</b>
+        <p style="font-size:12px;color:var(--muted);margin:4px 0 8px">Avec Espoir, l'arnaqueur du marché et maman Josée.</p>
+        <audio controls preload="none" src="audio/scene1.mp3" style="width:100%"></audio>
+        <p style="font-size:11px;color:var(--muted);margin-top:8px">Morale : le français ne s'achète pas en courant — il se construit. CAMG, le monde dans ta poche.</p>
+      </div>
+    </div>
+  </section>
+  <section style="background:white;border-top:1px solid #E2E8F0;border-bottom:1px solid #E2E8F0">
+    <div class="container">
+      <div class="section-head">
+        <span>Deux académies</span>
+        <h2>Français 0 → fini + Latin d'élite</h2>
+        <p>Des parcours complets et progressifs, du niveau 0 au niveau professionnel.</p>
+      </div>
+      <div id="landing-parcours" class="parcours"></div>
+      <div style="text-align:center;margin-top:14px"><a href="module-1.html" class="btn btn-gold">Ouvrir le détail Module 1 →</a></div>
+    </div>
+  </section>
+
+  <section id="tarifs">
+    <div class="container">
+      <div class="section-head"><span>Tarifs simples</span><h2>Choisis ton parcours</h2></div>
+      <div class="price-grid">
+        <div class="price-card"><span class="badge badge-blue">Découverte</span><h3 style="margin:8px 0">Gratuit</h3><div class="price">0$</div><small style="color:var(--muted)">3 leçons offertes + test</small><ul style="margin:12px 0;list-style:none;font-size:12px"><li>✓ Module 1 - Chapitre 1</li><li>✓ Essai hors connexion (24h)</li></ul><button class="btn btn-ghost" style="width:100%" onclick="showView('client')">Commencer</button></div>
+        <div class="price-card featured"><div class="ribbon">★ LE PLUS RENTABLE</div><span class="badge badge-gold">Essentiel</span><h3 style="margin:8px 0">Essentiel</h3><div class="price">5$ <small style="font-size:12px;color:var(--muted)">/ mois</small></div><small style="color:var(--muted)">Tout le Français</small><ul style="margin:12px 0;list-style:none;font-size:12px"><li>✓ Français complet (Bébé→Vieillard)</li><li>✓ 90 jours + certificats</li><li>✓ Hors connexion total</li></ul><button class="btn btn-primary" style="width:100%" onclick="openPaymentModal(5)">S'abonner — Paiement sécurisé</button><small style="text-align:center;color:var(--muted);margin-top:6px">🔐 Sans saisir notre numéro</small></div>
+        <div class="price-card"><span class="badge badge-green">Pro</span><h3 style="margin:8px 0">Latin Pro</h3><div class="price">15$ <small style="font-size:12px;color:var(--muted)">/ mois</small></div><small style="color:var(--muted)">+ Latin complet</small><ul style="margin:12px 0;list-style:none;font-size:12px"><li>✓ Tout Essentiel + Latin Pro</li><li>✓ Licence formateur CAMG</li></ul><button class="btn btn-ghost" style="width:100%" onclick="showView('client')">Passer Pro</button></div>
+      </div>
+      <div style="background:var(--navy);color:white;border-radius:14px;padding:14px;margin-top:14px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center">
+        <div><b style="color:var(--gold)">💳 Paiement Mobile Money :</b> M-Pesa <b>+243 82 59 011 17</b> • Orange Money <b>+243 89 44 36 77 4</b> • Après paiement, envoie la preuve sur WhatsApp pour activer ton accès.</div>
+        <span class="badge" style="background:rgba(197,164,90,0.2);color:var(--gold);border:1px solid rgba(197,164,90,0.3)">Accès activé après validation</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- CLIENT -->
+<div id="view-client" class="view">
+  <section>
+    <div class="container">
+      <div style="text-align:center;margin-bottom:16px"><h2 style="color:var(--navy)">Espace Client</h2><p style="color:var(--muted);font-size:13px">Apprends, joue, gagne des badges — même hors connexion</p></div>
+      <div id="client-auth" class="card" style="max-width:460px;margin:0 auto">
+        <div style="text-align:center"><img src="images/daniel-icon.png" style="width:56px;height:56px;border-radius:14px;object-fit:cover"><h3 style="color:var(--navy);margin-top:8px">Rejoins CAMG</h3><small style="color:var(--muted)">Ton français, ton avenir</small></div>
+        <label class="label">Nom</label><input id="c-name" class="input" placeholder="Ex: Espoir">
+        <label class="label">WhatsApp</label><input id="c-phone" class="input" placeholder="+243 ...">
+        <label class="label">Parcours</label><select id="c-parcours" class="input"></select>
+        <button class="btn btn-primary" style="width:100%" onclick="clientLogin()">Créer mon accès →</button>
+        <div style="margin-top:10px;padding:8px;background:var(--gold-light);border-radius:8px;font-size:11px;text-align:center">🎮 <b>Gamifié :</b> 10 XP par leçon • Streak quotidien • Classement Kindu</div>
+      </div>
+      <div id="client-dash" style="display:none">
+  <section><div class="container" style="max-width:640px">
+    <div class="card" style="text-align:center;padding:18px">
+      <div id="c-avatar" style="width:56px;height:56px;border-radius:16px;background:var(--gold);display:grid;place-items:center;color:var(--navy);font-weight:800;font-size:22px;margin:0 auto">E</div>
+      <h2 id="c-display-name" style="margin:8px 0 2px">Espoir</h2>
+      <small id="c-display-parcours" style="color:var(--muted)">Parcours</small>
+      <div style="display:flex;justify-content:center;gap:6px;margin-top:10px;flex-wrap:wrap">
+        <span id="c-streak" class="badge badge-gold">🔥 1 jour</span>
+        <span class="badge badge-blue">⭐ <span id="c-xp">0</span> XP</span>
+        <span class="badge badge-green">Niveau <span id="c-level">1</span></span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
+      <button class="big-tile" style="border-color:var(--gold);background:var(--gold-light)" onclick="openNextLesson()">📚<br><b>Ma leçon du jour</b><br><small>1 gros bouton = 1 action</small></button>
+      <button class="big-tile" onclick="toggleLessons()">📖<br><b>Toutes mes leçons</b></button>
+      <button class="big-tile" onclick="startQuiz()">🎮<br><b>Quiz solo</b></button>
+      <button class="big-tile" onclick="startDuel()">⚔️<br><b>Duel à deux</b></button>
+      <button class="big-tile" onclick="showView('arbitre')">🏆<br><b>Défi arbitré</b></button>
+      <button class="big-tile" onclick="startTour(true)">❓<br><b>Revoir le guide</b></button>
+    </div>
+    <div id="client-lessons" style="display:none;margin-top:12px"></div>
+  </div></section>
+</div>
+
+<!-- LESSON DETAIL - OFFLINE READY -->
+<div id="view-lesson" class="view">
+  <section>
+    <div class="container" style="max-width:860px">
+      <button class="btn btn-ghost btn-small" onclick="showView('client')" style="margin-bottom:10px">← Retour à mes leçons</button>
+      <div class="card" style="overflow:hidden;padding:0">
+        <img id="lesson-img" src="" style="width:100%;height:220px;object-fit:cover;display:none">
+        <div style="padding:16px">
+          <span id="lesson-badge" class="badge badge-gold">LEÇON 1</span>
+          <h2 id="lesson-title" style="color:var(--navy);margin:8px 0">Leçon</h2>
+          <p id="lesson-desc" style="color:var(--muted);font-size:13px"></p>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+            <span style="background:var(--green);color:white;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:700"><span class="offline-dot"></span> Audio hors connexion OK</span>
+            <span style="background:var(--blue-light);color:var(--blue);padding:4px 8px;border-radius:999px;font-size:11px;font-weight:700">Plusieurs exemples • Vidéo • Exercice</span>
+          </div>
+          <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div class="card" style="background:var(--blue-light);border-color:#BFDBFE;padding:12px">
+              <b style="font-size:12px;color:var(--blue)">🎧 Écoute & Répète (hors connexion)</b>
+              <audio id="lesson-audio1" controls style="width:100%;margin-top:8px"></audio>
+              <audio id="lesson-audio2" controls style="width:100%;margin-top:8px"></audio>
+              <small style="font-size:10px;color:var(--muted)">Astuce : les audios sont téléchargés automatiquement après abonnement. Même sans internet, appuie sur play.</small>
+            </div>
+            <div class="card" style="padding:12px">
+              <b style="font-size:12px;color:var(--navy)">🎬 Vidéo (3 min)</b>
+              <div style="margin-top:8px;background:#000;border-radius:10px;overflow:hidden;height:140px;display:grid;place-items:center;color:white;font-size:12px" id="lesson-video-box">
+                <span>▶️ Vidéo illustrative — Kindu<br><small style="color:#94A3B8">Mise en cache pour hors connexion (bientôt)</small></span>
+              </div>
+            </div>
+          </div>
+          <div id="lesson-examples" style="margin-top:14px"></div>
+          <div id="lesson-pas" style="margin-top:14px"></div>
+          <div id="lesson-exos" style="margin-top:14px"></div>
+          <div id="lesson-conte" style="margin-top:14px;background:var(--gold-light);border:1px solid #F3D9A0;border-radius:10px;padding:12px;display:none"></div>
+          <div style="margin-top:14px;background:var(--gold-light);border:1px solid #F3D9A0;border-radius:10px;padding:12px">
+            <b style="font-size:12px;color:#7A5A1F">🎤 À toi : Enregistre-toi</b><p style="font-size:11px;color:#5a4a2a;margin:4px 0">Décris ce que tu vois sur l'image en 3 phrases. Envoie ton audio — corrigé en 24h.</p>
+            <button class="btn btn-gold btn-small" onclick="completeLesson();toast('Bravo ! +20 XP — Enregistrement simulé, hors connexion enregistré')">🎙️ Enregistrer (hors connexion)</button>
+          </div>
+          <button class="btn btn-primary" style="width:100%;margin-top:14px" onclick="completeLesson();showView('client')">✅ J'ai compris — Leçon suivante →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<div id="view-quiz" class="view"><section><div class="container" style="max-width:560px"><button class="btn btn-ghost btn-small" onclick="showView('client')">← Retour</button><div class="card" style="margin-top:10px"><h3 id="quiz-title" style="color:var(--navy)">🎮 Quiz Solo</h3><p id="quiz-info" style="font-size:11px;color:var(--muted)"></p><p id="quiz-q" style="margin:10px 0;font-weight:700"></p><div id="quiz-opts"></div><p id="quiz-score" style="margin-top:10px;font-size:12px;color:var(--muted)"></p></div></div></section></div>
+<div id="view-arbitre" class="view"><section><div class="container" style="max-width:560px"><button class="btn btn-ghost btn-small" onclick="showView('client')">← Retour</button><div class="card" style="margin-top:10px"><h3 style="color:var(--navy)">🏆 Défi arbitré par l'Admin</h3><div id="arbitre-box" style="margin-top:10px"></div></div></div></section></div>
+<!-- ADMIN LOGIN -->
+<div id="view-admin-login" class="view">
+  <section>
+    <div class="container" style="max-width:460px">
+      <div style="text-align:center;margin-bottom:16px"><div style="width:52px;height:52px;background:var(--navy);border-radius:14px;display:grid;place-items:center;margin:0 auto;color:var(--gold)">🔒</div><h2 style="color:var(--navy);margin-top:8px">Espace Admin</h2><p style="color:var(--muted);font-size:13px">Espace privé réservé au fondateur</p></div>
+      <div class="card">
+        <label class="label">Identifiant</label><input id="a-user" class="input" value="admin@camg.cd">
+        <label class="label">Mot de passe</label><input id="a-pass" type="password" class="input" value="admin123">
+        <button class="btn btn-primary" style="width:100%" onclick="adminLogin()">Entrer →</button>
+        
+        <div style="margin-top:10px;padding:8px;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;font-size:11px;color:#991B1B">Espace sécurisé — accès réservé au fondateur.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ADMIN -->
+<div id="view-admin" class="view">
+  <section>
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+        <h2 style="color:var(--navy)">Cockpit Admin — CAMG</h2>
+        <div style="display:flex;gap:8px"><span class="badge badge-green">● Contrôle Total</span><button class="btn btn-ghost btn-small" onclick="showView('landing')">Voir site</button><button class="btn btn-primary btn-small" onclick="adminLogout()">Déconnexion</button></div>
+      </div>
+      <div class="kpi">
+        <div><span>Revenu mois</span><b id="kpi-revenu">1 240 $</b><small style="color:var(--green);font-size:11px">M-Pesa/Orange</small></div>
+        <div><span>Apprenants</span><b id="kpi-users">0</b><small style="color:var(--muted);font-size:11px" id="kpi-users-sub">0 nouveaux</small></div>
+        <div><span>Modules</span><b id="kpi-modules">0</b><small style="color:var(--muted);font-size:11px">Gérés par toi</small></div>
+        <div><span>Hors connexion</span><b style="color:var(--green)">Activé</b><small style="font-size:11px">Service Worker OK</small></div>
+      </div>
+      <div class="dashboard">
+        <div class="side" style="min-height:auto">
+          <a id="am-tab-overview" class="active" onclick="switchAdminTab('overview')">📊 Vue d'ensemble</a>
+          <a id="am-tab-contents" onclick="switchAdminTab('contents')">📚 Contenus (CRUD)</a>
+          <a id="am-tab-users" onclick="switchAdminTab('users')">👥 Apprenants</a>
+          <a id="am-tab-payments" onclick="switchAdminTab('payments')">💰 Paiements</a>
+          <a id="am-tab-settings" onclick="switchAdminTab('settings')">⚙️ Paramètres & Fun</a>
+          <a id="am-tab-quiz" onclick="switchAdminTab('quiz')">🎮 Jeux (arbitre)</a>
+          <div style="margin-top:12px;padding:10px;background:white;color:var(--navy);border-radius:10px"><b style="font-size:11px">Tes numéros</b><br><small style="font-size:11px">M-Pesa: +243825901117<br>Orange: +243894436774</small><button class="btn btn-primary btn-small" style="width:100%;margin-top:6px" onclick="switchAdminTab('settings')">Modifier</button></div>
+        </div>
+        <div class="main">
+          <div id="am-overview">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h3 style="color:var(--navy)">Vue d'ensemble</h3><button class="btn btn-gold btn-small" onclick="switchAdminTab('contents')">+ Ajouter un module</button></div>
+            <div id="overview-modules" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div>
+            <h4 style="margin:14px 0 8px;color:var(--navy)">Derniers inscrits</h4>
+            <div style="overflow:auto;border:1px solid #E2E8F0;border-radius:10px"><table><thead><tr><th>Nom</th><th>Parcours</th><th>Statut</th><th>Action</th></tr></thead><tbody id="overview-users"></tbody></table></div>
+          </div>
+          <div id="am-contents" style="display:none">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h3 style="color:var(--navy)">Gérer les contenus</h3><button class="btn btn-gold btn-small" onclick="openModuleModal()">+ Nouveau module / parcours</button></div>
+            <p style="font-size:11px;color:var(--muted);margin-bottom:10px">Ici tu ajoutes, modifies, supprimes. Chaque changement apparaît immédiatement côté Client et en hors connexion. Essaie : ajoute un module, puis va voir en Espace Client.</p>
+            <div id="admin-modules-list" style="display:flex;flex-direction:column;gap:10px"></div>
+          </div>
+          <div id="am-users" style="display:none">
+            <h3 style="color:var(--navy)">Apprenants</h3>
+            <div style="overflow:auto;border:1px solid #E2E8F0;border-radius:10px;margin-top:10px"><table><thead><tr><th>Nom</th><th>WhatsApp</th><th>Parcours</th><th>XP</th><th>Action</th></tr></thead><tbody id="admin-users-list"></tbody></table></div>
+            <div style="margin-top:10px;display:flex;gap:8px"><button class="btn btn-ghost btn-small" onclick="exportUsers()">⬇ Exporter Excel (CSV)</button><button class="btn btn-ghost btn-small" onclick="toast('Message WhatsApp simulé : Nouvelle leçon disponible !')">📢 Annoncer</button></div>
+          </div>
+          <div id="am-payments" style="display:none">
+            <h3 style="color:var(--navy)">Paiements Mobile Money</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+              <div class="card" style="background:var(--gold-light)"><b>M-Pesa</b><br><small>+243 82 59 011 17</small><br><small style="color:var(--muted)">Reçu ce mois: 820$</small></div>
+              <div class="card" style="background:#FFF7ED;border-color:#FDBA74"><b>Orange Money</b><br><small>+243 89 44 36 77 4</small><br><small style="color:var(--muted)">Reçu ce mois: 420$</small></div>
+            </div>
+            <div style="overflow:auto;border:1px solid #E2E8F0;border-radius:10px;margin-top:12px"><table><thead><tr><th>Client</th><th>Montant</th><th>Méthode</th><th>Statut</th><th>Valider</th></tr></thead><tbody id="admin-payments-list"></tbody></table></div>
+          </div>
+          <div id="am-quiz" style="display:none">
+            <h3 style="color:var(--navy)">🎮 Arbitrer un défi</h3>
+            <p style="font-size:11px;color:var(--muted)">Publie une question ; les clients répondent ; tu proclames le vainqueur (badge Gladiateur + 50 XP).</p>
+            <label class="label">Question</label><input id="ar-q" class="input" placeholder="Ex: Qui a écrit Cahier d'un retour ?">
+            <label class="label">Bonne réponse</label><input id="ar-good" class="input" placeholder="Ex: Césaire">
+            <label class="label">Mauvaise réponse 1</label><input id="ar-b1" class="input" placeholder="Ex: Hugo">
+            <label class="label">Mauvaise réponse 2</label><input id="ar-b2" class="input" placeholder="Ex: Zola">
+            <button class="btn btn-gold btn-small" onclick="publishArbitre()"> Publier le défi</button>
+            <h4 style="margin:14px 0 8px;color:var(--navy)">Réponses des apprenants</h4>
+            <div id="arbitre-list" style="display:flex;flex-direction:column;gap:6px"></div>
+          </div>
+          <div id="am-settings" style="display:none">
+            <h3 style="color:var(--navy)">Paramètres & Fun</h3>
+            <div class="grid3" style="margin-top:10px">
+              <div class="card"><b>🎮 Gamification</b><p style="font-size:12px;color:var(--muted)">XP par leçon: <span id="set-xp">10</span> • Streak bonus 20 XP</p><label class="label">XP par leçon</label><input id="set-xp-input" type="number" class="input" value="10"><button class="btn btn-primary btn-small" onclick="saveSettings()">Enregistrer</button></div>
+              <div class="card"><b>📴 Hors connexion</b><p style="font-size:12px;color:var(--muted)">Service Worker actif. Les abonnés téléchargent tout pour usage sans internet.</p><button class="btn btn-ghost btn-small" onclick="toast('Cache vidé et rechargé — hors connexion OK')">Vider le cache</button></div>
+              <div class="card"><b>🔒 Admin</b><p style="font-size:12px;color:var(--muted)">Change ton mot de passe</p><input id="set-pass" class="input" placeholder="Nouveau mot de passe"><button class="btn btn-ghost btn-small" onclick="changePass()">Changer</button></div>
+            </div>
+            <div class="card" style="margin-top:12px"><b>Icône de l'app</b><p style="font-size:12px;color:var(--muted)">Ton portrait est l'icône. Pour la changer, mets une nouvelle image (carrée 512x512).</p><input type="file" id="icon-input" accept="image/*" class="input"><button class="btn btn-gold btn-small" onclick="changeIcon()">Mettre à jour l'icône</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="moduleModal" class="modal">
+  <div class="modal-box">
+    <h3 id="modalTitle" style="color:var(--navy)">Nouveau module</h3>
+    <input type="hidden" id="m-id">
+    <label class="label">Titre du module / parcours</label><input id="m-title" class="input" placeholder="Ex: Français Parlé Débutant - 90 jours">
+    <label class="label">Description</label><textarea id="m-desc" class="input" rows="2" placeholder="Description courte"></textarea>
+    <label class="label">Emoji / Icône</label><input id="m-emoji" class="input" placeholder="Ex: 🗣️" value="📚">
+    <label class="label">Prix (0 = gratuit)</label><input id="m-price" type="number" class="input" value="5">
+    <label class="label">Statut</label><select id="m-published" class="input"><option value="true">Publié (visible clients)</option><option value="false">Brouillon (caché)</option></select>
+    <div style="display:flex;gap:8px;margin-top:8px"><button class="btn btn-primary" style="flex:1" onclick="saveModule()">Enregistrer</button><button class="btn btn-ghost" style="flex:1" onclick="closeModal()">Annuler</button></div>
+  </div>
+</div>
+
+<div id="paymentModal" class="modal">
+  <div class="modal-box" style="max-width:480px">
+    <div style="text-align:center;margin-bottom:12px"><div style="width:52px;height:52px;background:var(--navy);border-radius:14px;display:grid;place-items:center;margin:0 auto;color:var(--gold);font-size:22px">🔐</div><h3 style="color:var(--navy);margin-top:8px">Paiement Sécurisé CAMG</h3><small style="color:var(--muted)">Tu ne tapes JAMAIS le numéro du destinataire. L'argent va directement à CAMG.</small></div>
+    <div style="background:var(--gold-light);border:1px solid #F3D9A0;border-radius:10px;padding:10px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div><b style="font-size:12px;color:var(--navy)">Bénéficiaire</b><br><small style="color:var(--muted)">CAMG • Club des Amis de M.G. • Vérifié ✓</small></div><span class="badge badge-green">Canal sécurisé</span>
+    </div>
+    <label class="label">Choisis ton Mobile Money</label>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:6px 0 10px">
+      <button id="pay-mpesa" class="btn btn-ghost" style="flex-direction:column;padding:12px;border:2px solid #E2E8F0" onclick="selectOperator('mpesa')"><span style="font-size:18px">📱</span><b style="font-size:11px">M-Pesa</b><small style="font-size:10px;color:var(--muted)">Vodacom</small></button>
+      <button id="pay-orange" class="btn btn-ghost" style="flex-direction:column;padding:12px;border:2px solid #E2E8F0" onclick="selectOperator('orange')"><span style="font-size:18px">🟧</span><b style="font-size:11px">Orange</b><small style="font-size:10px;color:var(--muted)">Money</small></button>
+      <button id="pay-airtel" class="btn btn-ghost" style="flex-direction:column;padding:12px;border:2px solid #E2E8F0" onclick="selectOperator('airtel')"><span style="font-size:18px">🔴</span><b style="font-size:11px">Airtel</b><small style="font-size:10px;color:var(--muted)">Money</small></button>
+    </div>
+    <label class="label">Ton numéro (celui qui va payer)</label><input id="pay-phone" class="input" placeholder="+243 82 ... (ton numéro)">
+    <label class="label">Montant</label><input id="pay-amount" class="input" value="5$ - Essentiel (30 jours)" disabled style="background:var(--bg);font-weight:700;color:var(--navy)">
+    <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:10px;font-size:11px;color:#1E40AF;margin:8px 0">
+      <b>Comment ça marche ?</b><br>
+      1. Tu cliques <b>Payer</b> → 2. Tu reçois une demande sur TON téléphone → 3. Tu tapes TON code secret → 4. L'argent arrive chez CAMG automatiquement. Tu n'as jamais à saisir le numéro de CAMG.
+    </div>
+    <button class="btn btn-primary" style="width:100%" onclick="triggerPayment()">Payer maintenant →</button>
+    <button class="btn btn-ghost" style="width:100%;margin-top:8px" onclick="closePaymentModal()">Annuler</button>
+    <small style="display:block;text-align:center;color:var(--muted);margin-top:8px;font-size:10px">Paiement crypté • Pas de numéro affiché • Anti-cybercriminalité</small>
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+
+<footer>
+  <div class="container" style="display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:16px">
+    <div><b style="color:white">CAMG • Daniel ONEMA</b><br><small>Université Mapon, Kindu • Maniema<br>Fondateur : Daniel ONEMA</small></div>
+    <div><b style="color:white">Paiements</b><br><small>M-Pesa: +243 82 59 011 17<br>Orange Money: +243 89 44 36 77 4<br>Airtel Money : à venir</small></div>
+    <div><b style="color:white">Application</b><br><small>Hors connexion : Oui (après abonnement)<br>© 2026 CAMG Kindu • MàJ 13/08 • 16 modules</small><br><button class="btn btn-gold btn-small" style="margin-top:8px" onclick="showView('admin-login')">🔒 Espace Admin</button>
+        <button class="btn btn-ghost btn-small" style="margin-top:8px" onclick="forceUpdate()">🔄 Mettre à jour l'app</button></div>
+  </div>
+</footer>
+
+<script>
+const DB_KEY='camg_db_v2';
+const defaultDB={
+  modules:[
+    {id:'m1',emoji:'🌌',title:'Module 1 — Parlons Français Débutants',desc:'90 jours • Français illustré • De 0 à parler sans complexe • 12 chapitres',price:10,published:true,lessons:12},
+    {id:'m2',emoji:'👶',title:'Bébé & Enfant (avec parents)',desc:'Éveil, comptines, mots premiers — avec maman/papa',price:0,published:true,lessons:8},
+    {id:'m3',emoji:'🎒',title:'Adolescent — Intermédiaire',desc:'Débat, exposé, français scolaire fort',price:5,published:true,lessons:12},
+    {id:'m4',emoji:'💼',title:'Pro — Emploi & Business',desc:'CV, entretien d\'embauche, Business français, prise de parole',price:5,published:true,lessons:10},
+    {id:'m5',emoji:'👴',title:'Vieillard — Transmission',desc:'Mémoire, sagesse, transmission orale — valorisation',price:5,published:true,lessons:6},
+    {id:'m6',emoji:'🏛️',title:'Latin Complet (Basic → Pro)',desc:'César, Cicéron, droit, médecine, Realia',price:15,published:true,lessons:20},
+    {id:'m7',emoji:'🤔',title:'Philosophie — Bases Solides',desc:'Socrate, Platon, Descartes + Sagesse africaine (Lumumba, Kagamé) • Dissertation philo',price:5,published:true,lessons:15},
+    {id:'m8',emoji:'📖',title:'Littérature Négro-Africaine',desc:'Négritude (Césaire, Senghor), Auteurs congolais, Analyse d\'œuvres • Commentaire',price:5,published:true,lessons:12},
+    {id:'m9',emoji:'✍️',title:'Dissertation Finaliste — Méthodo EXETAT',desc:'Introduction, Développement, Conclusion — Plan dialectique, comparatif',price:8,published:true,lessons:18},
+    {id:'m10',emoji:'📝',title:'TUTO : Remplissage Items — Dissertation',desc:'Grille, cotation, astuces pour remplir sans rature — DISSERTATION',price:3,published:true,lessons:8},
+    {id:'m11',emoji:'✅',title:'TUTO : Remplissage Items — Session Ordinaire',desc:'QCM, Vrai/Faux, Association, Complétion — SESSION ORDINAIRE',price:3,published:true,lessons:8},
+    {id:'m12',emoji:'🔤',title:'Orthographe & Éloquence — Astuces CAMG',desc:'Accords, terminaisons, figures de style, concordance des temps — facile',price:5,published:true,lessons:14},
+    {id:'m13',emoji:'🏺',title:'Realia & Culture Romaine',desc:'Histoire, religion, Sénat, Forum — Comparé à Kindu • Pour latinistes',price:5,published:true,lessons:10},
+    {id:'m14',emoji:'🎯',title:'Entraînement Finaliste — Items + Défense',desc:'Sujets types EXETAT, correction live, préparation orale',price:5,published:true,lessons:10},
+    {id:'m15',emoji:'🏟️',title:'Histoire de Rome — de Romulus à aujourd\'hui',desc:'Naissance légendaire, rois, République, Empire, chute, Rome des papes, Rome moderne — 12 leçons',price:5,published:true,lessons:12},
+    {id:'m16',emoji:'📝',title:'EXETAT — Remplissage d\'items maîtrisé',desc:'De la dissertation à la session ordinaire : copies, cases, QCM, vrai/faux, associations, chrono, relecture — 12 leçons pas à pas',price:3,published:true,lessons:12},
+  ],
+  lessonsDetailed:{
+    m1:[
+      {t:'Leçon 1 — Bonjour, Kindu ! Se présenter',d:'Je m\'appelle Daniel, je viens de Kindu — se présenter sans complexe',dur:'4:30',img:'images/m1-l1.jpg',audios:[],pas:[{t:'Objectif',x:'À la fin de la leçon, tu sauras saluer et te présenter en trois phrases.'},{t:'Découverte',x:'Lis à voix haute : « Bonjour, je m\'appelle Daniel. Je viens de Kindu. Enchanté. »'}, {t:'Règle',x:'« Je m\'appelle » = ton nom. « Je viens de » = ton village ou ta ville. « Enchanté » = quand tu rencontres quelqu\'un.'},{t:'Répétition',x:'Répète lentement, trois fois : Bonjour… je m\'appelle… je viens de… enchanté.'},{t:'À toi',x:'Remplace Daniel par ton nom, et Kindu par ton village. Dis les trois phrases à voix haute.'},{t:'Résumé',x:'Trois phrases ouvrent toutes les portes : bonjour, je m\'appelle…, je viens de…, enchanté.'}],exemples:['Bonjour, je m\'appelle Amina. Je suis de Kindu.','Salut, moi c\'est Jean, je viens du Maniema.','Bonsoir, je m\'appelle Espoir, j\'habite à côté du fleuve.'],exos:[{q:'Complète : « Bonjour, je ___ appelle Amina. »',a:'m\'appelle',resolu:true},{q:'Transforme en salutation : « Je viens de Kindu, mon nom est Jean. »',a:'Bonjour, je m\'appelle Jean, je viens de Kindu.'}],conte:{t:'Le salut du marché',img:'images/conte-l1.jpg',x:'Au marché central de Kindu, la petite Amina accompagne sa maman. Un vieux monsieur passe. Amina dit : « Bonjour, monsieur ! » Le vieux sourit : « Comment t\'appelles-tu ? » — « Je m\'appelle Amina. » Depuis ce jour, chaque matin, le vieux salue Amina, et tout le marché a compris qu\'un seul mot, « bonjour », ouvre les cœurs.'},video:'https://www.youtube.com/embed/dQw4w9WgXcQ'},
+      {t:'Leçon 2 — La Famille',d:'Père, mère, frère, sœur, grands-parents — avec illustration réelle',dur:'5:10',img:'images/m1-l2.jpg',audios:[],pas:[{t:'Objectif',x:'Présenter ta famille en cinq mots : père, mère, frère, sœur, grand-père.'},{t:'Découverte',x:'Lis : « Voici mon père. Voici ma mère. Voici mon frère et voici ma sœur. »'},{t:'Règle',x:'« Voici » sert à montrer une personne. « Mon / ma » = à moi. « Mon père », « ma mère ».'},{t:'Répétition',x:'Répète : père… mère… frère… sœur… grand-père.'},{t:'À toi',x:'Montre une photo (ou imagine) et présente trois personnes de ta famille.'},{t:'Résumé',x:'Présenter sa famille, c\'est dire d\'où l\'on vient : voici mon père, voici ma mère.'}],exemples:['Voici mon père, il est cultivateur.','Ma mère vend au marché de Kindu.','Mon grand-père raconte sous le manguier.'],exos:[{q:'Le féminin de « père » est ___',a:'mère',resolu:true},{q:'Complète : « Mon frère et ma ___ jouent ensemble. »',a:'sœur'}],conte:{t:'Le manguier des grands-parents',img:'images/conte-l2.jpg',x:'Le dimanche, toute la famille se retrouve sous le manguier. Grand-père demande à chaque enfant : « Comment t\'appelles-tu ? Qui est ton père ? » Amina répond : « Je m\'appelle Amina, mon père est cultivateur. » Jean dit : « Ma mère vend au marché. » Grand-père sourit : une famille qui se présente ensemble est une famille forte.'},video:''},
+      {t:'Leçon 3 — La Maison',d:'Chambre, salon, cuisine, ustensiles — décrire sa maison',dur:'4:50',img:'images/m1-l3.jpg',audios:[],pas:[{t:'Objectif',x:'Décrire ta maison en trois phrases simples.'},{t:'Découverte',x:'Lis : « Ma maison a trois chambres. La cuisine est à côté du salon. J\'étudie près de la fenêtre. »'},{t:'Règle',x:'« À côté de » = la place. « Près de » = tout proche. On dit UNE chambre, UN salon, UNE cuisine.'},{t:'Répétition',x:'Répète : chambre… cuisine… salon… fenêtre.'},{t:'À toi',x:'Décris ta maison : combien de chambres ? Où est la cuisine ? Où étudies-tu ?'},{t:'Résumé',x:'Décrire sa maison, c\'est dire où l\'on vit : chambres, cuisine, salon, fenêtre.'}],exemples:['Ma maison a trois chambres.','La cuisine est à côté du salon.','J\'étudie près de la fenêtre.'],exos:[{q:'La pièce où l\'on cuisine s\'appelle ___',a:'la cuisine',resolu:true},{q:'Complète : « J\'étudie près de la ___. »',a:'fenêtre'}],conte:{t:'La nuit de l\'orage',img:'images/conte-l3.jpg',x:'Le soir, le vent se lève sur Kindu. Dans la maison au toit de tôle, maman dit : « Fermez la fenêtre ! » Papa regarde : « La cuisine est propre, le salon est rangé. » Le petit Espoir, près de la fenêtre, murmure : « Moi, j\'étudie près de la fenêtre, parce que j\'aime la lumière. » Et l\'orage est passé sans entrer.'},video:''},
+      {t:'Leçon 4 — Compter de 1 à 10 au marché',d:'un, deux, trois… dix — compter ses mangues sans se tromper.',dur:'4:00',exemples:['Une mangue, deux mangues, trois mangues.','Combien ? Cinq !','Dix œufs, s\'il vous plaît.'],exos:[{q:'Après « sept » vient ___',a:'huit',resolu:true},{q:'« J\'ai ___ doigts » (10)',a:'dix'}],pas:[{t:'Objectif',x:'Compter de 1 à 10 en français.'},{t:'Découverte',x:'Lis : « Une mangue, deux mangues, trois mangues. »'},{t:'Règle',x:'Les nombres ne changent pas : un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix.'},{t:'Répétition',x:'Compte à voix haute dix objets autour de toi.'},{t:'À toi',x:'Compte les cuillères de la maison en français.'},{t:'Résumé',x:'De 1 à 10, on compte tout au marché.'}],conte:{t:'La vendeuse qui compte vite',img:'images/conte-l1.jpg',x:'Au marché, une maman compte ses mangues en français : « un, deux, trois… dix ! » Les clients sourient : celle qui compte bien n\'est jamais trompée.'}},
+      {t:'Leçon 5 — Les jours et le rendez-vous',d:'lundi, mardi… — donner et prendre rendez-vous.',dur:'4:00',exemples:['Aujourd\'hui c\'est lundi.','Demain c\'est mardi.','Rendez-vous vendredi !'],exos:[{q:'Après lundi vient ___',a:'mardi',resolu:true},{q:'Le jour du repos, souvent : ___',a:'dimanche'}],pas:[{t:'Objectif',x:'Dire les jours et fixer un rendez-vous.'},{t:'Découverte',x:'Lis : « Aujourd\'hui c\'est lundi. Rendez-vous vendredi ! »'},{t:'Règle',x:'Les jours : lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche. « À » + jour = rendez-vous.'},{t:'Répétition',x:'Récite les sept jours dans l\'ordre.'},{t:'À toi',x:'Dis quel jour tu vas au marché, et donne un rendez-vous.'},{t:'Résumé',x:'Un rendez-vous = un jour + une heure.'}]},
+      {t:'Leçon 6 — Manger et boire poliment',d:'je voudrais… s\'il vous plaît… merci — à table comme au marché.',dur:'4:00',exemples:['Je voudrais de l\'eau, s\'il vous plaît.','Merci, c\'est délicieux.','La chikwangue est prête.'],exos:[{q:'Pour demander poliment, on dit « je ___ »',a:'voudrais',resolu:true},{q:'Après avoir reçu, on dit ___',a:'merci'}],pas:[{t:'Objectif',x:'Demander et offrir poliment.'},{t:'Découverte',x:'Lis : « Je voudrais de l\'eau, s\'il vous plaît. »'},{t:'Règle',x:'« Je voudrais » = demander avec respect. Toujours « s\'il vous plaît » et « merci ».'},{t:'Répétition',x:'Répète : je voudrais… s\'il vous plaît… merci…'},{t:'À toi',x:'Demande une mangue poliment, à voix haute.'},{t:'Résumé',x:'S\'il vous plaît + merci ouvrent toutes les tables.'}]},
+      {t:'Leçon 7 — Se déplacer dans Kindu',d:'où est… ? tout droit, à droite, à gauche — demander et montrer le chemin.',dur:'4:00',exemples:['Où est le marché ?','Tout droit, puis à droite.','Le port est à gauche.'],exos:[{q:'Pour demander un lieu, on dit « ___ est… ? »',a:'où',resolu:true},{q:'Le contraire de « à droite » : ___',a:'à gauche'}],pas:[{t:'Objectif',x:'Demander et montrer un chemin.'},{t:'Découverte',x:'Lis : « Où est le marché ? — Tout droit, puis à droite. »'},{t:'Règle',x:'« Où est… ? » pour demander ; tout droit / à droite / à gauche pour montrer.'},{t:'Répétition',x:'Répète : tout droit… à droite… à gauche…'},{t:'À toi',x:'Montre le chemin du port vers le marché.'},{t:'Résumé',x:'Demander un chemin, c\'est voyager ; le montrer, c\'est accueillir.'}],conte:{t:'Le guide du port',img:'images/scene1.jpg',x:'Un voyageur s\'est perdu près du port. Un enfant répond : « Tout droit, puis à droite. » Le voyageur dit : « À Kindu, même les enfants sont des guides. »'}},
+      {t:'Leçon 8 — Le temps et les saisons',d:'il pleut, il fait chaud — la saison sèche et la saison des pluies.',dur:'4:00',exemples:['Il pleut sur Kindu.','Il fait chaud aujourd\'hui.','C\'est la saison sèche.'],exos:[{q:'Quand l\'eau tombe du ciel, on dit « il ___ »',a:'pleut',resolu:true},{q:'Le contraire de la saison des pluies : la saison ___',a:'sèche'}],pas:[{t:'Objectif',x:'Parler de la pluie, du soleil, des saisons.'},{t:'Découverte',x:'Lis : « Il pleut sur Kindu. C\'est la saison sèche. »'},{t:'Règle',x:'Il pleut / il fait chaud / il fait froid. Deux saisons : la saison des pluies, la saison sèche.'},{t:'Répétition',x:'Répète : il pleut… il fait chaud… saison sèche…'},{t:'À toi',x:'Dis quelle saison nous vivons, et pourquoi.'},{t:'Résumé',x:'Le temps du ciel commande le temps de la vie.'}]},
+      {t:'Leçon 9 — Le travail et les métiers',d:'je suis vendeur, mon père est pêcheur — dire son métier avec fierté.',dur:'4:00',exemples:['Je suis vendeur au marché.','Mon père est pêcheur.','Ma sœur est couturière.'],exos:[{q:'Pour dire son métier : « je ___ vendeur »',a:'suis',resolu:true},{q:'Celle qui coud les habits : la ___',a:'couturière'}],pas:[{t:'Objectif',x:'Dire son métier et celui des autres.'},{t:'Découverte',x:'Lis : « Je suis vendeur au marché. Mon père est pêcheur. »'},{t:'Règle',x:'« Je suis » + métier, sans « un » : je suis cultivateur, je suis vendeuse.'},{t:'Répétition',x:'Répète trois métiers entendus dans la leçon.'},{t:'À toi',x:'Dis le métier de trois personnes de ta famille.'},{t:'Résumé',x:'Dire son métier, c\'est dire sa dignité.'}]},
+      {t:'Leçon 10 — Sentiments et santé',d:'comment vas-tu ? je vais bien — prendre des nouvelles.',dur:'4:00',exemples:['Comment vas-tu ? — Je vais bien, merci.','Il est fatigué aujourd\'hui.','Elle est malade, elle se repose.'],exos:[{q:'La question polie : « comment ___ -vous ? »',a:'allez',resolu:true},{q:'Le contraire de « je vais bien » : ___',a:'je suis malade (fatigué)'}],pas:[{t:'Objectif',x:'Demander et donner des nouvelles.'},{t:'Découverte',x:'Lis : « Comment vas-tu ? — Je vais bien, merci. »'},{t:'Règle',x:'« Comment vas-tu ? » (amical), « comment allez-vous ? » (poli). Réponses : je vais bien / je suis fatigué / je suis malade.'},{t:'Répétition',x:'Répète la question et les trois réponses.'},{t:'À toi',x:'Demande des nouvelles à trois personnes, aujourd\'hui.'},{t:'Résumé',x:'Prendre des nouvelles, c\'est donner le cœur.'}]},
+      {t:'Leçon 11 — Poser des questions',d:'qui, que, où, quand, pourquoi — les cinq clés de la conversation.',dur:'4:00',exemples:['Qui est là ? — C\'est moi.','Où habites-tu ? — À Kindu.','Pourquoi ris-tu ? — Parce que je suis content.'],exos:[{q:'Pour le lieu, on utilise ___',a:'où',resolu:true},{q:'Pour la raison, on utilise ___',a:'pourquoi'}],pas:[{t:'Objectif',x:'Poser des questions avec qui, que, où, quand, pourquoi.'},{t:'Découverte',x:'Lis : « Qui est là ? Où habites-tu ? Pourquoi ris-tu ? »'},{t:'Règle',x:'qui = personne ; que/quoi = chose ; où = lieu ; quand = temps ; pourquoi = raison.'},{t:'Répétition',x:'Répète les cinq mots-questions.'},{t:'À toi',x:'Pose trois questions différentes à un ami.'},{t:'Résumé',x:'Cinq petits mots ouvrent toutes les conversations.'}]},
+      {t:'Leçon 12 — Révision finale : la conversation',d:'saluer, se présenter, demander, remercier, quitter — tenir 2 minutes.',dur:'6:00',exemples:['Bonjour ! Je m\'appelle Amina, je viens de Kindu.','Et vous, comment allez-vous ?','Enchanté ! Rendez-vous lundi.'],exos:[{q:'Les 5 temps : saluer, ___, demander, remercier, quitter',a:'se présenter',resolu:true},{q:'Le mot pour quitter poliment : ___',a:'au revoir (à bientôt)'}],pas:[{t:'Objectif',x:'Tenir une conversation complète de deux minutes.'},{t:'Découverte',x:'Lis le dialogue : salut, nom, village, nouvelles, métier, rendez-vous.'},{t:'Règle',x:'Conversation = saluer → se présenter → demander → remercier → quitter.'},{t:'Répétition',x:'Joue le dialogue entier à voix haute.'},{t:'À toi',x:'Tiens la conversation avec un proche ; envoie ton enregistrement à l\'admin.'},{t:'Résumé',x:'90 jours plus tard : tu parles, tu ne récites plus.'}],conte:{t:'La conversation du marché',img:'images/conte-l2.jpg',x:'Au marché, Amina salue, se présente, demande des nouvelles, remercie et quitte. Le vieux monsieur sourit : « Celle-là a fini les 90 jours. » La conversation est une danse : chacun son tour.'}},
+    ],
+    m4:[
+      {t:'CV : la phrase qui décroche l\'emploi',d:'Verbes courts, résultats, chiffres — une seule page.',dur:'4:00',pas:[{t:'Objectif',x:'Rédiger un CV d\'une page qui décroche l\'emploi.'},{t:'Découverte',x:'Lis : « J\'ai développé les ventes de 20 %. J\'ai géré une équipe de 3 personnes. »'},{t:'Règle',x:'Verbes d\'action courts + résultats + chiffres. Une seule page. Toujours la vérité.'},{t:'Répétition',x:'Répète : développé… géré… créé…'},{t:'À toi',x:'Écris trois phrases vraies sur ton travail, avec un chiffre si possible.'},{t:'Résumé',x:'CV = vérité + verbes d\'action + chiffres, en une page.'}],exemples:['J\'ai développé les ventes de 20 %.','J\'ai géré une équipe de 3 personnes.','Ponctuel, honnête, prêt à apprendre.'],exos:[{q:'Un CV tient en ___ page(s)',a:'une',resolu:true},{q:'Au lieu de « je m\'occupais des ventes », écris « j\'ai ___ les ventes »',a:'développé (géré)'}],conte:{t:'Le CV de Kindu',img:'images/exetat3.jpg',x:'Jean n\'osait pas écrire son CV : « Je n\'ai pas de diplôme. » Le maître sourit : « Écris la vérité : vendeur au marché pendant 3 ans, honnête, ponctuel. » L\'employeur l\'a engagé pour ces mots-là.'}},
+      {t:'Entretien : les 3 réponses à préparer',d:'Parlez-moi de vous / vos forces / pourquoi vous ? — à répéter à voix haute.',dur:'4:00',pas:[{t:'Objectif',x:'Préparer les réponses aux trois questions clés.'},{t:'Découverte',x:'Lis : « Je suis Jean, vendeur depuis 3 ans. Ma force : l\'honnêteté. »'},{t:'Règle',x:'1) Parlez-moi de vous = ton parcours 2) Vos forces = qualités prouvées 3) Pourquoi vous = ta différence. Répéter à voix haute.'},{t:'Répétition',x:'Réponds à voix haute : « parlez-moi de vous », en trois phrases.'},{t:'À toi',x:'Prépare tes trois réponses par écrit, puis sans papier.'},{t:'Résumé',x:'Un entretien préparé est un entretien gagné.'}],exemples:['Je suis Jean, vendeur depuis 3 ans.','Ma force : la ponctualité et l\'honnêteté.','Pourquoi moi ? Parce que j\'apprends vite.'],exos:[{q:'À l\'entretien, on parle d\'une voix ___',a:'calme et claire',resolu:true},{q:'Les 3 questions à préparer : parlez-moi de vous, vos ___, pourquoi vous',a:'forces'}]},
+      {t:'Français professionnel : le courriel poli',d:'Madame, Monsieur… veuillez agréer… — modèle à copier-adapter.',dur:'4:00',pas:[{t:'Objectif',x:'Écrire un courriel professionnel poli.'},{t:'Découverte',x:'Lis : « Madame, Monsieur, … Veuillez agréer, Madame, Monsieur, mes salutations distinguées. »'},{t:'Règle',x:'1) Madame, Monsieur, 2) la raison en deux lignes 3) formule de politesse + signature.'},{t:'Répétition',x:'Répète la formule : « Veuillez agréer… mes salutations distinguées. »'},{t:'À toi',x:'Écris un courriel pour postuler à un poste de vendeur.'},{t:'Résumé',x:'Courriel poli = salutation + raison + formule + signature.'}],exemples:['Madame, Monsieur,','Je souhaite poser ma candidature au poste de vendeur.','Veuillez agréer, Madame, Monsieur, mes salutations distinguées.'],exos:[{q:'Un courriel professionnel se termine par une formule de ___',a:'politesse',resolu:true},{q:'On commence par « Madame, ___ »',a:'Monsieur'}]},
+    ],
+    m5:[
+      {t:'Raconter sa vie : le temps de la mémoire',d:'Il y a longtemps, à l\'époque, aujourd\'hui — organiser le souvenir.',dur:'4:00',pas:[{t:'Objectif',x:'Organiser un souvenir en trois temps.'},{t:'Découverte',x:'Lis : « Il y a longtemps, Kindu était plus petit. Aujourd\'hui, je raconte à mes petits-enfants. »'},{t:'Règle',x:'1) il y a longtemps / à l\'époque = le passé 2) aujourd\'hui = le présent. Un souvenir = une image précise.'},{t:'Répétition',x:'Répète : il y a longtemps… à l\'époque… aujourd\'hui…'},{t:'À toi',x:'Raconte un souvenir de ta jeunesse en trois phrases.'},{t:'Résumé',x:'Mémoire organisée = longtemps, à l\'époque, aujourd\'hui.'}],exemples:['Il y a longtemps, Kindu était plus petit.','À l\'époque, on traversait le fleuve en pirogue.','Aujourd\'hui, je raconte cela à mes petits-enfants.'],exos:[{q:'Pour commencer un souvenir, on dit souvent ___',a:'il y a longtemps (à l\'époque)',resolu:true},{q:'Pour passer du passé au présent, on utilise ___',a:'aujourd\'hui'}],conte:{t:'Le vieillard qui écrivit sa mémoire',img:'images/conte-l2.jpg',x:'Grand-père croyait que son histoire mourrait avec lui. Amina l\'écrit pendant qu\'il parle. Maintenant, sa mémoire dort dans un cahier, comme une graine dans un grenier : elle attend de germer.'}},
+      {t:'Les proverbes en français',d:'Traduis un proverbe tetela ou swahili en beau français — exercice oral.',dur:'4:00',pas:[{t:'Objectif',x:'Traduire un proverbe en beau français.'},{t:'Découverte',x:'Lis : « L\'enfant qui ne pleure pas ne tète pas. » → Il faut demander pour recevoir.'},{t:'Règle',x:'1) dis le proverbe 2) explique son sens 3) donne un exemple de la vie.'},{t:'Répétition',x:'Répète le proverbe puis son sens en français.'},{t:'À toi',x:'Choisis un proverbe tetela ou swahili et traduis-le.'},{t:'Résumé',x:'Un proverbe traduit est un pont entre deux langues.'}],exemples:['« L\'enfant qui ne pleure pas ne tète pas. » → Il faut demander pour recevoir.','« Une seule main ne lave pas l\'autre. » → L\'union fait la force.'],exos:[{q:'Le proverbe « Une hirondelle ne fait pas le printemps » enseigne ___',a:'la patience (ne pas conclure trop vite)',resolu:true},{q:'Traduis avec tes mots : « La hâte est l\'ennemie du bon travail. » → ___',a:'(réponse libre) qui se presse rate son travail'}]},
+    ],
+    m13:[
+      {t:'Le Sénat romain et l\'arbre à palabres',d:'Comparer : le Sénat de Rome = notre arbre à palabres ; tours de parole, respect, toge.',dur:'4:00',pas:[{t:'Objectif',x:'Comparer le Sénat romain et l\'arbre à palabres.'},{t:'Découverte',x:'À Rome, la toge ; à Kindu, la parole des anciens.'},{t:'Règle',x:'Les deux assemblées punissent celui qui interrompt : le respect de la parole est universel.'},{t:'À toi',x:'Explique le rôle des anciens dans ton village.'},{t:'Résumé',x:'Sénat = arbre à palabres de Rome.'}],exemples:['À Rome, le sénateur demande la parole.','À Kindu, l\'ancien parle et on écoute.','Les deux assemblées punissent celui qui interrompt.'],exos:[{q:'Le Sénat romain correspond, à Kindu, à ___',a:'l\'arbre à palabres',resolu:true},{q:'Celui qui interrompt l\'orateur est ___',a:'puni (rappelé à l\'ordre)'}]},
+      {t:'Les dieux et la vie quotidienne',d:'Jupiter, Junon, Minerve — et chez nous, les forces de la nature ; les dieux du foyer = les ancêtres.',dur:'4:00',pas:[{t:'Objectif',x:'Reconnaître les dieux romains et leurs échos de chez nous.'},{t:'Découverte',x:'Jupiter commande le ciel ; les ancêtres veillent sur la maison.'},{t:'Règle',x:'Honorer n\'est pas adorer : c\'est la mémoire et le respect.'},{t:'À toi',x:'Nomme une force de la nature et son nom de chez toi.'},{t:'Résumé',x:'Dieux du foyer = nos ancêtres.'}],exemples:['Jupiter commande le ciel.','Les ancêtres veillent sur la maison.','On honore, on n\'adore pas.'],exos:[{q:'Les « dieux du foyer » romains ressemblent, chez nous, aux ___',a:'ancêtres',resolu:true},{q:'Le roi des dieux romains est ___',a:'Jupiter'}]},
+      {t:'Le Forum = le marché',d:'Le Forum : commerce, nouvelles, justice — le marché central de Kindu.',dur:'4:00',pas:[{t:'Objectif',x:'Comprendre que le Forum = le marché.'},{t:'Découverte',x:'Au Forum : commerce, nouvelles, justice.'},{t:'Règle',x:'Le marché est le lieu où la langue vit vraiment.'},{t:'À toi',x:'Décris le marché central de Kindu en trois phrases.'},{t:'Résumé',x:'Le marché est le forum de l\'Afrique.'}],exemples:['Au Forum, on vend, on achète, on discute.','Au marché de Kindu, on fait de même.','Les nouvelles circulent plus vite que les pirogues.'],exos:[{q:'Le lieu public romain du commerce et de la justice est ___',a:'le Forum',resolu:true},{q:'À Kindu, ce lieu s\'appelle ___',a:'le marché central'}],conte:{t:'Les deux marchés',img:'images/conte-l1.jpg',x:'Un marchand romain et une vendeuse de Kindu se rencontrent en rêve : mêmes cris, mêmes rires, mêmes balances. Le marché est le forum de l\'Afrique : c\'est là que la langue vit.'}},
+    ],
+    m14:[
+      {t:'Sujet type EXETAT : entraînement chronométré',d:'Sujet complet : 10 min lecture, 20 min plan, 80 min rédaction, 10 min relecture.',dur:'8:00',pas:[{t:'Objectif',x:'S\'entraîner chronométré sur un sujet complet.'},{t:'Découverte',x:'10 min lecture, 20 min plan, 80 min rédaction, 10 min relecture.'},{t:'Règle',x:'Respecter les quatre temps sans les mélanger.'},{t:'Répétition',x:'Récite les quatre temps et leurs durées.'},{t:'À toi',x:'Fais un plan de 20 minutes sur un sujet type.'},{t:'Résumé',x:'Le chronomètre est la moitié de la note.'}],exemples:['Lecture : souligne les mots clés (10 min).','Plan au brouillon : thèse, antithèse, synthèse (20 min).','Rédaction puis relecture (90 min).'],exos:[{q:'Pas à pas : 1) lecture 2) ___ 3) rédaction 4) relecture',a:'plan au brouillon',resolu:true},{q:'La relecture doit durer environ ___ minutes',a:'10'}]},
+      {t:'Défense orale : posture et voix',d:'Debout, regard, voix posée — le jury note aussi la prestance.',dur:'5:00',pas:[{t:'Objectif',x:'Tenir debout avec une voix posée.'},{t:'Découverte',x:'Pieds au sol, regard au jury, voix lente.'},{t:'Règle',x:'Le jury note aussi la prestance : la hâte mange les mots.'},{t:'Répétition',x:'Répète une minute, debout, lentement.'},{t:'À toi',x:'Défends une leçon une minute devant un miroir.'},{t:'Résumé',x:'Posture + voix = moitié de l\'oral.'}],exemples:['Je me tiens droit, pieds au sol.','Je regarde le jury, sans défier.','Je parle lentement : la hâte mange les mots.'],exos:[{q:'Pendant la défense, la voix doit être ___',a:'posée (calme)',resolu:true},{q:'On regarde ___ pendant la défense',a:'le jury'}]},
+    ],
+    m2:[
+      {t:'Premiers mots : maman, papa, eau',d:'Répète en montrant l\'objet — comptine et geste. Avec maman ou papa.',dur:'2:00',pas:[{t:'Objectif',x:'Dire trois premiers mots en montrant la personne ou la chose.'},{t:'Découverte',x:'Lis avec l\'enfant : « Maman ! Papa ! Eau ! »'},{t:'Règle',x:'Un mot + un geste = l\'enfant comprend. Montre la personne en disant le mot.'},{t:'Répétition',x:'Faites répéter : maman… papa… eau…'},{t:'À toi',x:'Demande à l\'enfant de montrer maman et de dire « maman ».'},{t:'Résumé',x:'Premiers mots : maman, papa, eau — toujours avec le geste.'}],exemples:['Maman ! — celle qui me porte.','Papa ! — celui qui me prend sur les épaules.','Eau ! — celle que je bois.'],exos:[{q:'Le premier mot d\'un enfant est souvent ___',a:'maman',resolu:true},{q:'Le geste qui accompagne le mot aide l\'enfant à ___',a:'comprendre et retenir'}],conte:{t:'La comptine de la pluie',img:'images/conte-l2.jpg',x:'Quand la pluie tombe, maman chante : « Pluie, pluie, lave Kindu. » Le bébé répète : « pli, pli. » La première leçon de français est une chanson.'}},
+      {t:'Les couleurs de la maison',d:'Rouge, jaune, vert — avec les objets de tous les jours.',dur:'2:30',pas:[{t:'Objectif',x:'Connaître jaune, vert, rouge avec les objets de la maison.'},{t:'Découverte',x:'Lis : « La mangue est jaune. La feuille est verte. La terre est rouge. »'},{t:'Règle',x:'Le mot de la couleur se place après : une mangue jaune, une feuille verte.'},{t:'Répétition',x:'Répète : jaune… vert… rouge…'},{t:'À toi',x:'Montre trois objets et dis leur couleur.'},{t:'Résumé',x:'Jaune comme la mangue, vert comme la feuille, rouge comme la terre.'}],exemples:['La mangue est jaune.','La feuille est verte.','La terre est rouge.'],exos:[{q:'La couleur des feuilles est ___',a:'verte',resolu:true},{q:'La mangue mûre est ___',a:'jaune'}],conte:{t:'Le marché des couleurs',img:'images/conte-l1.jpg',x:'Au marché, l\'enfant montre : « La tomate est rouge ! La banane est jaune ! » Maman sourit : chaque course devient une leçon de français.'}},
+      {t:'Mon corps en chanson',d:'Tête, épaules, genoux — on touche en chantant.',dur:'2:30',pas:[{t:'Objectif',x:'Nommer tête, épaules, genoux, yeux, bouche.'},{t:'Découverte',x:'Lis : « Je touche ma tête. Je touche mes épaules. »'},{t:'Règle',x:'« Je touche » + la partie du corps. On voit avec les yeux, on mange avec la bouche.'},{t:'Répétition',x:'Chantez en touchant : tête, épaules, genoux !'},{t:'À toi',x:'Touche tes yeux et dis : « ce sont mes yeux ».'},{t:'Résumé',x:'Le corps a des mots : tête, épaules, genoux, yeux, bouche.'}],exemples:['Je touche ma tête.','Je touche mes épaules.','Je touche mes genoux.'],exos:[{q:'On voit avec les ___',a:'yeux',resolu:true},{q:'On mange avec la ___',a:'bouche'}],conte:{t:'La chanson du corps',img:'images/latin5.jpg',x:'Sous le manguier, la chorale chante : « Tête, épaules, genoux ! » Les petits touchent en riant. Le français entre par le corps, pas seulement par la tête.'}},
+    ],
+    m3:[
+      {t:'Débattre : argumenter sans insulter',d:'Je pense que… parce que… par exemple… — la méthode en 3 temps.',dur:'4:00',pas:[{t:'Objectif',x:'Argumenter en trois temps, sans insulter.'},{t:'Découverte',x:'Lis : « Je pense que le téléphone aide les élèves. Parce qu\'on peut écouter des leçons. »'},{t:'Règle',x:'1) Je pense que… (opinion) 2) parce que… (raison) 3) par exemple… (preuve).'},{t:'Répétition',x:'Répète les trois temps avec le sujet « l\'école ».'},{t:'À toi',x:'Argumente : « Je pense que le sport est utile, parce que…, par exemple… »'},{t:'Résumé',x:'Opinion + raison + exemple = argument fort et poli.'}],exemples:['Je pense que le téléphone aide les élèves.','Parce qu\'on peut écouter des leçons.','Par exemple, moi j\'écoute le français chaque soir.'],exos:[{q:'Pour commencer un argument, on dit ___',a:'je pense que',resolu:true},{q:'Après « parce que », on donne ___',a:'une raison (une preuve)'}],conte:{t:'Le débat du manguier',img:'images/conte-l2.jpg',x:'Deux adolescents se disputent : « Le football, c\'est mieux ! — Non, l\'école ! » Grand-père impose la règle : « Je pense que… parce que… par exemple… » Depuis ce jour, le manguier est devenu un petit parlement.'}},
+      {t:'Exposé : parler devant la classe',d:'Salutation, deux idées, conclusion — on regarde le public.',dur:'4:00',pas:[{t:'Objectif',x:'Parler 2 minutes devant la classe, sans peur.'},{t:'Découverte',x:'Lis : « Bonjour, je vais vous parler du marché. Premièrement… En conclusion… »'},{t:'Règle',x:'1) saluer + annoncer le sujet 2) deux idées 3) conclusion. Regarde trois visages amis.'},{t:'Répétition',x:'Répète à voix haute la salutation et l\'annonce du sujet.'},{t:'À toi',x:'Prépare un exposé de 2 minutes sur ton quartier.'},{t:'Résumé',x:'Saluer, deux idées, conclusion, regarder le public.'}],exemples:['Bonjour, je vais vous parler du marché.','Premièrement, le marché nourrit la ville.','En conclusion, aimons notre marché.'],exos:[{q:'Un exposé commence par ___',a:'saluer et présenter le sujet',resolu:true},{q:'Pendant l\'exposé, on regarde ___',a:'le public'}],conte:{t:'La fille qui ne tremble plus',img:'images/exetat2.jpg',x:'Amina tremblait devant la classe. Le maître donne l\'astuce : regarder trois visages amis — un à gauche, un au milieu, un à droite. Son exposé sur le marché de Kindu a reçu des applaudissements.'}},
+      {t:'Français scolaire : les 5 fautes à éviter',d:'Accord sujet-verbe, a/à, et/est, pluriels, participes passés.',dur:'5:00',pas:[{t:'Objectif',x:'Éliminer les cinq fautes les plus courantes.'},{t:'Découverte',x:'Lis : « Ils mangent. Il va à l\'école. Ils sont fatigués et contents. »'},{t:'Règle',x:'1) ils → terminaison -ent 2) à (accent) = lieu 3) et = plus, est = verbe être 4) pluriel avec s 5) participe passé accordé.'},{t:'Répétition',x:'Réécris à voix haute : « ils mangent », « il va à l\'école ».'},{t:'À toi',x:'Corrige : « ils mange / il va a l\'école / ils sont fatigué ».'},{t:'Résumé',x:'Avant de rendre une copie, vérifie les cinq points.'}],exemples:['Ils mangent (pas « ils mange »).','Il va à l\'école (avec accent).','Ils sont fatigués et contents.'],exos:[{q:'« Ils ___ (manger) » prend la terminaison ___',a:'mangent, -ent',resolu:true},{q:'« Il va a/à l\'école » s\'écrit avec ___',a:'à (accent)'}]},
+    ],
+    m6:[
+      {t:'Salve ! — Saluer en latin',d:'salve (une personne), salvete (plusieurs), vale (au revoir). À Rome comme à Kindu, saluer ouvre la conversation.',dur:'4:00',pas:[{t:'Objectif',x:'Saluer en latin de trois façons.'},{t:'Découverte',x:'salve (une personne), salvete (plusieurs), vale (au revoir).'},{t:'Règle',x:'salve = à un ami ; salvete = au groupe ; vale = quand on se quitte.'},{t:'Répétition',x:'Répète : salve… salvete… vale…'},{t:'À toi',x:'Salue ta famille entière : « salvete ! »'},{t:'Résumé',x:'Saluer = salve / salvete ; quitter = vale.'}],exemples:['Salve, amice ! — Bonjour, mon ami !','Salvete, pueri ! — Bonjour, les enfants !','Vale, Roma ! — Au revoir, Rome !'],exos:[{q:'Pour saluer une seule personne, on dit ___',a:'salve',resolu:true},{q:'Pour saluer plusieurs enfants : ___',a:'salvete'}],conte:{t:'Le salut du légionnaire',img:'images/latin1.jpg',x:'Sur la voie Appienne, un légionnaire croise un marchand : « Salve ! » répond le marchand. Et voilà qu\'un inconnu devient un ami. À Kindu aussi, un « bonjour » donné au marché ouvre les cœurs.'}},
+      {t:'Le latin caché dans le français',d:'70% du français vient du latin : tempus → temps, corpus → corps, aqua → eau. Savoir d\'où vient le mot, c\'est ne plus jamais le rater.',dur:'5:00',pas:[{t:'Objectif',x:'Reconnaître le latin dans les mots français.'},{t:'Découverte',x:'tempus → temps ; corpus → corps ; aqua → eau.'},{t:'Règle',x:'Chaque mot français a un grand-père latin : le connaître évite les fautes.'},{t:'Répétition',x:'Répète les paires : tempus-temps, corpus-corps, aqua-eau.'},{t:'À toi',x:'Cherche l\'origine latine de « nocturne ».'},{t:'Résumé',x:'70 % du français vient du latin.'}],exemples:['tempus → temps : « Le temps passe vite. »','corpus → corps : « Un corps sain dans un esprit sain. »','aqua → eau : « L\'eau de la rivière. »'],exos:[{q:'« Aqua » a donné en français ___',a:'eau',resolu:true},{q:'« Noctis » (la nuit) se retrouve dans le mot français ___',a:'nocturne'}],conte:{t:'Le détective des mots',img:'images/latin2.jpg',x:'Amina joue au détective : chaque mot français a un grand-père latin. « Tête » vient de testa, « chapitre » de caput. Depuis ce jour, elle ne récite plus : elle reconnaît sa famille de mots.'}},
+      {t:'Rosa, rosae — chanter les cas',d:'Chante : rosa, rosae, rosae, rosam, rosa. Les terminaisons montrent le rôle du mot : sujet, complément, possession.',dur:'5:30',pas:[{t:'Objectif',x:'Chanter la première déclinaison.'},{t:'Découverte',x:'rosa, rosae, rosae, rosam, rosa.'},{t:'Règle',x:'La terminaison montre le rôle : sujet, complément, possession.'},{t:'Répétition',x:'Chante les cinq formes en frappant la mesure.'},{t:'À toi',x:'Dis « je vois la rose » en latin : video rosam.'},{t:'Résumé',x:'Terminaison = rôle du mot.'}],exemples:['Rosa pulchra est. — La rose est belle. (sujet)','Video rosam. — Je vois la rose. (complément)','Petalum rosae. — Le pétale de la rose. (possession)'],exos:[{q:'Le nominatif est le cas du ___',a:'sujet',resolu:true},{q:'« Je vois la rose » se dit avec la terminaison ___',a:'rosam'}],conte:{t:'La rose et le bananier',img:'images/latin3.jpg',x:'À Rome, on offre une rose ; à Kindu, une banane. Le mot change de terminaison selon qu\'on donne ou qu\'on reçoit : c\'est toute la magie des cas latins, expliquée avec le geste de l\'hospitalité.'}},
+      {t:'Dominus, domini — 2e déclinaison',d:'Les terminaisons en -us/-i : dominus (le maître), amicus (l\'ami), liber (le livre). Chante : dominus, domini, domino, dominum, domine, domino.',dur:'5:00',pas:[{t:'Objectif',x:'Chanter la deuxième déclinaison.'},{t:'Découverte',x:'dominus, domini, domino, dominum, domine, domino.'},{t:'Règle',x:'Les mots en -us sont souvent masculins ; la terminaison montre le rôle.'},{t:'Répétition',x:'Chante les six formes.'},{t:'À toi',x:'« Je vois le maître » = video ___ (dominum).'},{t:'Résumé',x:'2e déclinaison = -us / -i.'}],exemples:['Dominus bonus est. — Le maître est bon. (sujet)','Video dominum. — Je vois le maître. (complément)','Villa domini. — La maison du maître. (possession)'],exos:[{q:'La 2e déclinaison a souvent la terminaison ___',a:'-us',resolu:true},{q:'« Ami » en complément : video ___',a:'amicum'}],conte:{t:'Le maître qui partage',img:'images/latin4.jpg',x:'À Rome, un dominus reçoit des hôtes et partage son pain. À Kindu, on dit : « Ce que tu as, donne-le. » Le mot « maître » en latin n\'est pas celui qui prend : c\'est celui qui accueille.'}},
+      {t:'Amo, amas, amat — conjuguer en chantant',d:'Première conjugaison : amo (j\'aime), amas (tu aimes), amat (il/elle aime). On chante en frappant les mains, comme une chanson de Kindu.',dur:'5:00',pas:[{t:'Objectif',x:'Conjuguer au présent en chantant.'},{t:'Découverte',x:'amo, amas, amat, amamus, amatis, amant.'},{t:'Règle',x:'La terminaison dit qui : -o (je), -s (tu), -t (il/elle), -mus (nous).'},{t:'Répétition',x:'Chante en frappant les mains.'},{t:'À toi',x:'Dis « nous aimons » : amamus.'},{t:'Résumé',x:'Conjuguer, c\'est chanter les terminaisons.'}],exemples:['Amo Kindu. — J\'aime Kindu.','Amas familiam. — Tu aimes ta famille.','Mater amat liberos. — La mère aime ses enfants.'],exos:[{q:'amat = il/elle ___',a:'aime',resolu:true},{q:'« Nous aimons » se dit ___',a:'amamus'}],conte:{t:'Le verbe du cœur',img:'images/latin5.jpg',x:'Sous le manguier, la chorale des enfants chante : amo, amas, amat ! En frappant des mains, la conjugaison devient une fête. Depuis ce jour, les enfants de Kindu conjuguent le latin comme on chante une rumba.'}},
+      {t:'César écrit : premier vrai texte',d:'« Gallia est omnis divisa in partes tres. » — La Gaule entière est divisée en trois parties. On lit mot à mot, comme on gravit une colline : pas à pas.',dur:'6:00',pas:[{t:'Objectif',x:'Lire un premier vrai texte, mot à mot.'},{t:'Découverte',x:'Gallia est omnis divisa in partes tres.'},{t:'Règle',x:'1) trouver le verbe 2) trouver le sujet 3) traduire mot à mot.'},{t:'Répétition',x:'Relis la phrase trois fois.'},{t:'À toi',x:'Traduis « vicit » : il a vaincu.'},{t:'Résumé',x:'Un grand texte se mange par morceaux.'}],exemples:['Gallia est omnis divisa in partes tres. — La Gaule est divisée en trois parties.','Caesar venit, vidit, vicit. — César vint, vit, vainquit.','Veni, vidi, vici : trois verbes, une victoire.'],exos:[{q:'« divisa » veut dire ___',a:'divisée',resolu:true},{q:'« vicit » vient de vincere et signifie ___',a:'il a vaincu'}],conte:{t:'Les trois parties',img:'images/latin6.jpg',x:'César compte trois parties de la Gaule ; à Kindu, l\'enseignant montre que tout grand texte se mange par morceaux. Qui comprend la première phrase a déjà gravi la moitié de la colline.'}},
+      {t:'Conjugaison complète : présent, imparfait, futur',d:'amo (j\'aime), amabam (j\'aimais), amabo (j\'aimerai) — on chante les trois temps.',dur:'6:00',pas:[{t:'Objectif',x:'Distinguer présent, imparfait, futur.'},{t:'Découverte',x:'amo / amabam / amabo.'},{t:'Règle',x:'-ba- = autrefois (imparfait) ; -bi- = demain (futur).'},{t:'Répétition',x:'Chante les trois temps.'},{t:'À toi',x:'Dis « nous aimerons » : amabimus.'},{t:'Résumé',x:'-ba- autrefois, -bi- demain.'}],exemples:['Amo : j\'aime maintenant.','Amabam : j\'aimais autrefois.','Amabo : j\'aimerai demain.'],exos:[{q:'amabam = j\'___ autrefois',a:'aimais (imparfait)',resolu:true},{q:'« Nous aimerons » se dit ___',a:'amabimus'}]},
+      {t:'Le subjonctif du souhait : vivat Roma !',d:'Vivat (qu\'il vive !), amemus (aimons !), ut + subjonctif pour le but.',dur:'6:00',pas:[{t:'Objectif',x:'Exprimer le souhait au subjonctif.'},{t:'Découverte',x:'Vivat Roma ! Amemus patriam !'},{t:'Règle',x:'Le subjonctif = mode du souhait et du but (ut + subjonctif).'},{t:'Répétition',x:'Répète : vivat… amemus…'},{t:'À toi',x:'Fais un souhait latin pour Kindu : « vivat… ! »'},{t:'Résumé',x:'Le subjonctif est le mode du cœur.'}],exemples:['Vivat Roma ! — Que Rome vive !','Amemus patriam ! — Aimons la patrie !','Veni ut videam. — Je viens pour voir.'],exos:[{q:'« vivat » exprime un ___',a:'souhait',resolu:true},{q:'« ut » + subjonctif exprime souvent le ___',a:'but'}],conte:{t:'La chorale des souhaits',img:'images/latin5.jpg',x:'À la veillée, les enfants chantent : « Vivat Kindu ! Vivat pax ! » Le subjonctif, c\'est le mode du cœur : il souhaite, il espère, il appelle.'}},
+      {t:'Latin du droit et de la médecine',d:'habeas corpus, veto, placebo, curriculum vitae — le latin travaille au tribunal et à l\'hôpital.',dur:'6:00',pas:[{t:'Objectif',x:'Reconnaître le latin qui travaille (tribunal, hôpital).'},{t:'Découverte',x:'habeas corpus, veto, curriculum vitae, placebo.'},{t:'Règle',x:'Ces expressions s\'emploient telles quelles en français.'},{t:'Répétition',x:'Répète : veto… placebo… curriculum vitae…'},{t:'À toi',x:'Place « veto » dans une phrase française.'},{t:'Résumé',x:'Le latin travaille au tribunal et à l\'hôpital.'}],exemples:['Habeas corpus : « que tu aies ton corps » — le droit d\'être jugé justement.','Veto : « je m\'oppose » — le mot du refus officiel.','Curriculum vitae : « le parcours de la vie ».'],exos:[{q:'« veto » signifie ___',a:'je m\'oppose',resolu:true},{q:'« curriculum vitae » se traduit par ___',a:'le parcours de la vie'}],conte:{t:'Le médecin des mots',img:'images/latin2.jpg',x:'À l\'hôpital de Kindu, un interne lit « placebo » sur une boîte et sourit : « Encore du latin ! » Le médecin hoche la tête : celui qui connaît le latin tient la main de la science.'}},
+      {t:'Ego, tu, nos, vos — les pronoms',d:'Moi, toi, nous, vous — se désigner en latin.',dur:'5:00',exemples:['Ego sum Daniel. — Moi, je suis Daniel.','Tu es Amina. — Toi, tu es Amina.','Nos sumus amici. — Nous sommes amis.'],exos:[{q:'ego = ___',a:'je (moi)',resolu:true},{q:'« vous » en latin : ___',a:'vos'}],pas:[{t:'Objectif',x:'Utiliser ego, tu, nos, vos.'},{t:'Découverte',x:'Lis : « Ego sum Daniel. Nos sumus amici. »'},{t:'Règle',x:'ego = je ; tu = tu ; ille/illa = il/elle ; nos = nous ; vos = vous.'},{t:'Répétition',x:'Répète : ego… tu… nos… vos…'},{t:'À toi',x:'Dis « nous sommes amis » en latin.'},{t:'Résumé',x:'Les pronoms montrent qui parle et qui écoute.'}]},
+      {t:'L\'adjectif s\'accorde : bonus, bona, bonum',d:'L\'adjectif suit le mot : même genre, même nombre.',dur:'5:00',exemples:['Puer bonus. — Le bon garçon.','Puellа bona. — La bonne fille.','Donum bonum. — Le bon cadeau.'],exos:[{q:'Avec « rosa » (féminin), « bon » devient ___',a:'bona',resolu:true},{q:'Avec « donum » (neutre) : ___',a:'bonum'}],pas:[{t:'Objectif',x:'Accorder l\'adjectif avec le mot.'},{t:'Découverte',x:'Lis : « puer bonus, puella bona, donum bonum. »'},{t:'Règle',x:'L\'adjectif prend le genre du mot : -us (masc.), -a (fém.), -um (neutre).'},{t:'Répétition',x:'Répète les trois accords.'},{t:'À toi',x:'Accorde « pulcher » avec rosa et avec puer.'},{t:'Résumé',x:'L\'adjectif habille le mot : même genre, même nombre.'}]},
+      {t:'Le verbe être : sum, es, est',d:'Le verbe roi : je suis, tu es, il est.',dur:'5:00',exemples:['Sum : je suis.','Es : tu es.','Sunt : ils sont.'],exos:[{q:'« nous sommes » = ___',a:'sumus',resolu:true},{q:'« ils sont » = ___',a:'sunt'}],pas:[{t:'Objectif',x:'Conjuguer sum au présent.'},{t:'Découverte',x:'Lis : « sum, es, est, sumus, estis, sunt. »'},{t:'Règle',x:'sum = je suis ; le verbe être relie le sujet et le nom.'},{t:'Répétition',x:'Chante les six formes.'},{t:'À toi',x:'Dis « tu es mon ami » : tu es amicus meus.'},{t:'Résumé',x:'sum, es, est : le verbe roi du latin.'}]},
+      {t:'3e déclinaison : rex, regis',d:'Le roi, du roi, au roi — les consonantiques.',dur:'6:00',exemples:['Rex regit. — Le roi gouverne.','Video regem. — Je vois le roi.','Lex regis. — La loi du roi.'],exos:[{q:'« je vois le roi » = video ___',a:'regem',resolu:true},{q:'« de la loi » = legis, car lex est de la ___ déclinaison',a:'3e'}],pas:[{t:'Objectif',x:'Décliner rex, regis.'},{t:'Découverte',x:'Lis : « rex, regis, regi, regem, rege. »'},{t:'Règle',x:'La 3e déclinaison change de terminaison : -is (de), -i (à), -em (complément).'},{t:'Répétition',x:'Chante les cinq formes.'},{t:'À toi',x:'Traduis « la loi du roi » : lex regis.'},{t:'Résumé',x:'3e déclinaison = radical + terminaisons -is/-i/-em.'}]},
+      {t:'La voix passive : amatur',d:'La rose est aimée — subir l\'action.',dur:'6:00',exemples:['Rosa amatur. — La rose est aimée.','Pueri amantur. — Les garçons sont aimés.'],exos:[{q:'-tur = il/elle est ___',a:'(action subie) aimé(e)',resolu:true},{q:'« les enfants sont aimés » = pueri ___',a:'amantur'}],pas:[{t:'Objectif',x:'Reconnaître et former le passif.'},{t:'Découverte',x:'Lis : « rosa amatur, pueri amantur. »'},{t:'Règle',x:'-tur = il/elle subit ; -ntur = ils/elles subissent.'},{t:'Répétition',x:'Répète : amatur… amantur…'},{t:'À toi',x:'Mets « le maître loue » au passif : « le maître est loué ».'},{t:'Résumé',x:'Passif = l\'action subie : -tur / -ntur.'}]},
+      {t:'Le parfait : amavi, vici',d:'Le passé des vainqueurs : j\'ai aimé, j\'ai vaincu.',dur:'6:00',exemples:['Amavi : j\'ai aimé.','Veni, vidi, vici. — Je suis venu, j\'ai vu, j\'ai vaincu.'],exos:[{q:'vici = j\'ai ___',a:'vaincu',resolu:true},{q:'« j\'ai aimé » = ___',a:'amavi'}],pas:[{t:'Objectif',x:'Exprimer le passé accompli (parfait).'},{t:'Découverte',x:'Lis : « veni, vidi, vici. »'},{t:'Règle',x:'-i au parfait = j\'ai fait : amavi, veni, vici.'},{t:'Répétition',x:'Répète la devise de César.'},{t:'À toi',x:'Dis « j\'ai vu le marché » : vidi.'},{t:'Résumé',x:'Le parfait = l\'action finie : -i.'}]},
+      {t:'L\'ablatif : le moyen et l\'agent',d:'Par l\'épée, par le maître — le cas de l\'outil.',dur:'6:00',exemples:['Gladio pugnat. — Il combat par l\'épée.','A magistro laudatur. — Il est loué par le maître.'],exos:[{q:'L\'ablatif seul exprime le ___',a:'moyen (l\'outil)',resolu:true},{q:'« par le maître » = a ___',a:'magistro'}],pas:[{t:'Objectif',x:'Utiliser l\'ablatif (moyen, agent).'},{t:'Découverte',x:'Lis : « gladio pugnat ; a magistro laudatur. »'},{t:'Règle',x:'Ablatif seul = le moyen ; a/ab + ablatif = l\'agent.'},{t:'Répétition',x:'Répète : gladio… a magistro…'},{t:'À toi',x:'Dis « il écrit avec le stylo » (stylo).'},{t:'Résumé',x:'Ablatif = avec quoi, par qui.'}]},
+      {t:'Lire Cicéron : premières maximes',d:'« O tempora, o mores ! » — lire un grand auteur.',dur:'6:00',exemples:['« O tempora, o mores ! » — Ô temps, ô mœurs !','« Dum spiro, spero. » — Tant que je respire, j\'espère.'],exos:[{q:'« o tempora » déplore ___',a:'le temps et les mœurs',resolu:true},{q:'« dum spiro, spero » enseigne ___',a:'l\'espérance'}],pas:[{t:'Objectif',x:'Lire et goûter deux maximes de l\'Antiquité.'},{t:'Découverte',x:'Lis les deux maximes à voix haute.'},{t:'Règle',x:'Une maxime = une vérité en une phrase ; on la traduit puis on la discute.'},{t:'Répétition',x:'Répète « dum spiro, spero ».'},{t:'À toi',x:'Explique « o tempora, o mores » avec un exemple de chez toi.'},{t:'Résumé',x:'Les maximes sont des graines de sagesse.'}]},
+      {t:'Latin de médecine : ordonnances',d:'bis in die, ante cibum — comprendre une ordonnance.',dur:'6:00',exemples:['« Bis in die » : deux fois par jour.','« Ante cibum » : avant le repas.'],exos:[{q:'« bis in die » = ___ fois par jour',a:'deux',resolu:true},{q:'« ante cibum » = avant ___',a:'le repas'}],pas:[{t:'Objectif',x:'Comprendre le latin d\'une ordonnance.'},{t:'Découverte',x:'Lis : « bis in die », « ante cibum ».'},{t:'Règle',x:'bis = deux fois ; ante = avant ; post = après ; cibum = repas.'},{t:'Répétition',x:'Répète les deux expressions.'},{t:'À toi',x:'Traduis « post cibum ».'},{t:'Résumé',x:'Le latin soigne encore : bis in die, ante cibum.'}]},
+      {t:'Latin du droit : contrats et maximes',d:'pacta sunt servanda — le latin des tribunaux.',dur:'6:00',exemples:['« Pacta sunt servanda » : les accords doivent être respectés.','« Nemo censetur ignorare legem » : nul n\'est censé ignorer la loi.'],exos:[{q:'pacta sunt servanda = les ___ doivent être respectés',a:'accords (contrats)',resolu:true},{q:'Nul n\'est censé ignorer ___',a:'la loi'}],pas:[{t:'Objectif',x:'Comprendre deux maximes juridiques.'},{t:'Découverte',x:'Lis les deux maximes.'},{t:'Règle',x:'Un contrat = une parole donnée ; la loi se présume connue.'},{t:'Répétition',x:'Répète « pacta sunt servanda ».'},{t:'À toi',x:'Donne un exemple d\'accord à respecter au marché.'},{t:'Résumé',x:'Le droit parle latin : parole donnée = parole due.'}]},
+      {t:'Grande révision : traduire un texte complet',d:'Méthode en 4 temps : lire, repérer, traduire, relire.',dur:'7:00',exemples:['« Caesar in Galliam venit. » — César vint en Gaule.','« Helvetii transire conantur. » — Les Helvètes tentent de traverser.'],exos:[{q:'Première étape de la traduction : ___',a:'lire tout le texte',resolu:true},{q:'Dernière étape : ___',a:'relire en français clair'}],pas:[{t:'Objectif',x:'Traduire un texte complet, méthode en 4 temps.'},{t:'Découverte',x:'Lis les deux phrases de César.'},{t:'Règle',x:'1) lire tout 2) repérer verbes et sujets 3) traduire mot à mot 4) relire en français clair.'},{t:'Répétition',x:'Applique les 4 temps à la première phrase.'},{t:'À toi',x:'Traduis « Helvetii transire conantur ».'},{t:'Résumé',x:'Lire, repérer, traduire, relire : la méthode du latiniste.'}]},
+    ],
+    m7:[{t:'Le questionnement socratique',d:'Pourquoi poser des questions ? Astuce : la maïeutique comme l\'accoucheuse',dur:'4:12',pas:[{t:'Objectif',x:'Comprendre que la question fait naître la pensée.'},{t:'Découverte',x:'Socrate questionnait comme une sage-femme : il aidait les idées à naître.'},{t:'Règle',x:'1) demander « qu\'est-ce que… ? » 2) examiner les exemples 3) chercher la définition.'},{t:'Répétition',x:'Reformule : la maïeutique = accoucher les esprits.'},{t:'À toi',x:'Demande à un ami : « qu\'est-ce que le courage ? » et écoute sans couper.'},{t:'Résumé',x:'Questionner, c\'est enseigner à penser.'}],exos:[{q:'La maïeutique de Socrate = l\'art de faire ___ les idées de l\'autre.',a:'accoucher (naître)',resolu:true},{q:'La question « Qu\'est-ce que la justice ? » cherche une ___',a:'définition'}]},{t:'Sagesse africaine vs grecque',d:'Ubuntu, proverbes tetela et Platon — même combat',dur:'5:00',pas:[{t:'Objectif',x:'Comparer la sagesse africaine et la sagesse grecque.'},{t:'Découverte',x:'« Je suis parce que nous sommes. » — Ubuntu.'},{t:'Règle',x:'Les proverbes africains et la philosophie grecque visent le même but : bien vivre ensemble.'},{t:'Répétition',x:'Répète : « je suis parce que nous sommes. »'},{t:'À toi',x:'Cite un proverbe de chez toi et explique-le en français.'},{t:'Résumé',x:'L\'arbre à palabres et l\'agora sont frères.'}],exos:[{q:'Ubuntu se résume par : « Je suis parce que ___ »',a:'nous sommes (les autres sont)',resolu:true},{q:'À Athènes on discutait à l\'agora ; à Kindu, sous ___',a:'l\'arbre à palabres'}],conte:{t:'L\'arbre à palabres et l\'agora',img:'images/latin6.jpg',x:'À Athènes, on questionnait sur l\'agora ; à Kindu, sous l\'arbre à palabres. Même combat : la question fait grandir la pensée. Qui interroge poliment devient philosophe sans le savoir.'}},{t:'Dissertation philo : le plan',d:'Thèse, Antithèse, Synthèse — astuce du pont',dur:'6:30',pas:[{t:'Objectif',x:'Construire un plan thèse-antithèse-synthèse.'},{t:'Découverte',x:'Sujet : « L\'homme est-il libre ? » Oui… mais… dépassons…'},{t:'Règle',x:'Astuce du pont : une phrase de transition entre chaque partie.'},{t:'Répétition',x:'Écris un pont entre « oui » et « mais ».'},{t:'À toi',x:'Fais le plan complet : « La liberté est-elle un don ou une conquête ? »'},{t:'Résumé',x:'Plan philo = trois temps + deux ponts.'}],exos:[{q:'L\'astuce du « pont » relie la thèse à ___',a:'l\'antithèse',resolu:true},{q:'Une conclusion ne doit pas apporter une idée ___',a:'totalement nouvelle'}]}],
+    m8:[{t:'Césaire : Cahier d\'un retour',d:'Négritude expliquée avec ta vie à Kindu',dur:'5:40',pas:[{t:'Objectif',x:'Comprendre le mot « Négritude ».'},{t:'Découverte',x:'Césaire : « au bout du petit jour », c\'est la fierté de revenir à soi.'},{t:'Règle',x:'Négritude = refus du mépris + affirmation fière de la culture noire.'},{t:'Répétition',x:'Répète : refuser le mépris, affirmer la fierté.'},{t:'À toi',x:'Dis en une phrase ce que la Négritude signifie pour toi.'},{t:'Résumé',x:'La Négritude, c\'est rentrer chez soi sans honte.'}],exos:[{q:'La Négritude naît pour refuser ___',a:'le mépris de l\'homme noir et de sa culture',resolu:true},{q:'Les deux autres grands poètes de la Négritude, avec Césaire : ___',a:'Senghor et Damas'}],conte:{t:'Le retour au quartier',img:'images/conte-l2.jpg',x:'Sous le manguier, Amina lit Césaire : « Au bout du petit jour, je reviendrai à ma rivière. » Elle comprend : la Négritude, c\'est rentrer chez soi sans honte, et se reconnaître dans son propre visage.'}},{t:'Senghor et la poésie',d:'Rythme, image, musicalité — comment analyser',dur:'4:50',pas:[{t:'Objectif',x:'Analyser un poème : rythme + images.'},{t:'Découverte',x:'« Femme noire, fruit mûr… » — l\'image et le rythme.'},{t:'Règle',x:'1) écouter le rythme 2) repérer les images 3) relier à une émotion.'},{t:'Répétition',x:'Lis quatre vers à voix haute, en frappant la mesure.'},{t:'À toi',x:'Repère une image dans un poème de Senghor et explique-la.'},{t:'Résumé',x:'Poésie de Senghor = musique + images + patrie.'}],exos:[{q:'Dans un poème, le rythme vient du retour des ___',a:'sons (rimes, assonances)',resolu:true},{q:'Dans « Femme noire », la femme est comparée à une ___',a:'terre promise / fruit mûr'}],conte:{t:'Le tambour de la poésie',img:'images/latin5.jpg',x:'Le maître lit Senghor en tapant comme un tambour : la classe entend que la poésie est une musique. Amina ferme les yeux : c\'est la veillée du soir, c\'est la rumba, c\'est chez elle.'}},{t:'Auteurs congolais',d:'Mudimbe, Bolya — commentaire composé facile',dur:'6:10',pas:[{t:'Objectif',x:'Présenter un auteur et analyser un passage.'},{t:'Découverte',x:'Mudimbe, Bolya : le Congo écrit aussi le monde.'},{t:'Règle',x:'Commentaire = présenter texte + auteur, puis deux ou trois remarques, puis conclure.'},{t:'Répétition',x:'Répète le modèle : auteur, texte, deux remarques, conclusion.'},{t:'À toi',x:'Présente un auteur congolais en deux phrases.'},{t:'Résumé',x:'Lire un auteur congolais, c\'est se lire soi-même.'}],exos:[{q:'Un commentaire commence par présenter ___',a:'le texte et l\'auteur',resolu:true},{q:'Cite un auteur congolais vu en leçon : ___',a:'Mudimbe (ou Bolya)'}],conte:{t:'La bibliothèque du quartier',img:'images/tuto1.jpg',x:'Les enfants du quartier mettent leurs livres en commun : un Césaire, un Senghor, un Mudimbe. Une petite bibliothèque naît sous le manguier. Celui qui emprunte doit raconter l\'histoire au retour : c\'est ainsi que la littérature reste vivante.'}}],
+    m9:[{t:'Méthodologie : le sujet',d:'Comprendre la consigne — souligner les mots clés',dur:'3:30',pas:[{t:'Objectif',x:'Lire et souligner le sujet sans hors-sujet.'},{t:'Découverte',x:'Sujet : « L\'éducation technique garantit-elle le développement ? »'},{t:'Règle',x:'1) lire deux fois 2) souligner les mots clés 3) reformuler avec ses mots.'},{t:'Répétition',x:'Souligne : éducation, garantit, développement.'},{t:'À toi',x:'Reformule le sujet avec tes propres mots.'},{t:'Résumé',x:'Un sujet bien compris = la moitié de la dissertation.'}],exos:[{q:'Pas à pas : 1) lis le sujet 2) souligne les ___ 3) reformule avec tes mots.',a:'mots clés',resolu:true},{q:'Sujet : « La liberté est-elle un don ou une conquête ? » — les deux mots à souligner sont ___',a:'don et conquête'}],conte:{t:'Le sujet qui a piégé l\'école',img:'images/exetat1.jpg',x:'Le jour de l\'examen, le sujet tombe : « L\'éducation garantit-elle le développement ? » La moitié de la classe parle de l\'école en général. Espoir, lui, souligne : éducation, garantit, développement. Sa dissertation reste debout, et le jury le remarque.'}},{t:'Introduction parfaite',d:'Amorce + problématique + annonce — modèle copier-coller',dur:'4:20',pas:[{t:'Objectif',x:'Rédiger une introduction en trois temps.'},{t:'Découverte',x:'Amorce : une phrase générale. Problématique : une question. Annonce : le plan.'},{t:'Règle',x:'Toujours dans cet ordre : amorce → problématique → annonce.'},{t:'Répétition',x:'Récite les trois temps dans l\'ordre.'},{t:'À toi',x:'Écris l\'introduction du sujet : « La liberté est-elle un don ou une conquête ? »'},{t:'Résumé',x:'Amorce → problématique → annonce.'}],exos:[{q:'Une introduction = 3 temps : amorce, problématique, ___',a:'annonce du plan',resolu:true},{q:'Remets dans l\'ordre : annonce / amorce / problématique → ___',a:'amorce, problématique, annonce'}]},{t:'Développement : 2 parties qui s\'opposent',d:'Plan dialectique illustré Kindu',dur:'5:15',pas:[{t:'Objectif',x:'Construire deux parties opposées + dépassement.'},{t:'Découverte',x:'Oui… mais… dépassons…'},{t:'Règle',x:'Une idée = un paragraphe = un exemple. Jamais d\'idée sans exemple.'},{t:'Répétition',x:'Répète : une idée, un paragraphe, un exemple.'},{t:'À toi',x:'Écris l\'idée 1 de la partie 1 avec un exemple de Kindu.'},{t:'Résumé',x:'Développement dialectique = oui, mais, dépassons — avec exemples.'}],exos:[{q:'Plan dialectique = thèse, antithèse, ___',a:'synthèse',resolu:true},{q:'Partie 1 « oui », partie 2 « mais », partie 3 ___',a:'dépassement (synthèse)'}]},{t:'Conclusion qui claque',d:'Bilan + ouverture — astuce du tremplin',dur:'3:00',pas:[{t:'Objectif',x:'Conclure avec bilan + ouverture.'},{t:'Découverte',x:'« En somme… Cependant… »'},{t:'Règle',x:'Bilan en deux lignes ; ouverture = une porte qui s\'ouvre (question ou élargissement).'}, {t:'À toi',x:'Écris une phrase d\'ouverture pour le sujet sur la liberté.'},{t:'Résumé',x:'Conclusion qui claque = bilan + tremplin.'}],exos:[{q:'Conclusion = bilan + ___',a:'ouverture',resolu:true},{q:'L\'astuce du « tremplin » sert pour la ___',a:'conclusion (ouverture)'}],conte:{t:'L\'ouverture qui ouvre la porte',img:'images/exetat2.jpg',x:'Amina termine sa copie ainsi : « Si Kindu parle français avec son accent, alors la RDC parlera au monde sans complexe. » Le jury lève la tête. Une ouverture n\'est pas un décor : c\'est une porte qu\'on ouvre derrière soi.'}}],
+    m10:[{t:'Grille dissertation EXETAT',d:'Comment remplir sans rature — cases, marges, cotation',dur:'4:00',pas:[{t:'Objectif',x:'Remplir la copie sans rature.'},{t:'Découverte',x:'La copie a des cases, des marges, une zone de cotation.'},{t:'Règle',x:'Pas à pas : 1) identification 2) saute une ligne 3) marge gauche 4) erreur barrée d\'un seul trait.'},{t:'Répétition',x:'Mime les gestes : identification, ligne sautée, marge.'},{t:'À toi',x:'Prépare un modèle de copie propre chez toi.'},{t:'Résumé',x:'Copie propre = cotation facile.'}],exos:[{q:'Pas à pas : 1) écris ton ___ 2) saute une ligne 3) respecte la marge gauche.',a:'nom et numéro de participation',resolu:true},{q:'Si tu te trompes de case, tu dois ___ sans gommer',a:'barrer d\'un seul trait propre'}],conte:{t:'La copie sans ratures',img:'images/exetat1.jpg',x:'Jean avait peur des ratures. Le maître montre : une erreur se barre d\'un trait, elle ne se gratte pas. Le jour de l\'examen, sa copie est propre, la cotation facile, et les points sauvés.'}},{t:'Gestion du temps',d:'30 min préparation, 2h rédaction — chronométrage',dur:'3:20',pas:[{t:'Objectif',x:'Gérer 2 h 30 sans panique.'},{t:'Découverte',x:'30 min préparation + 2 h rédaction + relecture finale.'},{t:'Règle',x:'Regarde l\'heure à chaque temps ; garde 15 minutes pour relire.'},{t:'À toi',x:'Écris ton planning d\'examen sur une carte.'},{t:'Résumé',x:'Qui gère le temps gère l\'examen.'}],exos:[{q:'30 min de préparation = lire le sujet + faire le ___',a:'plan au brouillon',resolu:true},{q:'Sur 2h de rédaction, garde ___ minutes pour relire',a:'15'}]}],
+    m11:[{t:'QCM : piéger le piège',d:'Éliminer 2 fausses réponses en 10 sec',dur:'3:10',pas:[{t:'Objectif',x:'Répondre au QCM sans tomber dans le piège.'},{t:'Découverte',x:'Quatre options, dont deux absurdes.'},{t:'Règle',x:'1) lire toutes les options 2) éliminer les absurdes 3) comparer les deux restantes.'},{t:'À toi',x:'Applique la méthode à la question du jour.'},{t:'Résumé',x:'Éliminer = déjà répondre.'}],exos:[{q:'Pas à pas : 1) lis toutes les options 2) élimine les ___ 3) compare les deux restantes.',a:'réponses absurdes',resolu:true},{q:'Sur 4 options, si tu en élimines 2, tu choisis entre ___',a:'2'}]},{t:'Vrai/Faux : le mot absolu',d:'Toujours, jamais, seulement = souvent faux',dur:'2:50',pas:[{t:'Objectif',x:'Détecter les mots absolus.'},{t:'Découverte',x:'« Toujours », « jamais », « seulement ».'},{t:'Règle',x:'Mot absolu = probable faux ; cherche un contre-exemple.'},{t:'À toi',x:'Trouve un contre-exemple à : « Le soleil ne se couche jamais. »'},{t:'Résumé',x:'Chasse les mots absolus comme des moustiques.'}],exos:[{q:'« Toujours », « jamais », « seulement » sont des mots ___',a:'absolus',resolu:true},{q:'« Le soleil ne se couche jamais à l\'ouest. » Vrai ou faux ? ___',a:'faux'}],conte:{t:'Le mot qui ment',img:'images/tuto1.jpg',x:'Le maître écrit au tableau : « En français, on ne fait jamais d\'exceptions. » La classe éclate de rire : c\'est faux ! Les mots absolus sont des pièges. Depuis ce jour, Amina chasse les « toujours » et les « jamais » comme des moustiques.'}},{t:'Association : la paire',d:'Technique des couleurs',dur:'3:00',pas:[{t:'Objectif',x:'Associer les paires sans erreur.'},{t:'Découverte',x:'Deux colonnes à relier.'},{t:'Règle',x:'1) paires sûres d\'abord 2) une couleur par paire 3) vérification finale : chaque lettre une fois.'},{t:'À toi',x:'Fais l\'association du jour avec deux couleurs.'},{t:'Résumé',x:'Paires sûres d\'abord, vérification à la fin.'}],exos:[{q:'Pas à pas : 1) relie d\'abord les paires ___ 2) une couleur par paire 3) vérifie à la fin.',a:'sûres (évidentes)',resolu:true},{q:'À la fin, chaque lettre ne doit être utilisée qu\'___ fois',a:'une'}]}],
+    m12:[{t:'Accord du participe passé',d:'Astuce flèche : COD avant → accord !',dur:'4:40'},{t:'Figures de style en chanson',d:'Métaphore, anaphore — avec musique congolaise',dur:'5:10'}],
+  },
+  m13:[
+      {t:'Les dieux romains et les dieux du foyer',d:'Jupiter, Junon, Minerve ; les lares et pénates veillent sur la maison comme nos ancêtres.',dur:'4:00',exemples:['Jupiter commande le ciel, Junon le foyer, Minerve la sagesse.','Les lares et pénates protègent la maison.','Honorer n\'est pas adorer : c\'est la mémoire.'],exos:[{q:'Le roi des dieux romains : ___',a:'Jupiter',resolu:true},{q:'Les protecteurs de la maison : ___',a:'les lares et pénates'}],pas:[{t:'Objectif',x:'Relier dieux romains et mémoire des ancêtres.'},{t:'Découverte',x:'Lis les trois exemples.'},{t:'Règle',x:'Chaque peuple honore ses protecteurs : Rome a ses lares, nous avons nos ancêtres.'},{t:'Répétition',x:'Répète : Jupiter, Junon, Minerve, lares.'},{t:'À toi',x:'Cite un lieu de chez toi où l\'on honore la mémoire.'},{t:'Résumé',x:'Les dieux du foyer = la mémoire qui protège.'}]},
+      {t:'Le Forum, le Sénat, le cirque',d:'Les lieux publics romains : politique, justice, jeux — comparés à nos places de Kindu.',dur:'4:00',exemples:['Au Forum : commerce, nouvelles, justice.','Au Sénat : les débats des anciens.','Au cirque : les jeux du peuple.'],exos:[{q:'Le lieu des débats politiques : ___',a:'le Sénat (le Forum pour le peuple)',resolu:true},{q:'Notre équivalent du Forum : ___',a:'le marché central / la place'}],pas:[{t:'Objectif',x:'Comparer les lieux romains et ceux de Kindu.'},{t:'Découverte',x:'Lis : Forum, Sénat, cirque.'},{t:'Règle',x:'Une ville vit par ses lieux publics : Rome et Kindu se ressemblent.'},{t:'Répétition',x:'Associe : Forum ↔ marché ; Sénat ↔ arbre à palabres.'},{t:'À toi',x:'Décris en deux phrases le lieu public le plus vivant de chez toi.'},{t:'Résumé',x:'Rome = une Kindu de marbre.'}]},
+      {t:'Une journée romaine : mane, meridies, vesper',d:'Le matin, le midi, le soir : les repas et le travail d\'un Romain.',dur:'4:00',exemples:['Mane : le salut au patron (salutatio).','Meridies : le repos de midi.','Vesper : le dîner et la lampe.'],exos:[{q:'Le salut du matin s\'appelle ___',a:'la salutatio',resolu:true},{q:'« Vesper » désigne ___',a:'le soir'}],pas:[{t:'Objectif',x:'Vivre une journée romaine en trois temps.'},{t:'Découverte',x:'Lis : mane, meridies, vesper.'},{t:'Règle',x:'Les mots latins du temps vivent encore : matin (matutinus), midi (meridies), vêpres.'},{t:'Répétition',x:'Répète : mane, meridies, vesper.'},{t:'À toi',x:'Raconte ta journée avec ces trois mots.'},{t:'Résumé',x:'Le latin rythme encore nos journées.'}]}
+    ],
+    m14:[
+      {t:'Gérer 2 h 30 : le chrono du finaliste',d:'5 moments : 5 min lecture+verbes, 10 min découpage, 15 min analyse, 10 min rédaction propre, 5 min relecture.',dur:'4:00',exemples:['Je lis tout et je souligne les verbes (5 min).','Je découpe et je fais le squelette (10 min).','Je rédige proprement puis je relis (15 min).'],exos:[{q:'La relecture dure ___ minutes',a:'5 (au minimum)',resolu:true},{q:'Le squelette = ___',a:'sujet + verbe + COD par proposition'}],pas:[{t:'Objectif',x:'Tenir le chrono le jour J.'},{t:'Découverte',x:'Lis les 5 moments.'},{t:'Règle',x:'Le chrono décide, tu exécutes : une copie finie vaut mieux qu\'une copie parfaite.'},{t:'Répétition',x:'Récite les 5 moments et leurs durées.'},{t:'À toi',x:'Fais un sujet d\'entraînement avec un vrai chrono.'},{t:'Résumé',x:'2 h 30 = 5 moments, pas un de plus.'}]},
+      {t:'Défense orale : posture, voix, regard',d:'Debout, pieds au sol, voix posée, regard réparti : le jury note aussi la prestance.',dur:'4:00',exemples:['Je me tiens droit, pieds au sol.','Ma voix est lente : la hâte mange les mots.','Mon regard visite trois visages.'],exos:[{q:'La hâte ___ les mots',a:'mange',resolu:true},{q:'Mon regard visite ___ visages',a:'trois'}],pas:[{t:'Objectif',x:'Passer l\'oral avec prestance.'},{t:'Découverte',x:'Lis : posture, voix, regard.'},{t:'Règle',x:'Le fond convainc, la forme emporte.'},{t:'Répétition',x:'Défends une leçon 1 minute devant un miroir.'},{t:'À toi',x:'Filme-toi 1 minute et regarde ta posture.'},{t:'Résumé',x:'Debout, lent, regard : trois armes.'}]},
+      {t:'La semaine avant le jour J',d:'Sommeil, révisions courtes, sac prêt, papiers vérifiés : la victoire se prépare avant la salle.',dur:'4:00',exemples:['Je dors 8 heures : la mémoire se range la nuit.','Je révise par fiches courtes, pas par nuits blanches.','Mon sac est prêt la veille : papiers, deux stylos, montre.'],exos:[{q:'La veille, je prépare ___',a:'mon sac et mes papiers',resolu:true},{q:'La nuit avant l\'examen je ___',a:'dors (pas de nuit blanche)'}],pas:[{t:'Objectif',x:'Arriver frais et complet le jour J.'},{t:'Découverte',x:'Lis : sommeil, fiches, sac.'},{t:'Règle',x:'Un examen se gagne d\'abord la semaine d\'avant.'},{t:'Répétition',x:'Fais ta check-list de sac.'},{t:'À toi',x:'Prépare ton sac d\'examen aujourd\'hui, pour de vrai.'},{t:'Résumé',x:'Sommeil + fiches + sac = esprit libre.'}]}
+    ],
+    m15:[
+      {t:'La naissance légendaire de Rome (753 av. J.-C.)',d:'Romulus et Rémus, la louve, le Palatin : la légende fondatrice de Rome.',dur:'4:00',exemples:['La louve allaite les jumeaux Romulus et Rémus.','Romulus trace le sillon et fonde Rome en 753 av. J.-C.','Le nom de Rome viendrait de Romulus.'],exos:[{q:'Qui a allaité les jumeaux selon la légende ?',a:'Une louve',resolu:true},{q:'En quelle année traditionnelle Rome est-elle fondée ?',a:'753 av. J.-C.'}],pas:[{t:'Objectif',x:'Raconter la légende de la naissance de Rome.'},{t:'Découverte',x:'Lis les trois exemples : la louve, les jumeaux, 753.'},{t:'Règle',x:'Légende = récit fondateur (merveilleux) ; histoire = ce que confirment les fouilles (villages du Palatin).'},{t:'Répétition',x:'Répète : Romulus, Rémus, la louve, 753.'},{t:'À toi',x:'Raconte la légende à voix haute en 3 phrases.'},{t:'Résumé',x:'Rome naît dans la mémoire par une louve et deux jumeaux.'}]},
+      {t:'Les sept rois de Rome',d:'De Romulus à Tarquin le Superbe : monarchie, puis expulsion des rois en 509 av. J.-C.',dur:'4:00',exemples:['Sept rois se succèdent, dont des rois étrusques.','Tarquin le Superbe est chassé en 509 av. J.-C.','Rome devient alors une République.'],exos:[{q:'Le dernier roi de Rome est ___',a:'Tarquin le Superbe',resolu:true},{q:'Combien de rois la tradition compte-t-elle ?',a:'Sept'}],pas:[{t:'Objectif',x:'Retenir la fin de la monarchie (509 av. J.-C.).'},{t:'Découverte',x:'Lis : sept rois, puis expulsion de Tarquin.'},{t:'Règle',x:'509 av. J.-C. = fin des rois = début de la République.'},{t:'Répétition',x:'Répète : sept rois, Tarquin chassé, 509.'},{t:'À toi',x:'Cite deux rois de la légende (Romulus, Numa, Tarquin…).'},{t:'Résumé',x:'Rome a eu sept rois ; le dernier fut chassé.'}]},
+      {t:'La République : SPQR',d:'Senatus Populusque Romanus : consuls d\'un an, Sénat, tribuns de la plèbe.',dur:'4:00',exemples:['SPQR = « Le Sénat et le Peuple romain ».','Deux consuls élus pour un an dirigent.','Les tribuns protègent la plèbe.'],exos:[{q:'Que signifie SPQR ?',a:'Senatus Populusque Romanus (le Sénat et le Peuple romain)',resolu:true},{q:'Combien de temps dure le mandat d\'un consul ?',a:'Un an'}],pas:[{t:'Objectif',x:'Expliquer le fonctionnement simple de la République.'},{t:'Découverte',x:'Lis : SPQR, consuls d\'un an, tribuns.'},{t:'Règle',x:'La République = pouvoir partagé et limité dans le temps.'},{t:'Répétition',x:'Répète : SPQR, consuls, Sénat, tribuns.'},{t:'À toi',x:'Compare avec ton pays : qui est élu, pour combien de temps ?'},{t:'Résumé',x:'SPQR : le Sénat et le Peuple, un an à la fois.'}]},
+      {t:'Les guerres puniques : Rome contre Carthage',d:'Trois guerres ; Hannibal franchit les Alpes ; Scipion vainc à Zama (202) ; Carthage détruite (146).',dur:'5:00',exemples:['Hannibal traverse les Alpes avec des éléphants.','Scipion vainc à Zama en 202 av. J.-C.','Carthage est détruite en 146 av. J.-C.'],exos:[{q:'Le général carthaginois qui franchit les Alpes : ___',a:'Hannibal',resolu:true},{q:'La bataille décisive gagnée par Scipion : ___',a:'Zama (202 av. J.-C.)'}],pas:[{t:'Objectif',x:'Situer les guerres puniques et leurs héros.'},{t:'Découverte',x:'Lis : Hannibal, Zama, 146.'},{t:'Règle',x:'Trois guerres puniques ; la troisième efface Carthage, Rome domine la Méditerranée.'},{t:'Répétition',x:'Répète : Hannibal, Scipion, Zama, 146.'},{t:'À toi',x:'Pourquoi, à ton avis, « si vis pacem, para bellum » ?'},{t:'Résumé',x:'Rome et Carthage : trois guerres, une mer gagnée.'}]},
+      {t:'Jules César : la fin de la République',d:'La Gaule, le Rubicon (49), la dictature, les ides de mars (44 av. J.-C.).',dur:'5:00',exemples:['César conquiert la Gaule en 8 ans.','Il franchit le Rubicon en 49 : la guerre civile.','Assassiné aux ides de mars 44 av. J.-C.'],exos:[{q:'Le fleuve franchi par César en 49 : ___',a:'Le Rubicon',resolu:true},{q:'César est assassiné en ___ av. J.-C.',a:'44 (ides de mars)'}],pas:[{t:'Objectif',x:'Raconter l\'ascension et la mort de César.'},{t:'Découverte',x:'Lis : Gaule, Rubicon, ides de mars.'},{t:'Règle',x:'Franchir le Rubicon = passer du légal à l\'irréversible : « alea iacta est ».'},{t:'Répétition',x:'Répète : Gaule, Rubicon, dictature, 44.'},{t:'À toi',x:'Que signifie « alea iacta est » dans ta vie ?'},{t:'Résumé',x:'César agrandit Rome, puis tombe sous 23 coups.'}]},
+      {t:'Auguste et l\'Empire',d:'Octave devient Auguste (27 av. J.-C.) ; la Pax Romana ; « Rome de brique devenue marbre ».',dur:'4:00',exemples:['Octave reçoit le titre d\'Auguste en 27 av. J.-C.','Débute la Pax Romana : deux siècles de paix relative.','« J\'ai trouvé Rome de brique, je la laisse de marbre. »'],exos:[{q:'Le premier empereur romain : ___',a:'Auguste (Octave)',resolu:true},{q:'La longue période de paix inaugurée par Auguste : ___',a:'la Pax Romana'}],pas:[{t:'Objectif',x:'Comprendre le passage de la République à l\'Empire.'},{t:'Découverte',x:'Lis : 27 av. J.-C., Auguste, Pax Romana.'},{t:'Règle',x:'L\'Empire = un seul chef qui pacifie et bâtit.'},{t:'Répétition',x:'Répète : Auguste, 27, Pax Romana.'},{t:'À toi',x:'Cite une construction de ton pays qui dit sa grandeur.'},{t:'Résumé',x:'Auguste ferme les guerres civiles et ouvre la paix.'}]},
+      {t:'L\'âge d\'or : Trajan, Hadrien, Marc Aurèle',d:'Extension maximale, mur d\'Hadrien, l\'empereur philosophe.',dur:'4:00',exemples:['Trajan porte l\'Empire à son extension maximale.','Hadrien voyage et bâtit un mur en Bretagne.','Marc Aurèle écrit ses Pensées : un philosophe sur le trône.'],exos:[{q:'L\'empereur qui fait bâtir un mur en Bretagne : ___',a:'Hadrien',resolu:true},{q:'L\'empereur philosophe : ___',a:'Marc Aurèle'}],pas:[{t:'Objectif',x:'Retenir trois empereurs et leur marque.'},{t:'Découverte',x:'Lis : Trajan, Hadrien, Marc Aurèle.'},{t:'Règle',x:'Un empire se juge à ses bâtisseurs et à ses sages.'},{t:'Répétition',x:'Répète les trois noms et leur œuvre.'},{t:'À toi',x:'Lequel te ressemble ? Pourquoi ?'},{t:'Résumé',x:'L\'âge d\'or = conquête, murailles, sagesse.'}]},
+      {t:'Rome et l\'Afrique',d:'Carthage romaine, Septime Sévère (Leptis Magna), Augustin d\'Hippone.',dur:'4:00',exemples:['Carthage renaît romaine, grenier de Rome.','Septime Sévère, né à Leptis Magna, est un empereur africain.','Augustin d\'Hippone pense la foi en latin.'],exos:[{q:'L\'empereur né en Afrique (Leptis Magna) : ___',a:'Septime Sévère',resolu:true},{q:'Le grand penseur chrétien d\'Hippone : ___',a:'Augustin'}],pas:[{t:'Objectif',x:'Montrer que Rome et l\'Afrique se sont fécondées.'},{t:'Découverte',x:'Lis : Carthage romaine, Septime Sévère, Augustin.'},{t:'Règle',x:'L\'Empire est un mélange : l\'Afrique donne un empereur et un docteur.'},{t:'Répétition',x:'Répète : Leptis Magna, Septime Sévère, Hippone, Augustin.'},{t:'À toi',x:'Cite un lien entre ta région et l\'histoire romaine.'},{t:'Résumé',x:'Rome n\'est pas seulement en Italie : elle parle aussi africain.'}]},
+      {t:'Constantin et le christianisme',d:'Édit de Milan (313) ; le christianisme religion de l\'Empire (380).',dur:'4:00',exemples:['En 313, l\'édit de Milan autorise le christianisme.','Constantin fonde Constantinople.','En 380, le christianisme devient religion de l\'Empire.'],exos:[{q:'L\'édit de Milan date de ___',a:'313',resolu:true},{q:'L\'empereur qui rend le christianisme religion d\'État : ___',a:'Théodose (380)'}],pas:[{t:'Objectif',x:'Situer le tournant chrétien de l\'Empire.'},{t:'Découverte',x:'Lis : 313, Constantinople, 380.'},{t:'Règle',x:'Une foi persécutée devient foi impériale en un siècle.'},{t:'Répétition',x:'Répète : Milan 313, Théodose 380.'},{t:'À toi',x:'Pourquoi une idée peut-elle vaincre sans armée ?'},{t:'Résumé',x:'La croix succède à l\'aigle sans effacer Rome.'}]},
+      {t:'La chute de l\'Occident (476)',d:'Invasions ; Odoacre dépose Romulus Augustule ; l\'Orient continue (Byzance).',dur:'4:00',exemples:['Les peuples « barbares » pressent l\'Empire.','En 476, Odoacre dépose le dernier empereur d\'Occident.','L\'Orient romain continue mille ans : Byzance.'],exos:[{q:'Année traditionnelle de la chute de Rome en Occident : ___',a:'476',resolu:true},{q:'L\'Empire d\'Orient s\'appelle aussi ___',a:'Byzance'}],pas:[{t:'Objectif',x:'Comprendre que Rome meurt en Occident, pas en Orient.'},{t:'Découverte',x:'Lis : 476, Odoacre, Byzance.'},{t:'Règle',x:'Une chute n\'est jamais totale : la culture continue ailleurs.'},{t:'Répétition',x:'Répète : 476, Romulus Augustule, Byzance.'},{t:'À toi',x:'Que reste-t-il de Rome dans nos mots ? (ex : école, république)'},{t:'Résumé',x:'L\'Occident tombe ; la langue et le droit restent.'}]},
+      {t:'Rome des papes et de la Renaissance',d:'La papauté ; Saint-Pierre ; Michel-Ange et la Sixtine ; Rome capitale des arts.',dur:'4:00',exemples:['Les papes règnent sur Rome au Moyen Âge.','Saint-Pierre est rebâtie ; Michel-Ange peint la Sixtine.','Rome devient la capitale des arts du monde.'],exos:[{q:'Qui dirige Rome au Moyen Âge ?',a:'Les papes',resolu:true},{q:'Le peintre de la chapelle Sixtine : ___',a:'Michel-Ange'}],pas:[{t:'Objectif',x:'Voir Rome renaître en ville d\'art.'},{t:'Découverte',x:'Lis : papes, Saint-Pierre, Sixtine.'},{t:'Règle',x:'Après l\'empire des armes, l\'empire de la beauté.'},{t:'Répétition',x:'Répète : papes, Saint-Pierre, Michel-Ange.'},{t:'À toi',x:'Quelle œuvre de ta région mériterait un pinceau ?'},{t:'Résumé',x:'Rome ressuscite par la pierre et la peinture.'}]},
+      {t:'Rome aujourd\'hui',d:'Capitale de l\'Italie (1871) ; patrimoine UNESCO ; « tous les chemins mènent à Rome ».',dur:'4:00',exemples:['Rome devient capitale de l\'Italie en 1871.','Le centre de Rome est patrimoine mondial UNESCO.','« Tous les chemins mènent à Rome » : le proverbe vit encore.'],exos:[{q:'Rome capitale de l\'Italie depuis ___',a:'1871',resolu:true},{q:'Le proverbe qui dit que tout conduit à Rome : ___',a:'« Tous les chemins mènent à Rome »'}],pas:[{t:'Objectif',x:'Relier la Rome antique à la ville vivante d\'aujourd\'hui.'},{t:'Découverte',x:'Lis : 1871, UNESCO, le proverbe.'},{t:'Règle',x:'Une ville deux fois millénaire reste une capitale moderne.'},{t:'Répétition',x:'Répète : 1871, UNESCO, les chemins.'},{t:'À toi',x:'Si tu allais à Rome, que voudrais-tu voir en premier ?'},{t:'Résumé',x:'De Romulus à aujourd\'hui : Rome n\'a jamais fini de parler.'}]}
+    ],
+  m16:[
+      {t:'Le paquet de copies : connaître ses outils',d:'Trois documents : copie dissertation, feuille d\'items, brouillon. Chacun a un rôle unique.',dur:'4:00',exemples:['La copie dissertation sert à rédiger.','La feuille d\'items sert aux QCM, vrai/faux, associations.','Le brouillon sert à penser — il n\'est jamais noté.'],exos:[{q:'La feuille qui n\'est jamais notée : ___',a:'Le brouillon',resolu:true},{q:'Les réponses QCM se marquent sur ___',a:'la feuille d\'items'}],pas:[{t:'Objectif',x:'Identifier chaque document du paquet dès la réception.'},{t:'Découverte',x:'Lis les trois rôles : rédiger / marquer / penser.'},{t:'Règle',x:'Chaque document a UN rôle : ne jamais rédiger sur la feuille d\'items, ne jamais marquer sur la copie.'},{t:'Répétition',x:'Nomme à voix haute les trois documents et leur rôle.'},{t:'À toi',x:'Pose le paquet devant toi et vérifie : rien ne manque, rien n\'est déchiré.'},{t:'Résumé',x:'Copie = rédiger ; items = marquer ; brouillon = penser.'}]},
+      {t:'Identification : les 5 premières minutes',d:'Nom, numéro national, option : en MAJUSCULES, relus deux fois, avant de commencer.',dur:'4:00',exemples:['J\'écris mon nom en majuscules.','Je relis mon numéro national à voix basse.','Je vérifie mon option (littéraire/scientifique).'],exos:[{q:'L\'identification s\'écrit en lettres ___',a:'majuscules (bâtons)',resolu:true},{q:'On relit son numéro ___',a:'deux fois, avant de commencer'}],pas:[{t:'Objectif',x:'Remplir l\'identification sans aucune erreur.'},{t:'Découverte',x:'Lis : majuscules, relecture, option.'},{t:'Règle',x:'Une copie mal identifiée peut être perdue : c\'est la première note cachée.'},{t:'Répétition',x:'Écris ton nom en majuscules sur le brouillon, deux fois.'},{t:'À toi',x:'Remplis l\'identification d\'une vieille copie d\'entraînement.'},{t:'Résumé',x:'Cinq minutes d\'identification valent toute la copie.'}]},
+      {t:'La copie dissertation : cases, marges, cotation',d:'Ne jamais écrire dans les marges ni dans l\'encadré de cotation ; respecter la marge gauche.',dur:'4:00',exemples:['L\'encadré du haut = réservé au jury.','La marge gauche = 2 cm libres.','Ma rédaction commence sous le repère.'],exos:[{q:'La zone réservée au jury est ___',a:'l\'encadré de cotation (en haut)',resolu:true},{q:'La marge sert à ___',a:'faciliter la lecture et la cotation'}],pas:[{t:'Objectif',x:'Reconnaître les zones interdites de la copie.'},{t:'Découverte',x:'Lis : encadré jury, marge gauche, repère de départ.'},{t:'Règle',x:'Tout mot hors zone = risque d\'annulation ou de soupçon.'},{t:'Répétition',x:'Montre du doigt sur une copie : encadré, marge, zone de rédaction.'},{t:'À toi',x:'Trace au brouillon le schéma de ta copie idéale.'},{t:'Résumé',x:'Chaque zone a sa place ; ma plume reste dans la mienne.'}]},
+      {t:'La dissertation pas à pas sur la copie',d:'Brouillon : plan. Copie : introduction, développement, conclusion, en sautant une ligne entre les parties.',dur:'5:00',exemples:['Mon plan reste au brouillon.','Je saute une ligne entre intro et développement.','Je termine par une conclusion visible.'],exos:[{q:'Le plan se rédige sur ___',a:'le brouillon',resolu:true},{q:'Entre introduction et développement, on laisse ___',a:'une ligne (un espace)'}],pas:[{t:'Objectif',x:'Organiser la copie pour un jury qui lit vite.'},{t:'Découverte',x:'Lis : plan au brouillon, lignes sautées, conclusion visible.'},{t:'Règle',x:'Un jury qui VOIT la structure note mieux : aère !'},{t:'Répétition',x:'Récite l\'ordre : intro, ligne, développement, ligne, conclusion.'},{t:'À toi',x:'Sur une vieille copie, place au crayon les trois blocs d\'un sujet connu.'},{t:'Résumé',x:'Plan au brouillon ; structure aérée sur la copie.'}]},
+      {t:'Zéro rature : la règle du trait unique',d:'Une erreur se barre d\'UN trait propre ; jamais gratter, jamais correcteur, jamais tache.',dur:'4:00',exemples:['Je barre d\'un seul trait.','Je ne gratte jamais.','Je n\'utilise jamais de correcteur.'],exos:[{q:'Une erreur se barre d\'___',a:'un seul trait propre',resolu:true},{q:'Une copie grattée risque ___',a:'d\'être illisible ou annulée (signe distinctif)'}],pas:[{t:'Objectif',x:'Garder une copie propre même en se trompant.'},{t:'Découverte',x:'Lis les trois interdits : gratter, correcteur, tache.'},{t:'Règle',x:'Le trait unique dit au jury : je maîtrise, même mes erreurs.'},{t:'Répétition',x:'Entraîne-toi : barre proprement trois mots au brouillon.'},{t:'À toi',x:'Fais une faute exprès sur une copie d\'entraînement et barre-la parfaitement.'},{t:'Résumé',x:'Une erreur barrée proprement ne coûte rien.'}]},
+      {t:'Feuille d\'items : QCM — marquer la réponse',d:'Une seule réponse par question ; case marquée nettement ; double réponse = zéro.',dur:'4:00',exemples:['Je marque une seule case.','Ma croix ou ma bulle est nette.','Deux cases cochées = 0 point.'],exos:[{q:'Si deux cases sont marquées, la question vaut ___',a:'zéro',resolu:true},{q:'Pour changer de réponse proprement : ___',a:'barrer totalement l\'ancienne et marquer nettement la nouvelle (selon consigne)'}],pas:[{t:'Objectif',x:'Marquer sans ambiguïté pour la machine ou le correcteur.'},{t:'Découverte',x:'Lis : une case, netteté, double = zéro.'},{t:'Règle',x:'L\'ambiguïté se paie : une case = une volonté.'},{t:'Répétition',x:'Sur un modèle, marque 5 réponses nettes.'},{t:'À toi',x:'Simule un changement de réponse propre.'},{t:'Résumé',x:'Une question, une case, nette.'}]},
+      {t:'Vrai/Faux : méthode et pièges',d:'Lire la phrase ENTIÈRE ; traquer les mots absolus ; marquer V ou F dans la case prévue.',dur:'4:00',exemples:['Je lis toute la phrase avant de répondre.','Toujours / jamais / seulement = probable faux.','Une phrase à moitié vraie est FAUSSE.'],exos:[{q:'Les mots absolus signalent souvent ___',a:'une phrase fausse',resolu:true},{q:'Une phrase moitié vraie moitié fausse est ___',a:'fausse'}],pas:[{t:'Objectif',x:'Ne jamais offrir un point aux pièges.'},{t:'Découverte',x:'Lis : phrase entière, mots absolus, moitié vraie = fausse.'},{t:'Règle',x:'Le vrai/faux teste la vigilance autant que le savoir.'},{t:'Répétition',x:'Souligne les mots absolus dans 3 phrases d\'entraînement.'},{t:'À toi',x:'Fabrique une phrase-piège avec « toujours » et une sans piège.'},{t:'Résumé',x:'Lire tout, traquer l\'absolu, trancher.'}]},
+      {t:'Associations et complétions',d:'Associations : lettres face aux numéros, d\'abord les paires sûres. Complétions : relire la phrase complète avec le mot.',dur:'4:00',exemples:['Je relie d\'abord les paires sûres au brouillon.','Je reporte au propre sur la feuille.','Complétion : je relis la phrase entière avec mon mot.'],exos:[{q:'Les paires sûres se traitent ___',a:'en premier',resolu:true},{q:'Après une complétion, on relit ___',a:'la phrase entière avec le mot inséré'}],pas:[{t:'Objectif',x:'Remplir associations et complétions sans illisibilité.'},{t:'Découverte',x:'Lis : paires sûres d\'abord, report propre, relecture pleine.'},{t:'Règle',x:'L\'alignement lettres/numéros est sacré : un décalage = tout faux.'},{t:'Répétition',x:'Fais une association de 5 paires au brouillon, puis reporte.'},{t:'À toi',x:'Vérifie l\'alignement : chaque numéro a UNE lettre.'},{t:'Résumé',x:'Sûres d\'abord, alignement toujours, relecture entière.'}]},
+      {t:'Le chrono par type d\'item',d:'QCM ≈ 1 minute ; vrai/faux ≈ 45 secondes ; association ≈ 2 minutes ; jamais bloqué plus de 2 minutes.',dur:'4:00',exemples:['QCM : 1 minute chacun.','Vrai/faux : 45 secondes.','Trop difficile : je saute et je reviens.'],exos:[{q:'Un QCM trop difficile, je ___',a:'le saute et j\'y reviens',resolu:true},{q:'Le temps de relecture réservé : ___',a:'10 minutes'}],pas:[{t:'Objectif',x:'Finir la feuille : une feuille finie vaut mieux qu\'une feuille parfaite.'},{t:'Découverte',x:'Lis les trois vitesses et la règle du saut.'},{t:'Règle',x:'Le chrono est un ami : il décide, tu exécutes.'},{t:'Répétition',x:'Chronomètre-toi sur 5 QCM d\'entraînement.'},{t:'À toi',x:'Note ton temps réel et compare à la norme.'},{t:'Résumé',x:'Une minute par QCM ; sauter, revenir, finir.'}]},
+      {t:'La relecture finale : 10 minutes',d:'Check-list : numéros alignés, aucune double case, identification relue, aucun blanc involontaire.',dur:'4:00',exemples:['Je vérifie l\'alignement tous les 5 numéros.','Je chasse les doubles cases.','Je relis mon nom et mon numéro.'],exos:[{q:'La vérification d\'alignement se fait tous les ___ numéros',a:'5',resolu:true},{q:'Un blanc involontaire se répare ___',a:'pendant la relecture, si le temps le permet'}],pas:[{t:'Objectif',x:'Rattraper les points perdus sans rien savoir de plus.'},{t:'Découverte',x:'Lis la check-list en 4 points.'},{t:'Règle',x:'La relecture est une épreuve à part : elle se prépare.'},{t:'Répétition',x:'Récite la check-list dans l\'ordre.'},{t:'À toi',x:'Applique-la sur une feuille d\'entraînement déjà remplie.'},{t:'Résumé',x:'Alignement, cases uniques, identité, blancs : 10 minutes qui sauvent.'}]},
+      {t:'Les 7 erreurs fatales de remplissage',d:'Décalage, double case, illisibilité, rature grattée, marge écrite, numéro oublié, temps épuisé.',dur:'4:00',exemples:['Le décalage d\'une ligne tue 10 réponses.','Une double case = zéro.','Une marge remplie = soupçon.'],exos:[{q:'L\'erreur la plus meurtrière : ___',a:'le décalage des réponses',resolu:true},{q:'Le décalage se prévient en ___',a:'vérifiant l\'alignement tous les 5 numéros'}],pas:[{t:'Objectif',x:'Connaître les 7 erreurs pour ne jamais les commettre.'},{t:'Découverte',x:'Lis les 7 erreurs une à une.'},{t:'Règle',x:'Une erreur connue est une erreur évitée.'},{t:'Répétition',x:'Récite les 7 erreurs de mémoire.'},{t:'À toi',x:'Sur une vieille copie annotée, retrouve 3 de ces erreurs.'},{t:'Résumé',x:'Sept ennemis connus, zéro surprise.'}]},
+      {t:'Entraînement dirigé : feuille blanche chronométrée',d:'Mini-feuille de 10 items à remplir en 15 minutes, check-list complète, puis auto-correction.',dur:'8:00',exemples:['15 minutes chrono.','Identification, 10 items, relecture.','Auto-correction avec la check-list.'],exos:[{q:'Ordre des gestes : identification, ___, relecture',a:'remplissage des items',resolu:true},{q:'Après l\'entraînement, je note ___',a:'mes 3 erreurs à corriger pour la prochaine fois'}],pas:[{t:'Objectif',x:'Automatiser la chaîne complète en conditions réelles.'},{t:'Découverte',x:'Lis le protocole : 15 min, 10 items, check-list.'},{t:'Règle',x:'On progresse en répétant la chaîne entière, pas en sachant par morceaux.'},{t:'Répétition',x:'Fais l\'entraînement une première fois sans chrono.'},{t:'À toi',x:'Refais-le avec chrono, puis une fois par semaine.'},{t:'Résumé',x:'La chaîne complète, répétée, devient réflexe.'}]}
+    ],
+  users:[
+    {id:'u1',name:'Amina K.',phone:'+243812345678',parcours:'Module 1',xp:420,status:'Payé'},
+    {id:'u2',name:'Jean B.',phone:'+243974443677',parcours:'Latin Pro',xp:120,status:'En attente'},
+  ],
+  payments:[
+    {id:'p1',name:'Amina K.',amount:'5$',method:'M-Pesa',status:'Payé'},
+    {id:'p2',name:'Jean B.',amount:'15$',method:'Orange Money',status:'En attente'},
+    {id:'p3',name:'Sifa M.',amount:'8$',method:'Airtel',status:'Payé'},
+  ],
+  quizArbitre:null,quizReponses:[],
+  settings:{xpPerLesson:10, adminPass:'admin123'}
+};
+function loadDB(){ try{ const d=JSON.parse(localStorage.getItem(DB_KEY)||'null'); const base=structuredClone(defaultDB); if(d&&d.modules&&d.modules.length){ base.modules=d.modules; base.lessonsDetailed=Object.assign({},base.lessonsDetailed,d.lessonsDetailed||{}); base.users=d.users||base.users; base.payments=d.payments||base.payments; base.settings=Object.assign(base.settings,d.settings||{}); } return base; }catch(e){ return structuredClone(defaultDB); } }
+function saveDB(db){ localStorage.setItem(DB_KEY, JSON.stringify(db)); renderAll(); }
+let DB=loadDB();
+let adminLogged=false;
+// MIGRATION AUTO : insère les nouveaux modules + leçons créés
+(function migrate(){
+  let changed=false;
+  DB.lessonsDetailed = DB.lessonsDetailed || {};
+  // modules manquants
+  const existing = new Set(DB.modules.map(m=>m.id));
+  const missing = defaultDB.modules.filter(m=>!existing.has(m.id));
+  if(missing.length){ DB.modules = DB.modules.concat(missing); changed=true; }
+  // leçons du Module 1 (commencement) — même si module existait
+  ['m1','m2','m3','m4','m5','m6','m7','m8','m9','m10','m11','m12','m13','m14','m15','m16'].forEach(mid=>{
+    if(defaultDB.lessonsDetailed[mid] && (!DB.lessonsDetailed[mid] || DB.lessonsDetailed[mid].length===0)){
+      DB.lessonsDetailed[mid]=defaultDB.lessonsDetailed[mid];
+      changed=true;
+    }
+  });
+  if(changed){ localStorage.setItem(DB_KEY, JSON.stringify(DB)); setTimeout(()=> toast('✨ Modules & Leçons du commencement insérés ! Clique sur un module'), 900); }
+})();
+
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600) }
+
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const el=document.getElementById('view-'+name);
+  if(el) el.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(name==='client') renderClient();
+  if(name==='quiz') renderQuiz();
+  if(name==='arbitre') renderArbitreClient();
+  if(name==='admin') renderArbitreAdmin();
+  if(name==='landing') renderLanding();
+}
+function switchAdminTab(tab){
+  ['overview','contents','users','payments','settings','quiz'].forEach(t=>{
+    document.getElementById('am-'+t).style.display = t===tab?'block':'none';
+    const a=document.getElementById('am-tab-'+t);
+    if(a) a.classList.toggle('active', t===tab);
+  });
+}
+
+function renderLanding(){
+  const cont=document.getElementById('landing-parcours');
+  if(!cont) return;
+  cont.innerHTML = DB.modules.map(m=>`
+    <div class="parcours-item" style="border-color:${m.published?'#E2E8F0':'#FECACA'};opacity:${m.published?1:0.7}">
+      <div style="font-size:18px">${m.emoji}</div>
+      <b style="font-size:12px;color:var(--navy)">${m.title}</b>
+      <small style="display:block;color:var(--muted);font-size:11px;margin:4px 0">${m.desc}</small>
+      <small style="font-size:11px">${m.lessons} leçons • ${m.price==0?'Gratuit':m.price+'$'} ${m.published?'• <span style=color:var(--green)>Publié</span>':'• <span style=color:#DC2626>Brouillon</span>'}</small>
+    </div>
+  `).join('');
+  document.getElementById('kpi-modules').textContent=DB.modules.length;
+  document.getElementById('kpi-users').textContent=DB.users.length;
+  document.getElementById('overview-modules').innerHTML = DB.modules.slice(0,4).map(m=>`<div class="card" style="border-left:3px solid ${m.published?'var(--green)':'#F59E0B'}"><b style="font-size:12px">${m.emoji} ${m.title}</b><br><small style="color:var(--muted)">${m.lessons} leçons • ${m.price==0?'Gratuit':m.price+'$'}</small></div>`).join('');
+  document.getElementById('overview-users').innerHTML = DB.users.map(u=>`<tr><td><b>${u.name}</b><br><small style="color:var(--muted)">${u.phone}</small></td><td>${u.parcours}</td><td><span class="status ${u.status==='Payé'?'status-paid':'status-pending'}">${u.status}</span></td><td><a href="#" onclick="toast('Voir ${u.name}')" style="color:var(--blue);font-weight:700">Voir</a></td></tr>`).join('');
+}
+
+function renderAdminModules(){
+  const list=document.getElementById('admin-modules-list');
+  list.innerHTML = DB.modules.map(m=>`
+    <div class="card" style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+      <div style="display:flex;gap:10px;align-items:center">
+        <div style="width:40px;height:40px;border-radius:10px;background:var(--blue-light);display:grid;place-items:center;font-size:18px">${m.emoji}</div>
+        <div><b style="font-size:13px;color:var(--navy)">${m.title}</b><br><small style="color:var(--muted)">${m.desc} • ${m.lessons} leçons • ${m.price==0?'Gratuit':m.price+'$'} • ${m.published?'<span style=color:var(--green)>Publié</span>':'<span style=color:#DC2626>Brouillon</span>'}</small></div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-small" onclick="addLesson('${m.id}')">+ Leçon</button>
+        <button class="btn btn-ghost btn-small" onclick="togglePublish('${m.id}')">${m.published?'Masquer':'Publier'}</button>
+        <button class="btn btn-ghost btn-small" onclick="editModule('${m.id}')">Modifier</button>
+        <button class="btn btn-danger btn-small" onclick="deleteModule('${m.id}')">Supprimer</button>
+      </div>
+      <div style="font-size:10px;color:var(--muted);margin-top:6px">${(DB.lessonsDetailed && DB.lessonsDetailed[m.id] ? DB.lessonsDetailed[m.id].length : 0)} leçons • <a href="#" onclick="viewLessons('${m.id}')" style="color:var(--blue);font-weight:700">Voir</a></div>
+    </div>
+  `).join('');
+  document.getElementById('admin-users-list').innerHTML = DB.users.map(u=>`<tr><td><b>${u.name}</b></td><td>${u.phone}</td><td>${u.parcours}</td><td>${u.xp} XP</td><td><a href="#" onclick="deleteUser('${u.id}')" style="color:var(--red);font-weight:700">Supprimer</a></td></tr>`).join('');
+  document.getElementById('admin-payments-list').innerHTML = DB.payments.map(p=>`<tr><td>${p.name}</td><td>${p.amount}</td><td>${p.method}</td><td><span class="status ${p.status==='Payé'?'status-paid':'status-pending'}">${p.status}</span></td><td>${p.status==='En attente'?`<a href="#" onclick="validatePayment('${p.id}')" style="color:var(--green);font-weight:700">Valider</a>`:'✓'}</td></tr>`).join('');
+}
+
+function openModuleModal(id=null){
+  document.getElementById('moduleModal').classList.add('open');
+  if(id){ const m=DB.modules.find(x=>x.id===id); document.getElementById('modalTitle').textContent='Modifier le module'; document.getElementById('m-id').value=m.id; document.getElementById('m-title').value=m.title; document.getElementById('m-desc').value=m.desc; document.getElementById('m-emoji').value=m.emoji; document.getElementById('m-price').value=m.price; document.getElementById('m-published').value=String(m.published); }
+  else { document.getElementById('modalTitle').textContent='Nouveau module'; document.getElementById('m-id').value=''; document.getElementById('m-title').value=''; document.getElementById('m-desc').value=''; document.getElementById('m-emoji').value='📚'; document.getElementById('m-price').value=5; document.getElementById('m-published').value='true'; }
+}
+function closeModal(){ document.getElementById('moduleModal').classList.remove('open'); }
+function saveModule(){
+  const id=document.getElementById('m-id').value;
+  const data={ title:document.getElementById('m-title').value.trim(), desc:document.getElementById('m-desc').value.trim(), emoji:document.getElementById('m-emoji').value.trim()||'📚', price:parseInt(document.getElementById('m-price').value)||0, published:document.getElementById('m-published').value==='true' };
+  if(!data.title) return toast('Titre requis');
+  if(id){ const m=DB.modules.find(x=>x.id===id); Object.assign(m,data); }
+  else { DB.modules.push({id:'m'+Date.now(), lessons:6, ...data}); }
+  saveDB(DB); closeModal(); toast('Module enregistré • Visible côté Client immédiatement !');
+}
+function editModule(id){ openModuleModal(id); }
+function deleteModule(id){ if(confirm('Supprimer ce module ? Visible chez tous les clients sera supprimé.')){ DB.modules=DB.modules.filter(m=>m.id!==id); saveDB(DB); toast('Module supprimé'); } }
+function togglePublish(id){ const m=DB.modules.find(x=>x.id===id); m.published=!m.published; saveDB(DB); toast(m.published?'Module publié':'Module masqué'); }
+function deleteUser(id){ DB.users=DB.users.filter(u=>u.id!==id); saveDB(DB); toast('Utilisateur supprimé'); }
+function validatePayment(id){ const p=DB.payments.find(x=>x.id===id); p.status='Payé'; saveDB(DB); toast('Paiement validé — fonds à toi (M-Pesa/Orange)'); }
+function exportUsers(){ const csv=['Nom,WhatsApp,Parcours,XP'].concat(DB.users.map(u=>`${u.name},${u.phone},${u.parcours},${u.xp}`)).join('\n'); const blob=new Blob([csv],{type:'text/csv'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='camg_apprenants.csv'; a.click(); toast('Export téléchargé'); }
+function addLesson(mid){ const t=prompt('Titre de la nouvelle leçon ?\nEx: La négritude en 3 images'); if(!t) return; const d=prompt('Description courte (astuce) ?')||'Leçon illustrée audio-visuelle'; DB.lessonsDetailed=DB.lessonsDetailed||{}; DB.lessonsDetailed[mid]=DB.lessonsDetailed[mid]||[]; DB.lessonsDetailed[mid].push({t,d,dur:'4:00'}); const mod=DB.modules.find(m=>m.id===mid); if(mod) mod.lessons = DB.lessonsDetailed[mid].length; saveDB(DB); toast('✅ Leçon "'+t+'" insérée dans '+mod.title); }
+function showExo(b,t){const s=document.createElement('small');s.style.color='var(--green)';s.textContent='Solution : '+t;b.replaceWith(s);}
+function viewLessons(mid){ const mod=DB.modules.find(m=>m.id===mid); const list=(DB.lessonsDetailed[mid]||[]).map((l,i)=> (i+1)+'. '+l.t+' ('+l.dur+')\n   '+l.d).join('\n\n') || 'Aucune leçon détaillée — clique + Leçon pour en ajouter'; alert('📚 '+mod.title+' — '+ (DB.lessonsDetailed[mid]||[]).length +' leçons :\n\n'+list); }
+function openLesson(mid, idx){
+  const mod = DB.modules.find(m=>m.id===mid);
+  const lessons = (DB.lessonsDetailed && DB.lessonsDetailed[mid]) || [];
+  if(!lessons.length){ toast('Ce module n\'a pas encore de leçon audio — ajoute-les en Admin → + Leçon'); return; }
+  const l = lessons[Math.min(idx, lessons.length-1)];
+  document.getElementById('lesson-title').textContent = l.t;
+  document.getElementById('lesson-desc').textContent = l.d;
+  document.getElementById('lesson-badge').textContent = mod.emoji+' '+mod.title+' • Leçon '+(idx+1);
+  const imgEl=document.getElementById('lesson-img');
+  if(l.img){ imgEl.src=l.img; imgEl.style.display='block'; } else { imgEl.style.display='none'; }
+  const a1=document.getElementById('lesson-audio1'); const a2=document.getElementById('lesson-audio2');
+  if(l.audios && l.audios[0]){ a1.src=l.audios[0]; a1.style.display='block'; } else { a1.style.display='none'; }
+  if(l.audios && l.audios[1]){ a2.src=l.audios[1]; a2.style.display='block'; } else { a2.style.display='none'; }
+  const exBox=document.getElementById('lesson-examples');
+  if(l.exemples && l.exemples.length){
+    exBox.innerHTML = '<b style="font-size:12px;color:var(--navy)">💬 Plusieurs exemples pour ce cas</b><div style="display:flex;flex-direction:column;gap:6px;margin-top:6px">'+ l.exemples.map((ex,i)=>`<div style="background:var(--bg);border:1px solid #E2E8F0;border-radius:8px;padding:8px;font-size:12px"><b>Exemple ${i+1} :</b> ${ex} <button class="btn btn-ghost btn-small" style="float:right;padding:4px 8px" onclick="document.getElementById('lesson-audio1').play()">🔊</button></div>`).join('') + '</div>';
+  } else { exBox.innerHTML=''; }
+  const exoBox=document.getElementById('lesson-exos');
+  if(l.exos&&l.exos.length){exoBox.innerHTML='<b style="font-size:12px;color:var(--navy)">📝 Exercices</b>'+l.exos.map((x,i)=>'<div style="background:var(--bg);border:1px solid #E2E8F0;border-radius:8px;padding:8px;font-size:12px;margin-top:6px"><b>Exercice '+(i+1)+' :</b> '+x.q+(x.resolu?'<br><small style="color:var(--green)">Solution : '+x.a+'</small>':'<br><button class="btn btn-ghost btn-small" style="margin-top:4px" onclick="showExo(this,\''+x.a.replace(/'/g,'&#39;')+'\')">Voir la solution</button>')+'</div>').join('');}else{exoBox.innerHTML='';}
+  const pasBox=document.getElementById('lesson-pas');
+  if(l.pas&&l.pas.length){pasBox.style.display='block';pasBox.innerHTML='<b style="font-size:12px;color:var(--navy)">🎓 Déroulé de la leçon (pas à pas)</b>'+l.pas.map((p,i)=>'<div style="background:white;border:1px solid #E2E8F0;border-left:4px solid var(--gold);border-radius:10px;padding:10px;margin-top:8px"><b style="font-size:11px;color:var(--gold)">Pas '+(i+1)+' — '+p.t+'</b><p style="font-size:12px;color:#334155;margin-top:2px">'+p.x+'</p></div>').join('');}else{pasBox.style.display='none';pasBox.innerHTML='';}
+  const cBox=document.getElementById('lesson-conte');
+  if(l.conte){cBox.style.display='block';cBox.innerHTML='<b style="font-size:12px;color:#7A5A1F">📖 Conte illustré : '+l.conte.t+'</b>'+(l.conte.img?'<img src="'+l.conte.img+'" style="width:100%;height:140px;object-fit:cover;border-radius:10px;margin:6px 0">':'')+'<p style="font-size:12px;color:#5a4a2a;margin-top:4px">'+l.conte.x+'</p>';}else{cBox.style.display='none';cBox.innerHTML='';}
+  showView('lesson');
+  // Preload for offline toast
+  setTimeout(()=>toast('🎧 Audios chargés — même sans internet, appuie sur Play'),600);
+}
+
+// ===== JEUX =====
+const QUIZ_DB=[
+ {q:'Comment dit-on bonjour à plusieurs personnes en latin ?',o:['salve','salvete','vale'],a:1},
+ {q:'70% du français vient du ___',o:['grec','latin','anglais'],a:1},
+ {q:'« Je voudrais » sert à ___',o:['ordonner','demander poliment','refuser'],a:1},
+ {q:'tempus a donné quel mot français ?',o:['temple','temps','teinte'],a:1},
+ {q:'Le contraire de « toujours » : ___',o:['souvent','jamais','parfois'],a:1},
+ {q:'Dissertation dialectique = thèse, antithèse, ___',o:['conclusion','synthèse','résumé'],a:1},
+ {q:'« Rosa, rosae » est une ___',o:['conjugaison','déclinaison','maxime'],a:1},
+ {q:'Un des fondateurs de la Négritude : ___',o:['Césaire','Hugo','Zola'],a:0},
+ {q:'« Vici » veut dire ___',o:['j\'ai vu','j\'ai vaincu','je suis venu'],a:1},
+ {q:'Pour demander un lieu : ___',o:['qui','où','quand'],a:1}
+];
+let quizState=null;
+function shuffle(a){return a.map(x=>[Math.random(),x]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);}
+function startQuiz(){ quizState={mode:'solo',qs:shuffle(QUIZ_DB),i:0,score:0,names:['Toi']}; showView('quiz'); renderQuiz(); }
+function startDuel(){ const n1=prompt('Nom du joueur 1 ?')||'Joueur 1'; const n2=prompt('Nom du joueur 2 ?')||'Joueur 2'; quizState={mode:'duel',qs:shuffle(QUIZ_DB),i:0,scores:[0,0],cur:0,names:[n1,n2]}; showView('quiz'); renderQuiz(); }
+function renderQuiz(){
+  if(!quizState) return;
+  const st=quizState;
+  document.getElementById('quiz-title').textContent = st.mode==='solo' ? '🎮 Quiz Solo' : '⚔️ Duel : '+st.names[0]+' vs '+st.names[1];
+  if(st.i>=st.qs.length){ let msg; if(st.mode==='solo'){ msg='🏁 Score final : '+st.score*10+' XP !'; completeLesson(); } else { msg = st.scores[0]===st.scores[1] ? '🤝 Égalité !' : '🏆 '+st.names[st.scores[0]>st.scores[1]?0:1]+' gagne le duel !'; }
+    document.getElementById('quiz-q').textContent=''; document.getElementById('quiz-opts').innerHTML=''; document.getElementById('quiz-info').textContent=''; document.getElementById('quiz-score').textContent=msg+' Rejoue quand tu veux.'; return; }
+  const q=st.qs[st.i];
+  document.getElementById('quiz-info').textContent='Question '+(st.i+1)+'/'+st.qs.length+(st.mode==='duel' ? ' — au tour de '+st.names[st.cur] : '');
+  document.getElementById('quiz-q').textContent=q.q;
+  document.getElementById('quiz-opts').innerHTML=q.o.map((op,idx)=>'<button class="btn btn-ghost" style="width:100%;margin:4px 0;justify-content:flex-start" onclick="quizAnswer('+idx+')">'+op+'</button>').join('');
+  document.getElementById('quiz-score').textContent = st.mode==='solo' ? ('XP du quiz : '+st.score*10) : (st.names[0]+' : '+st.scores[0]+' • '+st.names[1]+' : '+st.scores[1]);
+}
+function quizAnswer(idx){ const st=quizState; const q=st.qs[st.i]; const ok = idx===q.a; toast(ok?'✅ Bonne réponse ! +10 XP':'❌ Raté ! La bonne réponse était : '+q.o[q.a]);
+  if(st.mode==='solo'){ if(ok) st.score+=1; } else { if(ok) st.scores[st.cur]+=1; st.cur=1-st.cur; }
+  st.i+=1; setTimeout(renderQuiz,700); }
+function publishArbitre(){ const q=document.getElementById('ar-q').value.trim(); const g=document.getElementById('ar-good').value.trim(); const b1=document.getElementById('ar-b1').value.trim(); const b2=document.getElementById('ar-b2').value.trim();
+  if(!q||!g||!b1||!b2) return toast('Remplis la question et les 3 réponses');
+  DB.quizArbitre={q,opts:shuffle([g,b1,b2]),good:g}; DB.quizReponses=[]; saveDB(DB); toast('📢 Défi publié ! Les clients peuvent jouer.'); renderArbitreAdmin(); }
+function renderArbitreAdmin(){ const box=document.getElementById('arbitre-list'); if(!box) return;
+  if(!DB.quizArbitre){ box.innerHTML='<p style="font-size:12px;color:var(--muted)">Aucun défi publié pour le moment.</p>'; return; }
+  box.innerHTML=(DB.quizReponses.length? DB.quizReponses.map(r=>'<div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:8px"><small><b>'+r.name+'</b> a répondu : '+r.rep+(r.rep===DB.quizArbitre.good?' ✅':' ❌')+'</small>'+(r.won?'<span class="badge badge-green">🏆 Vainqueur</span>':'<button class="btn btn-gold btn-small" onclick="proclaimWinner(\''+r.id+'\')">Proclamer vainqueur</button>')+'</div>').join('') : '<p style="font-size:12px;color:var(--muted)">Aucune réponse pour l\'instant.</p>'); }
+function proclaimWinner(id){ const r=DB.quizReponses.find(x=>x.id===id); if(r){ r.won=true; saveDB(DB); toast('🏆 '+r.name+' proclamé Gladiateur ! +50 XP'); renderArbitreAdmin(); } }
+function renderArbitreClient(){ const box=document.getElementById('arbitre-box');
+  if(!DB.quizArbitre){ box.innerHTML='<p style="font-size:12px;color:var(--muted)">Aucun défi en cours. L\'admin en publiera bientôt un !</p>'; return; }
+  const d=DB.quizArbitre;
+  box.innerHTML='<p style="font-weight:700">'+d.q+'</p>'+d.opts.map((op,idx)=>'<button class="btn btn-ghost" style="width:100%;margin:4px 0;justify-content:flex-start" onclick="answerArbitre('+idx+')">'+op+'</button>').join('');
+}
+function answerArbitre(idx){ const d=DB.quizArbitre; const me=JSON.parse(localStorage.getItem('camg_current_user')||'{}').name||'Apprenant';
+  DB.quizReponses.push({id:'r'+Date.now(),name:me,rep:d.opts[idx]}); saveDB(DB); toast('Réponse envoyée à l\'admin ! Il proclamera le vainqueur.'); showView('client'); }
+// Client
+let selectedOperator=null;
+let selectedAmount=5;
+function openPaymentModal(amount=5){ selectedAmount=amount; document.getElementById('pay-amount').value= amount+'$ - ' + (amount==5?'Essentiel (30j)':amount==15?'Pro (30j)':'Accès'); document.getElementById('paymentModal').classList.add('open'); }
+function closePaymentModal(){ document.getElementById('paymentModal').classList.remove('open'); }
+function selectOperator(op){ selectedOperator=op; document.querySelectorAll('#paymentModal .btn-ghost').forEach(b=>b.style.borderColor='#E2E8F0'); const id= op==='mpesa'?'pay-mpesa':op==='orange'?'pay-orange':'pay-airtel'; document.getElementById(id).style.borderColor='var(--navy)'; document.getElementById(id).style.background='var(--navy)'; document.getElementById(id).style.color='white'; }
+function triggerPayment(){
+  const phone=document.getElementById('pay-phone').value.trim();
+  if(!selectedOperator) return toast('Choisis d\'abord M-Pesa / Orange / Airtel');
+  if(phone.length<9) return toast('Entre ton numéro (ex: +243 82 ...)');
+  closePaymentModal();
+  toast('Demande envoyée sur '+phone+' ... Vérifie ton téléphone');
+  setTimeout(()=>{ 
+    if(confirm('📱 SIMULATION : Demande de paiement de '+selectedAmount+'$ envoyée sur '+phone+' ('+selectedOperator+').\n\nSur ton téléphone, tu verrais :\n\"CAMG demande 5$ — Entre ton CODE SECRET pour confirmer\"\n\nTu tapes ton code secret maintenant ?\n\nClique OK pour SIMULER que tu as tapé ton code et que le paiement est réussi.')){
+      DB.payments.push({id:'p'+Date.now(),name: (JSON.parse(localStorage.getItem('camg_current_user')||'{}').name||'Client'), amount:selectedAmount+'$', method: selectedOperator==='mpesa'?'M-Pesa':selectedOperator==='orange'?'Orange Money':'Airtel Money', status:'En attente'});
+      saveDB(DB);
+      toast('✅ Paiement de '+selectedAmount+'$ confirmé ! Accès débloqué (en attente validation auto)');
+      completeLesson();
+    }
+  },800);
+}
+function renderClient(){
+  const sel=document.getElementById('c-parcours');
+  if(sel) sel.innerHTML = DB.modules.filter(m=>m.published).map(m=>`<option>${m.emoji} ${m.title} — ${m.price==0?'Gratuit':m.price+'$'}</option>`).join('');
+  const lessons=document.getElementById('client-lessons');
+  if(lessons && lessons.style.display!=='none'){
+    const me=JSON.parse(localStorage.getItem('camg_current_user')||'{}');
+    lessons.innerHTML = '<h3 style="color:var(--navy)">📖 Mes leçons — touche pour ouvrir</h3>' + DB.modules.filter(m=>m.published).map(m=>{
+      const hasDetail = DB.lessonsDetailed && DB.lessonsDetailed[m.id] && DB.lessonsDetailed[m.id].length;
+      const actif = me.parcours && me.parcours.includes(m.title);
+      return `<div class="card" style="margin-top:8px;border-left:5px solid ${actif?'var(--gold)':'#E2E8F0'}"><b style="font-size:14px">${m.emoji} ${m.title}</b><br><small style="color:var(--muted)">${m.desc}</small><br><button class="btn ${actif?'btn-gold':'btn-ghost'}" style="width:100%;margin-top:8px" onclick="openLesson('${m.id}',0)">${hasDetail?'▶ Commencer / continuer':'Découvrir bientôt'}</button></div>`;
+    }).join('');
+  }
+  const stored=JSON.parse(localStorage.getItem('camg_client_progress')||'{"xp":0,"streak":1,"level":1}');
+  const set=(id,v)=>{const e=document.getElementById(id); if(e) e.textContent=v;};
+  set('c-xp',stored.xp); set('c-level',stored.level);
+  const st=document.getElementById('c-streak'); if(st) st.textContent='🔥 '+stored.streak+' jour'+(stored.streak>1?'s':'');
+}
+function toggleLessons(force){ const el=document.getElementById('client-lessons'); if(!el) return; el.style.display=(force===true||el.style.display==='none')?'block':'none'; renderClient(); if(el.style.display==='block') el.scrollIntoView({behavior:'smooth'}); }
+function openNextLesson(){ const me=JSON.parse(localStorage.getItem('camg_current_user')||'{}'); let mod=null;
+  if(me.parcours) mod=DB.modules.find(m=>me.parcours.includes(m.title));
+  if(!mod) mod=DB.modules.find(m=>DB.lessonsDetailed&&DB.lessonsDetailed[m.id]&&DB.lessonsDetailed[m.id].length)||DB.modules[0];
+  const has=DB.lessonsDetailed&&DB.lessonsDetailed[mod.id]&&DB.lessonsDetailed[mod.id].length;
+  if(has) openLesson(mod.id,0); else { toast('Les leçons de ce parcours arrivent bientôt — ouvre « Toutes mes leçons ».'); toggleLessons(true); } }
+const TOUR=[['👋','Bienvenue chez toi !','Cette application est ta salle de classe. Règle unique : un gros bouton = une action. Personne de plus que toi nécessaire.'],['📚','Ma leçon du jour','Le bouton OR ouvre DIRECTEMENT ta leçon : écoute en mode tortue, lis, réponds, gagne des XP.'],['🎮','Jouer = réviser','Quiz tout seul, duel à deux, défis du fondateur : chaque bonne réponse te rend plus fort.'],['🏆','Tu grandis','En haut : ta série, tes XP, ton niveau. Après ce guide, tu es seul maître à bord. Fonce !']];
+let tourI=0;
+function startTour(force){ if(!force && localStorage.getItem('camg_tour')) return; tourI=0; showTour(); }
+function showTour(){ const t=TOUR[tourI]; let m=document.getElementById('tour-modal'); if(!m){ m=document.createElement('div'); m.id='tour-modal'; m.style.cssText='position:fixed;inset:0;background:rgba(15,30,61,.94);z-index:95;display:grid;place-items:center;padding:16px'; document.body.appendChild(m);} m.innerHTML='<div style="background:white;border-radius:20px;max-width:420px;width:100%;padding:22px;text-align:center"><div style="font-size:44px">'+t[0]+'</div><h3 style="color:var(--navy);margin:10px 0 6px">'+t[1]+'</h3><p style="font-size:13px;color:var(--muted)">'+t[2]+'</p><div style="display:flex;gap:8px;justify-content:center;margin-top:14px">'+TOUR.map(function(_,i){return '<span style="width:10px;height:10px;border-radius:50%;background:'+(i<=tourI?'var(--gold)':'#E2E8F0')+'"></span>';}).join('')+'</div><button class="btn btn-primary" style="width:100%;margin-top:14px" onclick="tourNext()">'+(tourI<TOUR.length-1?'Suivant →':'En avant ! 🚀')+'</button></div>'; }
+function tourNext(){ tourI++; if(tourI>=TOUR.length){ localStorage.setItem('camg_tour','1'); const m=document.getElementById('tour-modal'); if(m) m.remove(); } else showTour(); }
+function clientLogin(){
+  const name=document.getElementById('c-name').value.trim()||'Apprenant CAMG';
+  const phone=document.getElementById('c-phone').value.trim()||'+243...';
+  const parcours=document.getElementById('c-parcours').value;
+  DB.users.push({id:'u'+Date.now(),name,phone,parcours,xp:0,status:'Essai gratuit'});
+  saveDB(DB);
+  localStorage.setItem('camg_current_user', JSON.stringify({name,parcours}));
+  document.getElementById('c-display-name').textContent=name.split(' ')[0];
+  document.getElementById('c-display-parcours').textContent=parcours;
+  document.getElementById('c-avatar').textContent=name.charAt(0).toUpperCase();
+  document.getElementById('client-auth').style.display='none';
+  document.getElementById('client-dash').style.display='block';
+  toast('Bienvenue '+name+' ! +10 XP offerts'); startTour(false);
+  let prog=JSON.parse(localStorage.getItem('camg_client_progress')||'{"xp":0,"streak":1,"level":1}'); prog.xp+=10; if(prog.xp>=100){prog.level+=1;prog.xp=0} localStorage.setItem('camg_client_progress',JSON.stringify(prog)); renderClient();
+}
+function clientLogout(){ document.getElementById('client-auth').style.display='block'; document.getElementById('client-dash').style.display='none'; }
+function completeLesson(){ let prog=JSON.parse(localStorage.getItem('camg_client_progress')||'{"xp":0,"streak":1,"level":1}'); const add=DB.settings.xpPerLesson||10; prog.xp+=add; prog.streak+=1; if(prog.xp>=100){prog.level+=1; prog.xp=0; toast('🎉 Niveau '+prog.level+' atteint !')} else toast('+'+add+' XP ! Continue !'); localStorage.setItem('camg_client_progress',JSON.stringify(prog)); renderClient(); }
+function doChallenge(){ completeLesson(); toast('Défi réussi ! +20 XP bonus'); }
+function adminLogin(){
+  const u=document.getElementById('a-user').value.trim();
+  const p=document.getElementById('a-pass').value;
+  if(u==='admin@camg.cd' && p===DB.settings.adminPass){ adminLogged=true; showView('admin'); toast('Bienvenue Daniel — Contrôle total activé'); }
+  else toast('Identifiants incorrects');
+}
+function adminLogout(){ adminLogged=false; showView('admin-login'); }
+function saveSettings(){ const v=parseInt(document.getElementById('set-xp-input').value)||10; DB.settings.xpPerLesson=v; saveDB(DB); toast('Paramètres enregistrés'); }
+function changePass(){ const np=document.getElementById('set-pass').value.trim(); if(!np) return toast('Entre un mot de passe'); DB.settings.adminPass=np; saveDB(DB); toast('Mot de passe changé'); }
+function changeIcon(){ const f=document.getElementById('icon-input').files[0]; if(!f) return toast('Choisis une image'); const r=new FileReader(); r.onload=e=>{ localStorage.setItem('camg_icon', e.target.result); document.querySelectorAll('.logo img').forEach(img=>img.src=e.target.result); toast('Icône mise à jour !'); }; r.readAsDataURL(f); }
+
+function renderAll(){ renderLanding(); renderAdminModules(); renderClient(); }
+renderAll();
+// Service Worker
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').then(()=>console.log('SW OK')).catch(()=>{}); }
+// Onboarding
+let onbStep=1;
+function showOnboarding(){ document.getElementById('onboarding').style.display='grid'; goOnb(1); }
+function hideOnboarding(){ document.getElementById('onboarding').style.display='none'; localStorage.setItem('camg_onb_seen','1'); }
+function skipOnboarding(){ hideOnboarding(); }
+function finishOnboarding(){ hideOnboarding(); showView('client'); toast('Bienvenue ! Tes 3 leçons gratuites t\'attendent'); }
+function goOnb(n){ onbStep=n; document.querySelectorAll('.onb-step').forEach(s=>s.style.display= s.dataset.step==n?'block':'none'); document.getElementById('onb-prev').style.display= n>1?'inline-flex':'none'; document.getElementById('onb-next').style.display= n<4?'inline-flex':'none'; for(let i=1;i<=4;i++){ const d=document.getElementById('onb-d'+i); if(d) d.style.background= i<=n?'var(--gold)':'rgba(255,255,255,0.3)' } const titles=['Bienvenue chez CAMG','Le latin = super-pouvoir','Addictif & Compétitif','Prêt à commencer ?']; document.getElementById('onb-title').textContent=titles[n-1]; }
+function onbNext(){ if(onbStep<4) goOnb(onbStep+1); }
+function onbPrev(){ if(onbStep>1) goOnb(onbStep-1); }
+function playOnbAudio(n){ const srcs={1:'audio/tuto1.mp3',2:'audio/tuto2.mp3',3:'audio/tuto3.mp3'}; let a=document.getElementById('onb-audio'); if(!a){a=document.createElement('audio');a.id='onb-audio';document.body.appendChild(a);} a.src=srcs[n]||srcs[1]; a.play(); toast(' Lecture du tuto audio…'); }
+// Auto show on first visit
+setTimeout(()=>{ if(!localStorage.getItem('camg_onb_seen')) showOnboarding(); },900);
+// Restore icon
+const savedIcon=localStorage.getItem('camg_icon'); if(savedIcon){ document.querySelectorAll('.logo img').forEach(img=>img.src=savedIcon); }
+
+function forceUpdate(){ if(!confirm("Mise à jour complète : l'application sera purgée puis rechargée à neuf (vous recréerez votre accès en 10 secondes). Continuer ?")) return; ['camg_db_v2','camg_current_user','camg_client_progress','camg_tour','camg_onb_seen','camg_latin_done','camg_flash','camg_debut_ok'].forEach(k=>localStorage.removeItem(k));
+  const done=()=>{ if('caches' in window){ caches.keys().then(ks=>Promise.all(ks.map(k=>caches.delete(k)))).then(()=>location.reload()); } else location.reload(); };
+  if('serviceWorker' in navigator){ navigator.serviceWorker.getRegistrations().then(rs=>Promise.all(rs.map(r=>r.unregister()))).then(done); } else done(); }
+</script>
+</body>
+</html>
