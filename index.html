@@ -323,6 +323,9 @@ footer{background:var(--navy);color:#94A3B8;padding:28px 0;margin-top:30px}
               <div style="background:var(--gold-light);padding:10px;border-radius:10px;text-align:center;border:1px solid #F3D9A0"><b>🎯 Défi du jour</b><br><small style="font-size:11px">Décris ta maison en 4 phrases — Gagne 20 XP</small><br><button class="btn btn-gold btn-small" style="margin-top:6px" onclick="doChallenge()">Relever</button></div>
               <div style="background:var(--blue-light);padding:10px;border-radius:10px;text-align:center"><b>🏅 Badges</b><br><small style="font-size:11px" id="c-badges">Aucun encore — finis 3 leçons</small></div>
               <div style="background:#F0FDF4;padding:10px;border-radius:10px;text-align:center"><b>👑 Top Kindu</b><br><small style="font-size:11px">1. Amina 840 XP<br>2. Toi — bientôt !</small></div>
+              <div style="background:var(--blue-light);padding:10px;border-radius:10px;text-align:center"><b>🎮 Quiz Solo</b><br><button class="btn btn-primary btn-small" style="margin-top:6px" onclick="startQuiz()">Jouer</button></div>
+              <div style="background:#FDF2F8;padding:10px;border-radius:10px;text-align:center"><b>⚔️ Duel à deux</b><br><button class="btn btn-ghost btn-small" style="margin-top:6px" onclick="startDuel()">Duel</button></div>
+              <div style="background:var(--gold-light);padding:10px;border-radius:10px;text-align:center"><b>🏆 Défi arbitré</b><br><button class="btn btn-gold btn-small" style="margin-top:6px" onclick="showView('arbitre')">Relever</button></div>
             </div>
           </div>
         </div>
@@ -374,6 +377,8 @@ footer{background:var(--navy);color:#94A3B8;padding:28px 0;margin-top:30px}
     </div>
   </section>
 </div>
+<div id="view-quiz" class="view"><section><div class="container" style="max-width:560px"><button class="btn btn-ghost btn-small" onclick="showView('client')">← Retour</button><div class="card" style="margin-top:10px"><h3 id="quiz-title" style="color:var(--navy)">🎮 Quiz Solo</h3><p id="quiz-info" style="font-size:11px;color:var(--muted)"></p><p id="quiz-q" style="margin:10px 0;font-weight:700"></p><div id="quiz-opts"></div><p id="quiz-score" style="margin-top:10px;font-size:12px;color:var(--muted)"></p></div></div></section></div>
+<div id="view-arbitre" class="view"><section><div class="container" style="max-width:560px"><button class="btn btn-ghost btn-small" onclick="showView('client')">← Retour</button><div class="card" style="margin-top:10px"><h3 style="color:var(--navy)">🏆 Défi arbitré par l'Admin</h3><div id="arbitre-box" style="margin-top:10px"></div></div></div></section></div>
 <!-- ADMIN LOGIN -->
 <div id="view-admin-login" class="view">
   <section>
@@ -411,6 +416,7 @@ footer{background:var(--navy);color:#94A3B8;padding:28px 0;margin-top:30px}
           <a id="am-tab-users" onclick="switchAdminTab('users')">👥 Apprenants</a>
           <a id="am-tab-payments" onclick="switchAdminTab('payments')">💰 Paiements</a>
           <a id="am-tab-settings" onclick="switchAdminTab('settings')">⚙️ Paramètres & Fun</a>
+          <a id="am-tab-quiz" onclick="switchAdminTab('quiz')">🎮 Jeux (arbitre)</a>
           <div style="margin-top:12px;padding:10px;background:white;color:var(--navy);border-radius:10px"><b style="font-size:11px">Tes numéros</b><br><small style="font-size:11px">M-Pesa: +243825901117<br>Orange: +243894436774</small><button class="btn btn-primary btn-small" style="width:100%;margin-top:6px" onclick="switchAdminTab('settings')">Modifier</button></div>
         </div>
         <div class="main">
@@ -437,6 +443,17 @@ footer{background:var(--navy);color:#94A3B8;padding:28px 0;margin-top:30px}
               <div class="card" style="background:#FFF7ED;border-color:#FDBA74"><b>Orange Money</b><br><small>+243 89 44 36 77 4</small><br><small style="color:var(--muted)">Reçu ce mois: 420$</small></div>
             </div>
             <div style="overflow:auto;border:1px solid #E2E8F0;border-radius:10px;margin-top:12px"><table><thead><tr><th>Client</th><th>Montant</th><th>Méthode</th><th>Statut</th><th>Valider</th></tr></thead><tbody id="admin-payments-list"></tbody></table></div>
+          </div>
+          <div id="am-quiz" style="display:none">
+            <h3 style="color:var(--navy)">🎮 Arbitrer un défi</h3>
+            <p style="font-size:11px;color:var(--muted)">Publie une question ; les clients répondent ; tu proclames le vainqueur (badge Gladiateur + 50 XP).</p>
+            <label class="label">Question</label><input id="ar-q" class="input" placeholder="Ex: Qui a écrit Cahier d'un retour ?">
+            <label class="label">Bonne réponse</label><input id="ar-good" class="input" placeholder="Ex: Césaire">
+            <label class="label">Mauvaise réponse 1</label><input id="ar-b1" class="input" placeholder="Ex: Hugo">
+            <label class="label">Mauvaise réponse 2</label><input id="ar-b2" class="input" placeholder="Ex: Zola">
+            <button class="btn btn-gold btn-small" onclick="publishArbitre()"> Publier le défi</button>
+            <h4 style="margin:14px 0 8px;color:var(--navy)">Réponses des apprenants</h4>
+            <div id="arbitre-list" style="display:flex;flex-direction:column;gap:6px"></div>
           </div>
           <div id="am-settings" style="display:none">
             <h3 style="color:var(--navy)">Paramètres & Fun</h3>
@@ -599,6 +616,7 @@ const defaultDB={
     {id:'p2',name:'Jean B.',amount:'15$',method:'Orange Money',status:'En attente'},
     {id:'p3',name:'Sifa M.',amount:'8$',method:'Airtel',status:'Payé'},
   ],
+  quizArbitre:null,quizReponses:[],
   settings:{xpPerLesson:10, adminPass:'admin123'}
 };
 function loadDB(){ try{const d=localStorage.getItem(DB_KEY);return d?JSON.parse(d):structuredClone(defaultDB)}catch(e){return structuredClone(defaultDB)}}
@@ -631,10 +649,13 @@ function showView(name){
   if(el) el.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   if(name==='client') renderClient();
+  if(name==='quiz') renderQuiz();
+  if(name==='arbitre') renderArbitreClient();
+  if(name==='admin') renderArbitreAdmin();
   if(name==='landing') renderLanding();
 }
 function switchAdminTab(tab){
-  ['overview','contents','users','payments','settings'].forEach(t=>{
+  ['overview','contents','users','payments','settings','quiz'].forEach(t=>{
     document.getElementById('am-'+t).style.display = t===tab?'block':'none';
     const a=document.getElementById('am-tab-'+t);
     if(a) a.classList.toggle('active', t===tab);
@@ -730,6 +751,52 @@ function openLesson(mid, idx){
   setTimeout(()=>toast('🎧 Audios chargés — même sans internet, appuie sur Play'),600);
 }
 
+// ===== JEUX =====
+const QUIZ_DB=[
+ {q:'Comment dit-on bonjour à plusieurs personnes en latin ?',o:['salve','salvete','vale'],a:1},
+ {q:'70% du français vient du ___',o:['grec','latin','anglais'],a:1},
+ {q:'« Je voudrais » sert à ___',o:['ordonner','demander poliment','refuser'],a:1},
+ {q:'tempus a donné quel mot français ?',o:['temple','temps','teinte'],a:1},
+ {q:'Le contraire de « toujours » : ___',o:['souvent','jamais','parfois'],a:1},
+ {q:'Dissertation dialectique = thèse, antithèse, ___',o:['conclusion','synthèse','résumé'],a:1},
+ {q:'« Rosa, rosae » est une ___',o:['conjugaison','déclinaison','maxime'],a:1},
+ {q:'Un des fondateurs de la Négritude : ___',o:['Césaire','Hugo','Zola'],a:0},
+ {q:'« Vici » veut dire ___',o:['j\'ai vu','j\'ai vaincu','je suis venu'],a:1},
+ {q:'Pour demander un lieu : ___',o:['qui','où','quand'],a:1}
+];
+let quizState=null;
+function shuffle(a){return a.map(x=>[Math.random(),x]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);}
+function startQuiz(){ quizState={mode:'solo',qs:shuffle(QUIZ_DB),i:0,score:0,names:['Toi']}; showView('quiz'); renderQuiz(); }
+function startDuel(){ const n1=prompt('Nom du joueur 1 ?')||'Joueur 1'; const n2=prompt('Nom du joueur 2 ?')||'Joueur 2'; quizState={mode:'duel',qs:shuffle(QUIZ_DB),i:0,scores:[0,0],cur:0,names:[n1,n2]}; showView('quiz'); renderQuiz(); }
+function renderQuiz(){
+  if(!quizState) return;
+  const st=quizState;
+  document.getElementById('quiz-title').textContent = st.mode==='solo' ? '🎮 Quiz Solo' : '⚔️ Duel : '+st.names[0]+' vs '+st.names[1];
+  if(st.i>=st.qs.length){ let msg; if(st.mode==='solo'){ msg='🏁 Score final : '+st.score*10+' XP !'; completeLesson(); } else { msg = st.scores[0]===st.scores[1] ? '🤝 Égalité !' : '🏆 '+st.names[st.scores[0]>st.scores[1]?0:1]+' gagne le duel !'; }
+    document.getElementById('quiz-q').textContent=''; document.getElementById('quiz-opts').innerHTML=''; document.getElementById('quiz-info').textContent=''; document.getElementById('quiz-score').textContent=msg+' Rejoue quand tu veux.'; return; }
+  const q=st.qs[st.i];
+  document.getElementById('quiz-info').textContent='Question '+(st.i+1)+'/'+st.qs.length+(st.mode==='duel' ? ' — au tour de '+st.names[st.cur] : '');
+  document.getElementById('quiz-q').textContent=q.q;
+  document.getElementById('quiz-opts').innerHTML=q.o.map((op,idx)=>'<button class="btn btn-ghost" style="width:100%;margin:4px 0;justify-content:flex-start" onclick="quizAnswer('+idx+')">'+op+'</button>').join('');
+  document.getElementById('quiz-score').textContent = st.mode==='solo' ? ('XP du quiz : '+st.score*10) : (st.names[0]+' : '+st.scores[0]+' • '+st.names[1]+' : '+st.scores[1]);
+}
+function quizAnswer(idx){ const st=quizState; const q=st.qs[st.i]; const ok = idx===q.a; toast(ok?'✅ Bonne réponse ! +10 XP':'❌ Raté ! La bonne réponse était : '+q.o[q.a]);
+  if(st.mode==='solo'){ if(ok) st.score+=1; } else { if(ok) st.scores[st.cur]+=1; st.cur=1-st.cur; }
+  st.i+=1; setTimeout(renderQuiz,700); }
+function publishArbitre(){ const q=document.getElementById('ar-q').value.trim(); const g=document.getElementById('ar-good').value.trim(); const b1=document.getElementById('ar-b1').value.trim(); const b2=document.getElementById('ar-b2').value.trim();
+  if(!q||!g||!b1||!b2) return toast('Remplis la question et les 3 réponses');
+  DB.quizArbitre={q,opts:shuffle([g,b1,b2]),good:g}; DB.quizReponses=[]; saveDB(DB); toast('📢 Défi publié ! Les clients peuvent jouer.'); renderArbitreAdmin(); }
+function renderArbitreAdmin(){ const box=document.getElementById('arbitre-list'); if(!box) return;
+  if(!DB.quizArbitre){ box.innerHTML='<p style="font-size:12px;color:var(--muted)">Aucun défi publié pour le moment.</p>'; return; }
+  box.innerHTML=(DB.quizReponses.length? DB.quizReponses.map(r=>'<div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:8px"><small><b>'+r.name+'</b> a répondu : '+r.rep+(r.rep===DB.quizArbitre.good?' ✅':' ❌')+'</small>'+(r.won?'<span class="badge badge-green">🏆 Vainqueur</span>':'<button class="btn btn-gold btn-small" onclick="proclaimWinner(\''+r.id+'\')">Proclamer vainqueur</button>')+'</div>').join('') : '<p style="font-size:12px;color:var(--muted)">Aucune réponse pour l\'instant.</p>'); }
+function proclaimWinner(id){ const r=DB.quizReponses.find(x=>x.id===id); if(r){ r.won=true; saveDB(DB); toast('🏆 '+r.name+' proclamé Gladiateur ! +50 XP'); renderArbitreAdmin(); } }
+function renderArbitreClient(){ const box=document.getElementById('arbitre-box');
+  if(!DB.quizArbitre){ box.innerHTML='<p style="font-size:12px;color:var(--muted)">Aucun défi en cours. L\'admin en publiera bientôt un !</p>'; return; }
+  const d=DB.quizArbitre;
+  box.innerHTML='<p style="font-weight:700">'+d.q+'</p>'+d.opts.map((op,idx)=>'<button class="btn btn-ghost" style="width:100%;margin:4px 0;justify-content:flex-start" onclick="answerArbitre('+idx+')">'+op+'</button>').join('');
+}
+function answerArbitre(idx){ const d=DB.quizArbitre; const me=JSON.parse(localStorage.getItem('camg_current_user')||'{}').name||'Apprenant';
+  DB.quizReponses.push({id:'r'+Date.now(),name:me,rep:d.opts[idx]}); saveDB(DB); toast('Réponse envoyée à l\'admin ! Il proclamera le vainqueur.'); showView('client'); }
 // Client
 let selectedOperator=null;
 let selectedAmount=5;
