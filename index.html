@@ -361,6 +361,8 @@ footer{background:var(--navy);color:#94A3B8;padding:28px 0;margin-top:30px}
             </div>
           </div>
           <div id="lesson-examples" style="margin-top:14px"></div>
+          <div id="lesson-exos" style="margin-top:14px"></div>
+          <div id="lesson-conte" style="margin-top:14px;background:var(--gold-light);border:1px solid #F3D9A0;border-radius:10px;padding:12px;display:none"></div>
           <div style="margin-top:14px;background:var(--gold-light);border:1px solid #F3D9A0;border-radius:10px;padding:12px">
             <b style="font-size:12px;color:#7A5A1F">🎤 À toi : Enregistre-toi</b><p style="font-size:11px;color:#5a4a2a;margin:4px 0">Décris ce que tu vois sur l'image en 3 phrases. Envoie ton audio — corrigé en 24h.</p>
             <button class="btn btn-gold btn-small" onclick="completeLesson();toast('Bravo ! +20 XP — Enregistrement simulé, hors connexion enregistré')">🎙️ Enregistrer (hors connexion)</button>
@@ -517,9 +519,9 @@ const defaultDB={
   ],
   lessonsDetailed:{
     m1:[
-      {t:'Leçon 1 — Bonjour, Kindu ! Se présenter',d:'Je m\'appelle Daniel, je viens de Kindu — se présenter sans complexe',dur:'4:30',img:'images/m1-l1.jpg',audios:['audio/m1-l1-intro.mp3','audio/m1-l1-ex1.mp3'],exemples:['Bonjour, je m\'appelle Amina. Je suis de Kindu.','Salut, moi c\'est Jean, je viens du Maniema.','Bonsoir, je m\'appelle Espoir, j\'habite à côté du fleuve.'],video:'https://www.youtube.com/embed/dQw4w9WgXcQ'},
-      {t:'Leçon 2 — La Famille',d:'Père, mère, frère, sœur, grands-parents — avec illustration réelle',dur:'5:10',img:'images/m1-l2.jpg',audios:['audio/m1-l2-intro.mp3','audio/m1-l2-ex1.mp3'],exemples:['Voici mon père, il est cultivateur.','Ma mère vend au marché de Kindu.','Mon grand-père raconte sous le manguier.'],video:''},
-      {t:'Leçon 3 — La Maison',d:'Chambre, salon, cuisine, ustensiles — décrire sa maison',dur:'4:50',img:'images/m1-l3.jpg',audios:['audio/m1-l3-intro.mp3','audio/m1-l3-ex1.mp3'],exemples:['Ma maison a trois chambres.','La cuisine est à côté du salon.','J\'étudie près de la fenêtre.'],video:''}
+      {t:'Leçon 1 — Bonjour, Kindu ! Se présenter',d:'Je m\'appelle Daniel, je viens de Kindu — se présenter sans complexe',dur:'4:30',img:'images/m1-l1.jpg',audios:['audio/m1-l1-intro.mp3','audio/m1-l1-ex1.mp3'],exemples:['Bonjour, je m\'appelle Amina. Je suis de Kindu.','Salut, moi c\'est Jean, je viens du Maniema.','Bonsoir, je m\'appelle Espoir, j\'habite à côté du fleuve.'],exos:[{q:'Complète : « Bonjour, je ___ appelle Amina. »',a:'m\'appelle',resolu:true},{q:'Transforme en salutation : « Je viens de Kindu, mon nom est Jean. »',a:'Bonjour, je m\'appelle Jean, je viens de Kindu.'}],conte:{t:'Le salut du marché',img:'images/conte-l1.jpg',x:'Au marché central de Kindu, la petite Amina accompagne sa maman. Un vieux monsieur passe. Amina dit : « Bonjour, monsieur ! » Le vieux sourit : « Comment t\'appelles-tu ? » — « Je m\'appelle Amina. » Depuis ce jour, chaque matin, le vieux salue Amina, et tout le marché a compris qu\'un seul mot, « bonjour », ouvre les cœurs.'},video:'https://www.youtube.com/embed/dQw4w9WgXcQ'},
+      {t:'Leçon 2 — La Famille',d:'Père, mère, frère, sœur, grands-parents — avec illustration réelle',dur:'5:10',img:'images/m1-l2.jpg',audios:['audio/m1-l2-intro.mp3','audio/m1-l2-ex1.mp3'],exemples:['Voici mon père, il est cultivateur.','Ma mère vend au marché de Kindu.','Mon grand-père raconte sous le manguier.'],exos:[{q:'Le féminin de « père » est ___',a:'mère',resolu:true},{q:'Complète : « Mon frère et ma ___ jouent ensemble. »',a:'sœur'}],video:''},
+      {t:'Leçon 3 — La Maison',d:'Chambre, salon, cuisine, ustensiles — décrire sa maison',dur:'4:50',img:'images/m1-l3.jpg',audios:['audio/m1-l3-intro.mp3','audio/m1-l3-ex1.mp3'],exemples:['Ma maison a trois chambres.','La cuisine est à côté du salon.','J\'étudie près de la fenêtre.'],exos:[{q:'La pièce où l\'on cuisine s\'appelle ___',a:'la cuisine',resolu:true},{q:'Complète : « J\'étudie près de la ___. »',a:'fenêtre'}],video:''}
     ],
     m7:[{t:'Le questionnement socratique',d:'Pourquoi poser des questions ? Astuce : la maïeutique comme l\'accoucheuse',dur:'4:12'},{t:'Sagesse africaine vs grecque',d:'Ubuntu, proverbes tetela et Platon — même combat',dur:'5:00'},{t:'Dissertation philo : le plan',d:'Thèse, Antithèse, Synthèse — astuce du pont',dur:'6:30'}],
     m8:[{t:'Césaire : Cahier d\'un retour',d:'Négritude expliquée avec ta vie à Kindu',dur:'5:40'},{t:'Senghor et la poésie',d:'Rythme, image, musicalité — comment analyser',dur:'4:50'},{t:'Auteurs congolais',d:'Mudimbe, Bolya — commentaire composé facile',dur:'6:10'}],
@@ -638,6 +640,7 @@ function deleteUser(id){ DB.users=DB.users.filter(u=>u.id!==id); saveDB(DB); toa
 function validatePayment(id){ const p=DB.payments.find(x=>x.id===id); p.status='Payé'; saveDB(DB); toast('Paiement validé — fonds à toi (M-Pesa/Orange)'); }
 function exportUsers(){ const csv=['Nom,WhatsApp,Parcours,XP'].concat(DB.users.map(u=>`${u.name},${u.phone},${u.parcours},${u.xp}`)).join('\n'); const blob=new Blob([csv],{type:'text/csv'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='camg_apprenants.csv'; a.click(); toast('Export téléchargé'); }
 function addLesson(mid){ const t=prompt('Titre de la nouvelle leçon ?\nEx: La négritude en 3 images'); if(!t) return; const d=prompt('Description courte (astuce) ?')||'Leçon illustrée audio-visuelle'; DB.lessonsDetailed=DB.lessonsDetailed||{}; DB.lessonsDetailed[mid]=DB.lessonsDetailed[mid]||[]; DB.lessonsDetailed[mid].push({t,d,dur:'4:00'}); const mod=DB.modules.find(m=>m.id===mid); if(mod) mod.lessons = DB.lessonsDetailed[mid].length; saveDB(DB); toast('✅ Leçon "'+t+'" insérée dans '+mod.title); }
+function showExo(b,t){const s=document.createElement('small');s.style.color='var(--green)';s.textContent='Solution : '+t;b.replaceWith(s);}
 function viewLessons(mid){ const mod=DB.modules.find(m=>m.id===mid); const list=(DB.lessonsDetailed[mid]||[]).map((l,i)=> (i+1)+'. '+l.t+' ('+l.dur+')\n   '+l.d).join('\n\n') || 'Aucune leçon détaillée — clique + Leçon pour en ajouter'; alert('📚 '+mod.title+' — '+ (DB.lessonsDetailed[mid]||[]).length +' leçons :\n\n'+list); }
 function openLesson(mid, idx){
   const mod = DB.modules.find(m=>m.id===mid);
@@ -656,6 +659,10 @@ function openLesson(mid, idx){
   if(l.exemples && l.exemples.length){
     exBox.innerHTML = '<b style="font-size:12px;color:var(--navy)">💬 Plusieurs exemples pour ce cas</b><div style="display:flex;flex-direction:column;gap:6px;margin-top:6px">'+ l.exemples.map((ex,i)=>`<div style="background:var(--bg);border:1px solid #E2E8F0;border-radius:8px;padding:8px;font-size:12px"><b>Exemple ${i+1} :</b> ${ex} <button class="btn btn-ghost btn-small" style="float:right;padding:4px 8px" onclick="document.getElementById('lesson-audio1').play()">🔊</button></div>`).join('') + '</div>';
   } else { exBox.innerHTML=''; }
+  const exoBox=document.getElementById('lesson-exos');
+  if(l.exos&&l.exos.length){exoBox.innerHTML='<b style="font-size:12px;color:var(--navy)">📝 Exercices</b>'+l.exos.map((x,i)=>'<div style="background:var(--bg);border:1px solid #E2E8F0;border-radius:8px;padding:8px;font-size:12px;margin-top:6px"><b>Exercice '+(i+1)+' :</b> '+x.q+(x.resolu?'<br><small style="color:var(--green)">Solution : '+x.a+'</small>':'<br><button class="btn btn-ghost btn-small" style="margin-top:4px" onclick="showExo(this,\''+x.a.replace(/'/g,'&#39;')+'\')">Voir la solution</button>')+'</div>').join('');}else{exoBox.innerHTML='';}
+  const cBox=document.getElementById('lesson-conte');
+  if(l.conte){cBox.style.display='block';cBox.innerHTML='<b style="font-size:12px;color:#7A5A1F">📖 Conte illustré : '+l.conte.t+'</b>'+(l.conte.img?'<img src="'+l.conte.img+'" style="width:100%;height:140px;object-fit:cover;border-radius:10px;margin:6px 0">':'')+'<p style="font-size:12px;color:#5a4a2a;margin-top:4px">'+l.conte.x+'</p>';}else{cBox.style.display='none';cBox.innerHTML='';}
   showView('lesson');
   // Preload for offline toast
   setTimeout(()=>toast('🎧 Audios chargés — même sans internet, appuie sur Play'),600);
