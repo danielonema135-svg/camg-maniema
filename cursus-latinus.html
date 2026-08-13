@@ -35,8 +35,11 @@ table{width:100%;border-collapse:collapse;font-size:12px;margin:6px 0}td,th{bord
 <table><tr><th>5 min</th><th>15 min</th><th>10 min</th><th>10 min</th><th>5-15 min</th></tr>
 <tr><td>Révision vocabulaire</td><td>Leçon du jour</td><td>Méthode + exo corrigé</td><td>Entraînement</td><td>Vocabulaire + proverbe + audio vitesses</td></tr></table>
 <p class="small">🔊 Utilisez les boutons d'écoute : vitesse LENTE (0,8) pour apprendre, NORMALE (1) pour vérifier, RAPIDE (1,25) pour maîtriser. La régularité prime sur la durée.</p>
-<div class="tabs"><button class="btn b-navy" onclick="show('jours')">📅 Leçons du jour</button><button class="btn b-ghost" onclick="show('sommaire')">🗺️ Programme des 90 jours</button><button class="btn b-ghost" onclick="location.href='index.html'">← Application CAMG</button></div>
+<div class="tabs"><button class="btn b-navy" onclick="show('jours')">📅 Leçons du jour</button><button class="btn b-ghost" onclick="show('sommaire')">🗺️ Programme des 90 jours</button><button class="btn b-green" onclick="show('debut')">🌱 Grand débutant</button><button class="btn b-gold" onclick="show('flash')">🃏 Fiches mémoire</button><button class="btn b-gold" onclick="show('cas')">🎮 Jeu des cas</button><button class="btn b-ghost" onclick="location.href='index.html'">← Application CAMG</button></div>
 </div>
+<div id="vue-debut" style="display:none"></div>
+<div id="vue-flash" style="display:none" class="card"><h2>🃏 Fiches mémoire</h2><p class="small">Latin → Français, 4 choix. Les erreurs reviennent plus tard. Score conservé sur ton téléphone.</p><div id="flash-box"></div></div>
+<div id="vue-cas" style="display:none" class="card"><h2>🎮 Jeu des cas</h2><p class="small">Regarde le mot en OR et choisis son cas. 10 manches, puis ton score.</p><div id="cas-box"></div></div>
 <div id="vue-sommaire" style="display:none" class="card"><h2>🗺️ Programme des 90 jours</h2><p class="small">Parties 1 à 6. Les jours 1 à 15 sont OUVERTS en interactif ; la suite arrive par mises à jour (et le document complet du fondateur fait foi).</p><div class="toc" id="toc"></div></div>
 <div id="vue-jours"><div id="jours"></div></div>
 </div>
@@ -113,8 +116,50 @@ function render(){
  document.getElementById('toc').innerHTML=TOC.map((t,i)=>`<button class="${done.includes(i+1)?'done':''}" onclick="goJour(${i+1})">${t}${done.includes(i+1)?' ✅':''}</button>`).join('');
 }
 function mark(n){ const i=done.indexOf(n); if(i>=0) done.splice(i,1); else done.push(n); localStorage.setItem('camg_latin_done',JSON.stringify(done)); render(); }
-function show(v){ document.getElementById('vue-jours').style.display = v==='jours'?'block':'none'; document.getElementById('vue-sommaire').style.display = v==='sommaire'?'block':'none'; if(v==='jours') render(); window.scrollTo(0,0); }
+function show(v){ ['jours','sommaire','debut','flash','cas'].forEach(k=>{const el=document.getElementById('vue-'+k); if(el) el.style.display=(k===v)?'block':'none';}); if(v==='jours') render(); if(v==='debut') renderDebut(); if(v==='flash') renderFlash(); if(v==='cas') renderCas(); window.scrollTo(0,0); }
 function goJour(n){ show('jours'); const cards=document.querySelectorAll('#jours .card'); if(n<=JOURS.length&&cards[n-1]) cards[n-1].scrollIntoView(); else alert('Le jour '+n+' arrive dans une prochaine mise à jour — le document complet du fondateur fait foi en attendant.'); }
+
+const DEBUT=[
+{t:"Le latin est vivant !",x:"Le latin est la MÈRE du français : environ 80 % de nos mots en viennent. Apprendre le latin, c'est rendre ton français plus clair. Exemple : tempus → temps, corpus → corps, aqua → eau.",q:"Le mot « temps » vient de…",o:["tempus","corpus","aqua"],a:0},
+{t:"Un cas = un rôle",x:"Au marché, le vendeur n'est pas l'acheteur : chacun a son RÔLE. En latin, la TERMINAISON (la fin du mot) indique le rôle : sujet, complément… C'est cela, un « cas ».",q:"En latin, qu'est-ce qui indique le rôle d'un mot ?",o:["Sa terminaison","Sa couleur","Sa longueur"],a:0},
+{t:"La conjugaison = l'habit du verbe",x:"Le verbe s'habille selon la personne : amo (j'aime), amas (tu aimes), amat (il aime). Même verbe, habits différents !",q:"« amas » veut dire…",o:["tu aimes","nous aimons","ils aiment"],a:0},
+{t:"Le latin chante",x:"La prononciation est simple et régulière : Caesar = « kaïssar », via = « ouia ». Ouvre le Jour 1 et écoute en 🐢 puis répète.",q:"Le « v » latin se prononce…",o:["« ou »","« v »","« f »"],a:0},
+{t:"La famille des mots",x:"Chaque mot français a un grand-père latin : école ← schola, ami ← amicus, livre ← liber. Connaître le grand-père, c'est retenir toute la famille.",q:"Le grand-père latin d'« école » est…",o:["schola","liber","amicus"],a:0},
+{t:"Ma première phrase",x:"Puella rosam amat = la jeune fille (sujet) aime la rose (complément). Et on peut changer l'ordre : « rosam puella amat » = même sens !",q:"« Puella rosam amat » signifie…",o:["La jeune fille aime la rose","La rose aime la jeune fille","La jeune fille cueille la rose"],a:0},
+{t:"Trois petits mots utiles",x:"et = et ; in = dans ; non = ne pas. Avec ces trois mots, tu lis déjà beaucoup de latin !",q:"« non » signifie…",o:["oui","ne pas","et"],a:1},
+{t:"Poser une question",x:"Ajoute -ne au verbe et ça devient une question : Amas ? → Amasne rosam ? = Aimes-tu la rose ?",q:"Pour poser une question, on ajoute…",o:["-ne","-us","-rum"],a:0},
+{t:"Une histoire en 3 mots",x:"« Veni, vidi, vici » : je suis venu, j'ai vu, j'ai vaincu. — César. Trois mots, une histoire complète. Toi aussi, tu peux !",q:"« vidi » veut dire…",o:["j'ai vu","je suis venu","j'ai vaincu"],a:0},
+{t:"Premier quiz — tu es prêt !",x:"Tu connais déjà : les cas (rôles), la conjugaison (habits), la prononciation, les familles de mots. Quand tu veux, commence le Jour 1 !",q:"La terminaison -nt (amant) indique…",o:["ils / elles (pluriel)","je","tu"],a:0}];
+let debOK=JSON.parse(localStorage.getItem('camg_debut_ok')||'[]');
+function renderDebut(){ const box=document.getElementById('vue-debut');
+ box.innerHTML='<div class="card"><h2>🌱 Mode grand débutant</h2><p class="small">10 mini-pas de 5 minutes, avec des images de la vie, pour aimer le latin AVANT de l'étudier. Progrès : '+debOK.length+'/10.</p></div>'+DEBUT.map((d,i)=>'<div class="card" style="'+(debOK.includes(i)?'border-left:5px solid var(--green)':'')+'"><h3>Pas '+(i+1)+' — '+d.t+' '+(debOK.includes(i)?'✅':'')+'</h3><p style="font-size:13px">'+d.x+'</p><p style="font-size:13px;margin-top:6px"><b>Mini-quiz :</b> '+d.q+'</p>'+d.o.map((op,idx)=>'<button class="btn b-ghost" onclick="debCheck('+i+','+idx+',this)">'+op+'</button>').join('')+'<span id="deb-r'+i+'" style="font-size:12px;margin-left:8px"></span></div>').join('');
+}
+function debCheck(i,idx,btn){ const d=DEBUT[i]; const r=document.getElementById('deb-r'+i);
+ if(idx===d.a){ if(!debOK.includes(i)){debOK.push(i);localStorage.setItem('camg_debut_ok',JSON.stringify(debOK));} r.innerHTML='✅ Bravo ! ('+debOK.length+'/10)'; btn.className='btn b-green'; } else { r.innerHTML='❌ Réessaie !'; }
+ if(debOK.length===10) r.innerHTML+=' 🏆 Tu es prêt pour le Jour 1 !';
+}
+const VOC=[]; JOURS.forEach(j=>j.voc.forEach(v=>VOC.push([v[0].split(',')[0].split(' (')[0], v[1]])));
+let flashSt=JSON.parse(localStorage.getItem('camg_flash')||'{"score":0,"pile":[]}');
+function renderFlash(){ let pile=flashSt.pile&&flashSt.pile.length?flashSt.pile:VOC.map((v,i)=>i);
+ const idx=pile[0]; const w=VOC[idx];
+ const opts=[w[1]]; while(opts.length<4){ const r=VOC[Math.floor(Math.random()*VOC.length)][1]; if(!opts.includes(r)) opts.push(r); }
+ for(let i=opts.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]];}
+ document.getElementById('flash-box').innerHTML='<p style="font-size:15px;margin:10px 0">🏛️ <b>'+w[0]+'</b> = ?  <span class="small">(score : '+flashSt.score+')</span></p>'+opts.map(o=>'<button class="btn b-ghost" style="display:block;width:100%;justify-content:flex-start" onclick="flashCheck(this,&quot;'+o+'&quot;,&quot;'+w[1]+'&quot;)">'+o+'</button>').join('');
+}
+function flashCheck(btn,choix,bon){ if(choix===bon){ flashSt.score+=1; flashSt.pile.shift(); if(!flashSt.pile.length) flashSt.pile=VOC.map((v,i)=>i); btn.className='btn b-green'; } else { flashSt.score=Math.max(0,flashSt.score-1); flashSt.pile.push(flashSt.pile.shift()); btn.className='btn'; btn.style.background='#FEF2F2'; }
+ localStorage.setItem('camg_flash',JSON.stringify(flashSt)); setTimeout(renderFlash,500); }
+const CAS=[["Puella <b style=color:var(--gold)>rosam</b> amat.","rosam","accusatif"],["<b style=color:var(--gold)>Puella</b> rosam amat.","Puella","nominatif"],["Puellae rosam do : <b style=color:var(--gold)>puellae</b>.","puellae","datif"],["Liber <b style=color:var(--gold)>magistri</b> est.","magistri","génitif"],["Cum <b style=color:var(--gold)>amico</b> venio.","amico","ablatif"],["O <b style=color:var(--gold)>magister</b> !","magister","vocatif"],["Video <b style=color:var(--gold)>regem</b>.","regem","accusatif"],["<b style=color:var(--gold)>Agricola</b> terram arat.","Agricola","nominatif"],["Pueri in <b style=color:var(--gold)>horto</b> ludunt.","horto","ablatif"],["Fama <b style=color:var(--gold)>populi</b> volat.","populi","génitif"]];
+let casSt={i:0,score:0,ordre:[]};
+function renderCas(){ if(casSt.i>=CAS.length){ document.getElementById('cas-box').innerHTML='<h3>🏁 Score : '+casSt.score+'/10</h3><p class="small">'+(casSt.score>=8?'🏆 Gladiateur du latin !':casSt.score>=5?'💪 Très bien, rejoue pour viser 10 !':'🌱 Rejoue tranquillement, tu progresses.')+'</p><button class="btn b-navy" onclick="casReset()">Rejouer</button>'; return; }
+ if(!casSt.ordre.length) casReset2();
+ const c=CAS[casSt.ordre[casSt.i]];
+ document.getElementById('cas-box').innerHTML='<p class="small">Manche '+(casSt.i+1)+'/10 — score '+casSt.score+'</p><p class="lat" style="font-size:15px">'+c[0]+'</p>'+["nominatif","vocatif","accusatif","génitif","datif","ablatif"].map(k=>'<button class="btn b-ghost" onclick="casCheck(this,&quot;'+k+'&quot;)">'+k+'</button>').join('');
+}
+function casCheck(btn,k){ const c=CAS[casSt.ordre[casSt.i]]; if(k===c[2]){casSt.score++; btn.className='btn b-green';} else { btn.className='btn'; btn.style.background='#FEF2F2'; }
+ setTimeout(()=>{casSt.i++; renderCas();},450); }
+function casReset(){ casSt.ordre=CAS.map((_,i)=>i).sort(()=>Math.random()-0.5); casSt.i=0; casSt.score=0; renderCas(); }
+function casReset2(){ casSt.ordre=CAS.map((_,i)=>i).sort(()=>Math.random()-0.5); }
+
 render();
 </script>
 </body>
