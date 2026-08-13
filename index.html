@@ -298,41 +298,49 @@ footer{background:var(--navy);color:#94A3B8;padding:28px 0;margin-top:30px}
 
 <!-- CLIENT -->
 <div id="view-client" class="view">
-  <section>
-    <div class="container">
-      <div style="text-align:center;margin-bottom:16px"><h2 style="color:var(--navy)">Espace Client</h2><p style="color:var(--muted);font-size:13px">Apprends, joue, gagne des badges — même hors connexion</p></div>
-      <div id="client-auth" class="card" style="max-width:460px;margin:0 auto">
-        <div style="text-align:center"><img src="images/daniel-icon.png" style="width:56px;height:56px;border-radius:14px;object-fit:cover"><h3 style="color:var(--navy);margin-top:8px">Rejoins CAMG</h3><small style="color:var(--muted)">Ton français, ton avenir</small></div>
-        <label class="label">Nom</label><input id="c-name" class="input" placeholder="Ex: Espoir">
-        <label class="label">WhatsApp</label><input id="c-phone" class="input" placeholder="+243 ...">
-        <label class="label">Parcours</label><select id="c-parcours" class="input"></select>
-        <button class="btn btn-primary" style="width:100%" onclick="clientLogin()">Créer mon accès →</button>
-        <div style="margin-top:10px;padding:8px;background:var(--gold-light);border-radius:8px;font-size:11px;text-align:center">🎮 <b>Gamifié :</b> 10 XP par leçon • Streak quotidien • Classement Kindu</div>
-      </div>
-      <div id="client-dash" style="display:none">
-        <div class="dashboard">
-          <div class="side">
-            <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px"><div id="c-avatar" style="width:36px;height:36px;border-radius:10px;background:var(--gold);display:grid;place-items:center;color:var(--navy);font-weight:800">E</div><div><b id="c-display-name">Espoir</b><br><small id="c-display-parcours" style="color:#94A3B8">Parcours</small></div><span style="margin-left:auto;background:var(--green);color:white;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:800" id="c-streak">🔥 1 jour</span></div>
-            <a class="active">📚 Mes leçons</a><a>🏆 Badges</a><a>📈 Classement</a><a>💬 Communauté</a><a>💳 Abonnement</a>
-            <div style="margin-top:12px;padding:10px;background:rgba(197,164,90,0.15);border:1px solid rgba(197,164,90,0.3);border-radius:10px"><small style="color:var(--gold);font-weight:800">XP: <span id="c-xp">0</span> • Niveau <span id="c-level">1</span></small><div style="height:6px;background:rgba(0,0,0,0.2);border-radius:999px;margin-top:6px"><i id="c-xp-bar" style="display:block;height:100%;width:10%;background:var(--gold)"></i></div><button class="btn btn-gold btn-small" style="width:100%;margin-top:8px" onclick="openPaymentModal(5)">Passer Essentiel 5$ — Payer sécurisé</button></div>
-            <a onclick="clientLogout()" style="color:#F87171;margin-top:10px">↩ Déconnexion</a>
-          </div>
-          <div class="main">
-            <div style="display:flex;justify-content:space-between;align-items:center"><h3 style="color:var(--navy)">Tes leçons</h3><span style="font-size:11px;background:var(--blue-light);color:var(--blue);padding:4px 8px;border-radius:999px;font-weight:700"><span class="offline-dot"></span> Hors connexion prêt</span></div>
-            <div id="client-lessons" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px"></div>
-            <div id="client-gamify" style="margin-top:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
-              <div style="background:var(--gold-light);padding:10px;border-radius:10px;text-align:center;border:1px solid #F3D9A0"><b>🎯 Défi du jour</b><br><small style="font-size:11px">Décris ta maison en 4 phrases — Gagne 20 XP</small><br><button class="btn btn-gold btn-small" style="margin-top:6px" onclick="doChallenge()">Relever</button></div>
-              <div style="background:var(--blue-light);padding:10px;border-radius:10px;text-align:center"><b>🏅 Badges</b><br><small style="font-size:11px" id="c-badges">Aucun encore — finis 3 leçons</small></div>
-              <div style="background:#F0FDF4;padding:10px;border-radius:10px;text-align:center"><b>👑 Top Kindu</b><br><small style="font-size:11px">1. Amina 840 XP<br>2. Toi — bientôt !</small></div>
-              <div style="background:var(--blue-light);padding:10px;border-radius:10px;text-align:center"><b>🎮 Quiz Solo</b><br><button class="btn btn-primary btn-small" style="margin-top:6px" onclick="startQuiz()">Jouer</button></div>
-              <div style="background:#FDF2F8;padding:10px;border-radius:10px;text-align:center"><b>⚔️ Duel à deux</b><br><button class="btn btn-ghost btn-small" style="margin-top:6px" onclick="startDuel()">Duel</button></div>
-              <div style="background:var(--gold-light);padding:10px;border-radius:10px;text-align:center"><b>🏆 Défi arbitré</b><br><button class="btn btn-gold btn-small" style="margin-top:6px" onclick="showView('arbitre')">Relever</button></div>
-            </div>
-          </div>
-        </div>
+ <section><div class="container" style="max-width:760px">
+  <div id="client-auth" class="card" style="text-align:center">
+    <div style="font-size:44px">🎈</div>
+    <h2 style="color:var(--navy)">Bonjour ! C'est quoi ton prénom ?</h2>
+    <input id="c-name" class="input" style="font-size:18px;text-align:center" placeholder="Exemple : Amina">
+    <button style="width:100%;background:var(--gold);color:var(--navy);font-size:18px;font-weight:800;padding:14px;border:none;border-radius:16px;margin-top:8px" onclick="clientLogin()">🚀 C'est parti !</button>
+    <button class="btn btn-ghost btn-small" style="margin-top:10px" onclick="document.getElementById('adult-form').style.display='block'">Je suis un adulte (accès complet)</button>
+    <div id="adult-form" style="display:none;text-align:left">
+      <label class="label">WhatsApp</label><input id="c-phone" class="input" placeholder="+243 ...">
+      <label class="label">Parcours</label><select id="c-parcours" class="input"></select>
+    </div>
+  </div>
+  <div id="client-dash" style="display:none">
+    <div class="card" style="text-align:center">
+      <h2 style="color:var(--navy)">👋 Bonjour <span id="c-hello"></span> !</h2>
+      <p style="font-size:14px;color:var(--muted)">⭐ <b id="c-xp2">0</b> XP • 🔥 <b id="c-streak2">1</b> jour(s) • Niveau <b id="c-level2">1</b></p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
+        <button style="background:var(--blue-light);color:var(--blue);font-size:17px;font-weight:800;padding:18px 8px;border:none;border-radius:18px" onclick="cView('lecons')">📚<br>Mes leçons</button>
+        <button style="background:#FDF2F8;color:#BE185D;font-size:17px;font-weight:800;padding:18px 8px;border:none;border-radius:18px" onclick="cView('jeux')">🎮<br>Jouer</button>
+        <button style="background:var(--gold-light);color:#7A5A1F;font-size:17px;font-weight:800;padding:18px 8px;border:none;border-radius:18px" onclick="cView('trophees')">🏆<br>Mes trophées</button>
+        <button style="background:#DCFCE7;color:#166534;font-size:17px;font-weight:800;padding:18px 8px;border:none;border-radius:18px" onclick="startGuide()">👋<br>Montre-moi</button>
       </div>
     </div>
-  </section>
+    <div id="c-lecons" style="margin-top:12px">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><h3 style="color:var(--navy)">️ Mon parcours</h3><select id="c-change" class="input" style="width:auto;margin:0" onchange="changeParcours(this.value)"></select></div>
+        <div id="c-ronds" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:14px"></div>
+        <p class="small" style="text-align:center;margin-top:10px">Touche un rond numéroté pour ouvrir la leçon. ⭐ = terminée.</p>
+      </div>
+    </div>
+    <div id="c-jeux" style="display:none;margin-top:12px"><div class="card" style="display:grid;gap:10px">
+      <button style="background:var(--blue-light);color:var(--blue);font-size:17px;font-weight:800;padding:16px;border:none;border-radius:18px" onclick="startQuiz()">🎮 Quiz Solo</button>
+      <button style="background:#FDF2F8;color:#BE185D;font-size:17px;font-weight:800;padding:16px;border:none;border-radius:18px" onclick="startDuel()">⚔️ Duel à deux</button>
+      <button style="background:var(--gold-light);color:#7A5A1F;font-size:17px;font-weight:800;padding:16px;border:none;border-radius:18px" onclick="showView('arbitre')">🏆 Défi arbitré</button>
+    </div></div>
+    <div id="c-trophees" style="display:none;margin-top:12px"><div class="card" style="text-align:center">
+      <h3 style="color:var(--navy)">🏆 Mes trophées</h3>
+      <p id="c-badges2" style="font-size:14px;margin:8px 0"></p>
+      <p style="font-size:13px;color:var(--muted)">👑 Classement Kindu : 1. Amina 840 XP — 2. Toi, bientôt !</p>
+      <button class="btn btn-ghost btn-small" style="margin-top:8px" onclick="clientLogout()">↩ Changer de prénom</button>
+    </div></div>
+  </div>
+ </div></section>
 </div>
 
 <!-- LESSON DETAIL - OFFLINE READY -->
@@ -506,6 +514,12 @@ footer{background:var(--navy);color:#94A3B8;padding:28px 0;margin-top:30px}
     <button class="btn btn-ghost" style="width:100%;margin-top:8px" onclick="closePaymentModal()">Annuler</button>
     <small style="display:block;text-align:center;color:var(--muted);margin-top:8px;font-size:10px">Paiement crypté • Pas de numéro affiché • Anti-cybercriminalité</small>
   </div>
+</div>
+<div id="guide" style="display:none;position:fixed;inset:0;background:rgba(15,30,61,.88);z-index:95;padding:16px;display:none;place-items:center">
+ <div style="background:white;border-radius:20px;max-width:480px;width:100%;padding:22px;text-align:center">
+  <div id="guide-txt" style="font-size:16px;line-height:1.6"></div>
+  <button style="background:var(--gold);color:var(--navy);font-size:16px;font-weight:800;padding:12px 22px;margin-top:16px;border:none;border-radius:14px" onclick="guideNext()">Suivant ➡️</button>
+ </div>
 </div>
 <div id="toast" class="toast"></div>
 
@@ -747,6 +761,7 @@ function openLesson(mid, idx){
   if(l.pas&&l.pas.length){pasBox.style.display='block';pasBox.innerHTML='<b style="font-size:12px;color:var(--navy)">🎓 Déroulé de la leçon (pas à pas)</b>'+l.pas.map((p,i)=>'<div style="background:white;border:1px solid #E2E8F0;border-left:4px solid var(--gold);border-radius:10px;padding:10px;margin-top:8px"><b style="font-size:11px;color:var(--gold)">Pas '+(i+1)+' — '+p.t+'</b><p style="font-size:12px;color:#334155;margin-top:2px">'+p.x+'</p></div>').join('');}else{pasBox.style.display='none';pasBox.innerHTML='';}
   const cBox=document.getElementById('lesson-conte');
   if(l.conte){cBox.style.display='block';cBox.innerHTML='<b style="font-size:12px;color:#7A5A1F">📖 Conte illustré : '+l.conte.t+'</b>'+(l.conte.img?'<img src="'+l.conte.img+'" style="width:100%;height:140px;object-fit:cover;border-radius:10px;margin:6px 0">':'')+'<p style="font-size:12px;color:#5a4a2a;margin-top:4px">'+l.conte.x+'</p>';}else{cBox.style.display='none';cBox.innerHTML='';}
+  localStorage.setItem('camg_cur',JSON.stringify({mid,idx}));
   showView('lesson');
   // Preload for offline toast
   setTimeout(()=>toast('🎧 Audios chargés — même sans internet, appuie sur Play'),600);
@@ -819,49 +834,45 @@ function triggerPayment(){
     }
   },800);
 }
+function cView(v){ ['lecons','jeux','trophees'].forEach(k=>{document.getElementById('c-'+k).style.display=(k===v)?'block':'none';}); }
+function changeParcours(v){ const u=JSON.parse(localStorage.getItem('camg_current_user')||'{}'); u.parcours=v; localStorage.setItem('camg_current_user',JSON.stringify(u)); renderClient(); }
 function renderClient(){
+  const u=JSON.parse(localStorage.getItem('camg_current_user')||'{}');
   const sel=document.getElementById('c-parcours');
-  if(sel) sel.innerHTML = DB.modules.filter(m=>m.published).map(m=>`<option>${m.emoji} ${m.title} — ${m.price==0?'Gratuit':m.price+'$'}</option>`).join('');
-  const lessons=document.getElementById('client-lessons');
-  if(lessons){
-    const published=DB.modules.filter(m=>m.published);
-    lessons.innerHTML = published.slice(0,6).map((m,idx)=>{
-      const hasDetail = DB.lessonsDetailed && DB.lessonsDetailed[m.id] && DB.lessonsDetailed[m.id].length;
-      const firstLesson = hasDetail ? DB.lessonsDetailed[m.id][0].t : '';
-      return `
-      <div class="card" style="border-left:4px solid ${idx==0?'var(--blue)':'#E2E8F0'};cursor:pointer" onclick="openLesson('${m.id}',0)">
-        <span class="badge ${idx==0?'badge-blue':'badge-gold'}" style="font-size:10px">${idx==0?'EN COURS':hasDetail?'AVEC AUDIO OFFLINE':'DISPONIBLE'}</span>
-        <b style="display:block;margin:6px 0 4px;font-size:12px;color:var(--navy)">${m.emoji} ${m.title}</b>
-        <p style="font-size:11px;color:var(--muted)">${m.desc}</p>
-        ${hasDetail?`<small style="font-size:10px;color:var(--green)">🎧 ${DB.lessonsDetailed[m.id].length} leçons avec audios hors connexion • Ex: "${firstLesson}"</small>`:`<small style="font-size:10px;color:var(--muted)">${m.lessons} leçons</small>`}
-        <button class="btn ${idx==0?'btn-primary':'btn-ghost'} btn-small" style="width:100%;margin-top:8px" onclick="event.stopPropagation();openLesson('${m.id}',0)">${hasDetail?'▶ Écouter (offline)':'Commencer'}</button>
-      </div>`
-    }).join('') + (published.length===0?'<p style=grid-column:1/-1;text-align:center;color:var(--muted);font-size:12px>Aucun module publié pour le moment. L\'admin doit publier.</p>':'');
-  }
+  if(sel) sel.innerHTML=DB.modules.filter(m=>m.published).map(m=>'<option value="'+m.id+'">'+m.emoji+' '+m.title+' — '+(m.price==0?'Gratuit':m.price+'$')+'</option>').join('');
+  const ch=document.getElementById('c-change');
+  if(ch){ ch.innerHTML=DB.modules.filter(m=>m.published).map(m=>'<option value="'+m.id+'" '+(m.id===(u.parcours||'m1')?'selected':'')+'>'+m.emoji+' '+m.title+'</option>').join(''); }
+  let mid=u.parcours||'m1';
+  let lessons=(DB.lessonsDetailed&&DB.lessonsDetailed[mid])||[];
+  if(!lessons.length){ mid='m1'; lessons=(DB.lessonsDetailed&&DB.lessonsDetailed.m1)||[]; }
+  document.getElementById('c-hello').textContent=(u.name||'');
   const stored=JSON.parse(localStorage.getItem('camg_client_progress')||'{"xp":0,"streak":1,"level":1}');
-  document.getElementById('c-xp').textContent=stored.xp;
-  document.getElementById('c-level').textContent=stored.level;
-  document.getElementById('c-streak').textContent='🔥 '+stored.streak+' jour'+(stored.streak>1?'s':'');
-  document.getElementById('c-xp-bar').style.width=Math.min(100,(stored.xp%100))+'%';
-  document.getElementById('c-badges').textContent = stored.xp>=30?'🥉 Bronze • 🥈 Prochain à 100 XP':'Aucun encore — finis 3 leçons';
+  document.getElementById('c-xp2').textContent=stored.xp; document.getElementById('c-streak2').textContent=stored.streak; document.getElementById('c-level2').textContent=stored.level;
+  document.getElementById('c-badges2').textContent = stored.xp>=30?'🥉 Badge Bronze gagné ! • 🥈 Prochain à 100 XP':'Aucun encore — termine 3 leçons pour le badge Bronze 🥉';
+  const done=JSON.parse(localStorage.getItem('camg_done_lessons')||'[]');
+  document.getElementById('c-ronds').innerHTML=lessons.map((l,idx)=>{ const k=mid+'-'+idx; const ok=done.includes(k);
+    return '<button onclick="openLesson(\''+mid+'\','+idx+')" style="width:64px;height:64px;border-radius:50%;border:none;font-size:20px;font-weight:800;background:'+(ok?'var(--green)':'var(--navy)')+';color:#fff">'+(idx+1)+(ok?' ⭐':'')+'</button>'; }).join('');
+  cView('lecons');
 }
 function clientLogin(){
   const name=document.getElementById('c-name').value.trim()||'Apprenant CAMG';
-  const phone=document.getElementById('c-phone').value.trim()||'+243...';
-  const parcours=document.getElementById('c-parcours').value;
-  DB.users.push({id:'u'+Date.now(),name,phone,parcours,xp:0,status:'Essai gratuit'});
-  saveDB(DB);
+  const phone=(document.getElementById('c-phone')?document.getElementById('c-phone').value.trim():'')||'+243...';
+  const sel=document.getElementById('c-parcours');
+  const parcours=(sel&&sel.value)?sel.value:'m1';
+  DB.users.push({id:'u'+Date.now(),name,phone,parcours,xp:0,status:'Essai gratuit'}); saveDB(DB);
   localStorage.setItem('camg_current_user', JSON.stringify({name,parcours}));
-  document.getElementById('c-display-name').textContent=name.split(' ')[0];
-  document.getElementById('c-display-parcours').textContent=parcours;
-  document.getElementById('c-avatar').textContent=name.charAt(0).toUpperCase();
   document.getElementById('client-auth').style.display='none';
   document.getElementById('client-dash').style.display='block';
-  toast('Bienvenue '+name+' ! +10 XP offerts');
-  let prog=JSON.parse(localStorage.getItem('camg_client_progress')||'{"xp":0,"streak":1,"level":1}'); prog.xp+=10; if(prog.xp>=100){prog.level+=1;prog.xp=0} localStorage.setItem('camg_client_progress',JSON.stringify(prog)); renderClient();
+  let prog=JSON.parse(localStorage.getItem('camg_client_progress')||'{"xp":0,"streak":1,"level":1}'); prog.xp+=10; if(prog.xp>=100){prog.level+=1;prog.xp=0} localStorage.setItem('camg_client_progress',JSON.stringify(prog));
+  renderClient(); toast('Bienvenue '+name+' ! +10 XP offerts');
+  if(!localStorage.getItem('camg_guide_done')) startGuide();
 }
+const GUIDE_STEPS=['👋 Bienvenue ! Ici, tout est simple : 4 gros boutons. 📚 Mes leçons, 🎮 Jouer, 🏆 Mes trophées, et 👋 Montre-moi (ce guide).','📚 « Mes leçons » : tu vois des RONDS numérotés, comme un jeu de plateau. Le rond vert ⭐ = leçon terminée. Touche un rond pour ouvrir la leçon.','🎧 Dans une leçon : écoute en 🐢 (lent), lis les exemples, fais les exercices, lis le conte, puis touche « Leçon suivante ➡️ ». C'est tout !','🎮 Quand tu as fini, joue au Quiz ou au Duel pour gagner des ⭐ XP. Et si tu es perdu, touche « 👋 Montre-moi » : je te montre encore. Voilà — tu es maintenant le patron de ton application ! 🏆'];
+let guideIdx=0;
+function startGuide(){ guideIdx=0; const g=document.getElementById('guide'); g.style.display='grid'; document.getElementById('guide-txt').textContent=GUIDE_STEPS[0]; }
+function guideNext(){ guideIdx+=1; if(guideIdx>=GUIDE_STEPS.length){ document.getElementById('guide').style.display='none'; localStorage.setItem('camg_guide_done','1'); toast('🏆 Tu sais tout utiliser maintenant !'); } else { document.getElementById('guide-txt').textContent=GUIDE_STEPS[guideIdx]; } }
 function clientLogout(){ document.getElementById('client-auth').style.display='block'; document.getElementById('client-dash').style.display='none'; }
-function completeLesson(){ let prog=JSON.parse(localStorage.getItem('camg_client_progress')||'{"xp":0,"streak":1,"level":1}'); const add=DB.settings.xpPerLesson||10; prog.xp+=add; prog.streak+=1; if(prog.xp>=100){prog.level+=1; prog.xp=0; toast('🎉 Niveau '+prog.level+' atteint !')} else toast('+'+add+' XP ! Continue !'); localStorage.setItem('camg_client_progress',JSON.stringify(prog)); renderClient(); }
+function completeLesson(){ let prog=JSON.parse(localStorage.getItem('camg_client_progress')||'{"xp":0,"streak":1,"level":1}'); const add=DB.settings.xpPerLesson||10; prog.xp+=add; prog.streak+=1; if(prog.xp>=100){prog.level+=1; prog.xp=0; toast('🎉 Niveau '+prog.level+' atteint !')} else toast('+'+add+' XP ! Continue !'); localStorage.setItem('camg_client_progress',JSON.stringify(prog)); const cur=JSON.parse(localStorage.getItem('camg_cur')||'null'); if(cur){ const done=JSON.parse(localStorage.getItem('camg_done_lessons')||'[]'); const k=cur.mid+'-'+cur.idx; if(!done.includes(k)){done.push(k); localStorage.setItem('camg_done_lessons',JSON.stringify(done));} } renderClient(); }
 function doChallenge(){ completeLesson(); toast('Défi réussi ! +20 XP bonus'); }
 function adminLogin(){
   const u=document.getElementById('a-user').value.trim();
