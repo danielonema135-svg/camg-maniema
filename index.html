@@ -663,7 +663,7 @@ const defaultDB={
   quizArbitre:null,quizReponses:[],
   settings:{xpPerLesson:10, adminPass:'admin123'}
 };
-function loadDB(){ try{ const d=JSON.parse(localStorage.getItem(DB_KEY)||'null'); const base=JSON.parse(JSON.stringify(defaultDB); if(d&&d.modules&&d.modules.length){ base.modules=d.modules; base.lessonsDetailed=Object.assign({},base.lessonsDetailed,d.lessonsDetailed||{}); base.users=d.users||base.users; base.payments=d.payments||base.payments; base.settings=Object.assign(base.settings,d.settings||{}); } return base; }catch(e){ return JSON.parse(JSON.stringify(defaultDB); } }
+function loadDB(){ try{ const d=JSON.parse(localStorage.getItem(DB_KEY)||'null'); const base=JSON.parse(JSON.stringify(defaultDB)); if(d&&d.modules&&d.modules.length){ base.modules=d.modules; base.lessonsDetailed=Object.assign({},base.lessonsDetailed,d.lessonsDetailed||{}); base.users=d.users||base.users; base.payments=d.payments||base.payments; base.settings=Object.assign(base.settings,d.settings||{}); } return base; }catch(e){ return JSON.parse(JSON.stringify(defaultDB)); } }
 function saveDB(db){ localStorage.setItem(DB_KEY, JSON.stringify(db)); renderAll(); }
 let DB=loadDB();
 let adminLogged=false;
