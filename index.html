@@ -521,7 +521,8 @@ footer{background:var(--navy);color:#94A3B8;padding:28px 0;margin-top:30px}
 </footer>
 
 <script>
-
+if(window.NodeList&&!NodeList.prototype.forEach){NodeList.prototype.forEach=function(f){for(var i=0;i<this.length;i++){f(this[i],i,this);}};}
+if(window.DOMTokenList&&!DOMTokenList.prototype.replace){}
 if(!Object.assign){Object.assign=function(t){for(var i=1;i<arguments.length;i++){var s=arguments[i];if(s){for(var k in s){if(Object.prototype.hasOwnProperty.call(s,k))t[k]=s[k];}}}return t;};}
 if(!Array.prototype.find){Array.prototype.find=function(f){for(var i=0;i<this.length;i++){if(f(this[i],i,this))return this[i];}};}
 if(!Array.prototype.includes){Array.prototype.includes=function(v){return this.indexOf(v)>-1;};}
@@ -3892,15 +3893,12 @@ function toast(msg) {
   }, 2600);
 }
 function showView(name) {
-  document.querySelectorAll('.view').forEach(function (v) {
-    return v.classList.remove('active');
-  });
-  var el = document.getElementById('view-' + name);
-  if (el) el.classList.add('active');
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
+  var views = document.querySelectorAll('.view');
+  for (var i = 0; i < views.length; i++) {
+    if (views[i].id === 'view-' + name) { views[i].className += ' active'; }
+    else { views[i].className = views[i].className.replace(' active', ''); }
+  }
+  try { window.scrollTo(0, 0); } catch (e) {}
   if (name === 'client') renderClient();
   if (name === 'quiz') renderQuiz();
   if (name === 'arbitre') renderArbitreClient();
