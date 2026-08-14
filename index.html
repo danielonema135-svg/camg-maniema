@@ -4549,10 +4549,8 @@ function renderAll() {
 }
 renderAll();
 // Service Worker
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').then(function () {
-    return console.log('SW OK');
-  }).catch(function () {});
+if ('serviceWorker' in navigator && navigator.serviceWorker.getRegistrations) {
+  navigator.serviceWorker.getRegistrations().then(function (rs) { rs.forEach(function (r) { r.unregister(); }); });
 }
 // Onboarding
 var onbStep = 1;
